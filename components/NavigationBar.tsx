@@ -75,7 +75,7 @@ const NavigationBar = () => {
   }
 
   return (
-    <nav className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-nav-background backdrop-blur-lg rounded-full px-6 py-3 shadow-lg">
+    <nav className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-nav-background backdrop-blur-lg rounded-full px-6 py-3 shadow-lg z-50">
       <ul className="flex items-center justify-center gap-6">
         {navItems.map((item) => {
           const isActive = pathname === item.path;

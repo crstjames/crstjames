@@ -25,77 +25,6 @@ interface DirectoryConfig {
   specialCommands?: Record<string, CommandConfig>;
 }
 
-const DIRECTORY_CONFIGS: Record<string, DirectoryConfig> = {
-  "~": {
-    welcomeMessage: "Welcome to stjames.dev terminal",
-    availableCommands: [
-      "help",
-      "clear",
-      "resume",
-      "projects",
-      "blog",
-      "github",
-      "linkedin",
-      "twitter",
-      "theme",
-      "home",
-    ],
-  },
-  "~/resume": {
-    welcomeMessage: "Resume Directory - View and interact with my professional experience",
-    availableCommands: ["help", "clear", "home", "download", "experience", "education", "skills"],
-    specialCommands: {
-      download: {
-        description: "Download resume as PDF",
-        action: () => {
-          window.open("/resume.pdf", "_blank");
-          return "Downloading resume...";
-        },
-      },
-      experience: {
-        description: "View work experience",
-        action: () => "Displaying work experience...", // You can return a JSX element here
-      },
-      education: {
-        description: "View education history",
-        action: () => "Displaying education history...",
-      },
-      skills: {
-        description: "View technical skills",
-        action: () => "Displaying skills...",
-      },
-    },
-  },
-  "~/projects": {
-    welcomeMessage: "Projects Directory - Browse my portfolio of work",
-    availableCommands: ["help", "clear", "home", "list", "view", "github"],
-    specialCommands: {
-      list: {
-        description: "List all projects",
-        action: () => "Listing projects...",
-      },
-      view: {
-        description: "View project details (usage: view <project-name>)",
-        action: () => "Usage: view <project-name>",
-      },
-    },
-  },
-  "~/blog": {
-    welcomeMessage: "Blog Directory - Read my latest posts",
-    availableCommands: ["help", "clear", "home", "list", "read"],
-    specialCommands: {
-      list: {
-        description: "List all blog posts",
-        action: () => "Listing blog posts...",
-      },
-      read: {
-        description: "Read a blog post (usage: read <post-id>)",
-        action: () => "Usage: read <post-id>",
-      },
-    },
-  },
-};
-
 const Terminal = () => {
   const [input, setInput] = useState("");
   const [commands, setCommands] = useState<Command[]>([]);
@@ -105,6 +34,73 @@ const Terminal = () => {
   const router = useRouter();
   const { setTheme } = useTheme();
   const [resumeContent, setResumeContent] = useState("");
+
+  // Add this function to format resume content
+  const getFormattedResume = (content: string) => (
+    <div className="whitespace-pre-wrap font-mono text-sm space-y-1">
+      {content.split("\n").map((line, i) => {
+        if (line.startsWith("# ")) {
+          return (
+            <h1 key={i} className="text-green-400 font-bold text-xl mt-6 mb-4 border-b border-green-400/20 pb-2">
+              {line.slice(2)}
+            </h1>
+          );
+        }
+        if (line.startsWith("## ")) {
+          return (
+            <h2 key={i} className="text-blue-400 font-bold text-lg mt-6 mb-3 border-b border-blue-400/20 pb-1">
+              {line.slice(3)}
+            </h2>
+          );
+        }
+        if (line.startsWith("### ")) {
+          return (
+            <h3 key={i} className="text-yellow-400 font-bold mt-4 mb-2 flex items-center">
+              <span className="mr-2">❯</span>
+              {line.slice(4)}
+            </h3>
+          );
+        }
+        if (line.startsWith("- ")) {
+          return (
+            <div key={i} className="ml-6 text-gray-300 flex items-start">
+              <span className="mr-2 text-blue-400">•</span>
+              <span>{line.slice(2)}</span>
+            </div>
+          );
+        }
+        if (line.startsWith("**")) {
+          return (
+            <div key={i} className="font-bold text-purple-400">
+              {line.replace(/\*\*/g, "")}
+            </div>
+          );
+        }
+        if (line.startsWith("_")) {
+          return (
+            <div key={i} className="text-gray-500 italic text-sm">
+              {line.replace(/_/g, "")}
+            </div>
+          );
+        }
+        if (line.includes("@") || line.includes("http")) {
+          return (
+            <div key={i} className="text-blue-300 hover:underline cursor-pointer">
+              {line}
+            </div>
+          );
+        }
+        if (line.trim() !== "") {
+          return (
+            <div key={i} className="text-gray-300">
+              {line}
+            </div>
+          );
+        }
+        return <div key={i} className="h-2" />;
+      })}
+    </div>
+  );
 
   // Get current directory configuration
   const getCurrentConfig = () => DIRECTORY_CONFIGS[currentDirectory] || DIRECTORY_CONFIGS["~"];
@@ -147,6 +143,7 @@ const Terminal = () => {
     resume: {
       description: "View resume page",
       action: () => {
+        setCommands([]);
         router.push("/resume");
         setCurrentDirectory("~/resume");
         return "Navigating to resume...";
@@ -155,6 +152,7 @@ const Terminal = () => {
     projects: {
       description: "View projects page",
       action: () => {
+        setCommands([]);
         router.push("/projects");
         setCurrentDirectory("~/projects");
         return "Navigating to projects...";
@@ -163,6 +161,7 @@ const Terminal = () => {
     blog: {
       description: "View blog page",
       action: () => {
+        setCommands([]);
         router.push("/blog");
         setCurrentDirectory("~/blog");
         return "Navigating to blog...";
@@ -171,6 +170,7 @@ const Terminal = () => {
     home: {
       description: "Go to home page",
       action: () => {
+        setCommands([]);
         router.push("/");
         setCurrentDirectory("~");
         return "Navigating home...";
@@ -262,6 +262,7 @@ const Terminal = () => {
       const path = window.location.pathname;
       const newDirectory = path === "/" ? "~" : `~${path}`;
       setCurrentDirectory(newDirectory);
+      setCommands([]); // Clear terminal on route change
     };
 
     handleRouteChange(); // Initial call
@@ -281,87 +282,147 @@ const Terminal = () => {
     return () => document.removeEventListener("click", handleClick);
   }, []);
 
-  // Add this effect to handle directory changes
+  // Update the resume directory config
+  const DIRECTORY_CONFIGS: Record<string, DirectoryConfig> = {
+    "~": {
+      welcomeMessage: "Welcome to stjames.dev terminal",
+      availableCommands: [
+        "help",
+        "clear",
+        "resume",
+        "projects",
+        "blog",
+        "github",
+        "linkedin",
+        "twitter",
+        "theme",
+        "home",
+      ],
+    },
+    "~/resume": {
+      welcomeMessage: "Resume Directory - View and interact with my professional experience",
+      availableCommands: [
+        "help",
+        "clear",
+        "home",
+        "resume",
+        "projects",
+        "blog",
+        "github",
+        "linkedin",
+        "twitter",
+        "download",
+        "experience",
+        "education",
+        "skills",
+        "read",
+        "view",
+      ],
+      specialCommands: {
+        read: {
+          description: "Display resume content",
+          aliases: ["view", "cat"],
+          action: () => {
+            if (!resumeContent) {
+              return "Loading resume content...";
+            }
+            return getFormattedResume(resumeContent);
+          },
+        },
+        view: {
+          description: "Display resume content (alias for read)",
+          action: () => {
+            // This will use the read command's action
+            return DIRECTORY_CONFIGS["~/resume"].specialCommands!.read.action();
+          },
+        },
+        download: {
+          description: "Download resume as PDF",
+          action: () => {
+            window.open("/resume.pdf", "_blank");
+            return "Downloading resume...";
+          },
+        },
+        experience: {
+          description: "View work experience",
+          action: () => "Displaying work experience...", // You can return a JSX element here
+        },
+        education: {
+          description: "View education history",
+          action: () => "Displaying education history...",
+        },
+        skills: {
+          description: "View technical skills",
+          action: () => "Displaying skills...",
+        },
+      },
+    },
+    "~/projects": {
+      welcomeMessage: "Projects Directory - Browse my portfolio of work",
+      availableCommands: [
+        "help",
+        "clear",
+        "home",
+        "resume",
+        "projects",
+        "blog",
+        "github",
+        "linkedin",
+        "twitter",
+        "list",
+        "view",
+      ],
+      specialCommands: {
+        list: {
+          description: "List all projects",
+          action: () => "Listing projects...",
+        },
+        view: {
+          description: "View project details (usage: view <project-name>)",
+          action: () => "Usage: view <project-name>",
+        },
+      },
+    },
+    "~/blog": {
+      welcomeMessage: "Blog Directory - Read my latest posts",
+      availableCommands: [
+        "help",
+        "clear",
+        "home",
+        "resume",
+        "projects",
+        "blog",
+        "github",
+        "linkedin",
+        "twitter",
+        "list",
+        "read",
+      ],
+      specialCommands: {
+        list: {
+          description: "List all blog posts",
+          action: () => "Listing blog posts...",
+        },
+        read: {
+          description: "Read a blog post (usage: read <post-id>)",
+          action: () => "Usage: read <post-id>",
+        },
+      },
+    },
+  };
+
+  // Update the directory change effect to load content
   useEffect(() => {
     if (currentDirectory === "~/resume") {
       fetch("/api/resume")
         .then((res) => res.text())
         .then((content) => {
           setResumeContent(content);
-          const formattedResume = (
-            <div className="whitespace-pre-wrap font-mono text-sm space-y-1">
-              {content.split("\n").map((line, i) => {
-                if (line.startsWith("# ")) {
-                  return (
-                    <h1
-                      key={i}
-                      className="text-green-400 font-bold text-xl mt-6 mb-4 border-b border-green-400/20 pb-2"
-                    >
-                      {line.slice(2)}
-                    </h1>
-                  );
-                }
-                if (line.startsWith("## ")) {
-                  return (
-                    <h2 key={i} className="text-blue-400 font-bold text-lg mt-6 mb-3 border-b border-blue-400/20 pb-1">
-                      {line.slice(3)}
-                    </h2>
-                  );
-                }
-                if (line.startsWith("### ")) {
-                  return (
-                    <h3 key={i} className="text-yellow-400 font-bold mt-4 mb-2 flex items-center">
-                      <span className="mr-2">❯</span>
-                      {line.slice(4)}
-                    </h3>
-                  );
-                }
-                if (line.startsWith("- ")) {
-                  return (
-                    <div key={i} className="ml-6 text-gray-300 flex items-start">
-                      <span className="mr-2 text-blue-400">•</span>
-                      <span>{line.slice(2)}</span>
-                    </div>
-                  );
-                }
-                if (line.startsWith("**")) {
-                  return (
-                    <div key={i} className="font-bold text-purple-400">
-                      {line.replace(/\*\*/g, "")}
-                    </div>
-                  );
-                }
-                if (line.startsWith("_")) {
-                  return (
-                    <div key={i} className="text-gray-500 italic text-sm">
-                      {line.replace(/_/g, "")}
-                    </div>
-                  );
-                }
-                if (line.includes("@") || line.includes("http")) {
-                  return (
-                    <div key={i} className="text-blue-300 hover:underline cursor-pointer">
-                      {line}
-                    </div>
-                  );
-                }
-                if (line.trim() !== "") {
-                  return (
-                    <div key={i} className="text-gray-300">
-                      {line}
-                    </div>
-                  );
-                }
-                return <div key={i} className="h-2" />;
-              })}
-            </div>
-          );
-
           setCommands((prev) => [
             ...prev,
             {
               input: "cat resume.md",
-              output: formattedResume,
+              output: getFormattedResume(content),
               timestamp: new Date().toLocaleTimeString(),
             },
           ]);
@@ -370,44 +431,46 @@ const Terminal = () => {
   }, [currentDirectory]);
 
   return (
-    <div className="font-mono text-sm bg-black/90 rounded-lg p-4 h-[80vh] overflow-y-auto">
+    <div className="font-mono text-sm bg-black/90 fixed inset-0 top-8 p-4 overflow-y-auto">
       <div className="text-green-400 mb-4">{getCurrentConfig().welcomeMessage}</div>
       <div className="text-gray-400 mb-4">Type 'help' for available commands</div>
 
-      {commands.map((command, i) => (
-        <div key={i} className="mb-2">
-          <div className="flex items-center text-gray-400">
-            <span className="text-green-400">crstjames@dev</span>
-            <span className="text-white mx-1">:</span>
-            <span className="text-blue-400">{currentDirectory}</span>
-            <span className="text-white mx-1">$</span>
-            <span className="text-white">{command.input}</span>
+      <div className="pb-32">
+        {commands.map((command, i) => (
+          <div key={i} className="mb-2">
+            <div className="flex items-center text-gray-400">
+              <span className="text-green-400">crstjames@dev</span>
+              <span className="text-white mx-1">:</span>
+              <span className="text-blue-400">{currentDirectory}</span>
+              <span className="text-white mx-1">$</span>
+              <span className="text-white">{command.input}</span>
+            </div>
+            <div className="text-white ml-4">{command.output}</div>
           </div>
-          <div className="text-white ml-4">{command.output}</div>
-        </div>
-      ))}
+        ))}
 
-      <div className="flex items-center">
-        <span className="text-green-400">crstjames@dev</span>
-        <span className="text-white mx-1">:</span>
-        <span className="text-blue-400">{currentDirectory}</span>
-        <span className="text-white mx-1">$</span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleCommand(input);
-            }
-          }}
-          className="flex-1 bg-transparent outline-none text-white caret-white"
-          autoFocus
-          spellCheck={false}
-        />
+        <div className="flex items-center">
+          <span className="text-green-400">crstjames@dev</span>
+          <span className="text-white mx-1">:</span>
+          <span className="text-blue-400">{currentDirectory}</span>
+          <span className="text-white mx-1">$</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCommand(input);
+              }
+            }}
+            className="flex-1 bg-transparent outline-none text-white caret-white"
+            autoFocus
+            spellCheck={false}
+          />
+        </div>
+        <div ref={commandsEndRef} />
       </div>
-      <div ref={commandsEndRef} />
     </div>
   );
 };
