@@ -15,11 +15,13 @@ import {
   SunIcon,
   MoonIcon,
 } from "@radix-ui/react-icons";
+import { useTerminal } from "@/contexts/TerminalContext";
 
 const NavigationBar = () => {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { setCurrentDirectory } = useTerminal();
 
   useEffect(() => {
     setMounted(true);
@@ -34,9 +36,9 @@ const NavigationBar = () => {
 
   const navItems = [
     { name: "Home", path: "/", icon: <HomeIcon className="w-5 h-5" /> },
-    { name: "Profile", path: "/profile", icon: <PersonIcon className="w-5 h-5" /> },
+    { name: "Resume", path: "/resume", icon: <PersonIcon className="w-5 h-5" /> },
     { name: "Projects", path: "/projects", icon: <LayersIcon className="w-5 h-5" /> },
-    { name: "Misc", path: "/misc", icon: <MixIcon className="w-5 h-5" /> },
+    { name: "Blog", path: "/blog", icon: <MixIcon className="w-5 h-5" /> },
     {
       name: "GitHub",
       path: "https://github.com/crstjames",
@@ -62,6 +64,11 @@ const NavigationBar = () => {
       onClick: handleThemeToggle,
     },
   ];
+
+  const handleNavigation = (path: string) => {
+    const directory = path === "/" ? "~" : `~${path}`;
+    setCurrentDirectory(directory);
+  };
 
   if (!mounted) {
     return null; // or a loading skeleton
@@ -111,6 +118,7 @@ const NavigationBar = () => {
                   isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 } transition-all duration-200 hover:scale-125`}
                 title={item.name}
+                onClick={() => handleNavigation(item.path)}
               >
                 {item.icon}
               </Link>

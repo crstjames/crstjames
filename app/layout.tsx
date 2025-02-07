@@ -4,6 +4,8 @@ import "./globals.css";
 import NavigationBar from "@/components/NavigationBar";
 import { ThemeProvider } from "next-themes";
 import TitleBar from "@/components/TitleBar";
+import Terminal from "@/components/Terminal";
+import { TerminalProvider } from "@/contexts/TerminalContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +33,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <TitleBar />
-          <main>{children}</main>
-          <NavigationBar />
+          <TerminalProvider>
+            <TitleBar />
+            <Terminal />
+            <NavigationBar />
+          </TerminalProvider>
         </ThemeProvider>
       </body>
     </html>
