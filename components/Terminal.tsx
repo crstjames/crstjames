@@ -5,7 +5,6 @@ import { useState, useEffect, useRef, ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useTerminal } from "@/contexts/TerminalContext";
-import { loadMarkdown } from "@/utils/loadMarkdown";
 
 interface Command {
   input: string;
@@ -415,7 +414,12 @@ const Terminal = () => {
   useEffect(() => {
     if (currentDirectory === "~/resume") {
       fetch("/api/resume")
-        .then((res) => res.text())
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`Failed to load resume: ${res.status}`);
+          }
+          return res.text();
+        })
         .then((content) => {
           setResumeContent(content);
           setCommands((prev) => [
@@ -423,6 +427,17 @@ const Terminal = () => {
             {
               input: "cat resume.md",
               output: getFormattedResume(content),
+              timestamp: new Date().toLocaleTimeString(),
+            },
+          ]);
+        })
+        .catch((error) => {
+          console.error("Error loading resume:", error);
+          setCommands((prev) => [
+            ...prev,
+            {
+              input: "cat resume.md",
+              output: "Error loading resume content. Please try again later.",
               timestamp: new Date().toLocaleTimeString(),
             },
           ]);
