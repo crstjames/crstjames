@@ -1,11 +1,5 @@
 # CHRISTOPHER ST JAMES
 
-24 Settlers Way  
-Buzzards Bay, MA 02532  
-(508)-274-9386  
-chris@eversaint.com  
-https://www.linkedin.com/in/cstjames
-
 ## PROFESSIONAL SUMMARY
 
 Seasoned technology leader with over 17 years of comprehensive experience spanning full-stack development, UI/UX design, and technical leadership. Proven track record in gaming industry backend development, enterprise application architecture, and team management. Specialized in creating scalable solutions using React, Python, and Node.js, with extensive experience in both game development and enterprise systems. Demonstrated success in leading cross-functional teams and architecting complex data solutions across multiple business domains.
