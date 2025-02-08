@@ -443,12 +443,12 @@ const Terminal = () => {
           ]);
         });
     }
-  }, [currentDirectory]);
+  }, [currentDirectory, setCurrentDirectory]);
 
   return (
     <div className="font-mono text-sm bg-black/90 fixed inset-0 top-8 p-4 overflow-y-auto">
       <div className="text-green-400 mb-4">{getCurrentConfig().welcomeMessage}</div>
-      <div className="text-gray-400 mb-4">Type 'help' for available commands</div>
+      <div className="text-gray-400 mb-4">Type &quot;help&quot; for available commands</div>
 
       <div className="pb-32">
         {commands.map((command, i) => (

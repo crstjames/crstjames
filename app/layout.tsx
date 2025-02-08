@@ -22,11 +22,7 @@ export const metadata: Metadata = {
   description: "Personal portfolio and blog",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -37,6 +33,7 @@ export default function RootLayout({
             <TitleBar />
             <Terminal />
             <NavigationBar />
+            {children}
           </TerminalProvider>
         </ThemeProvider>
       </body>
