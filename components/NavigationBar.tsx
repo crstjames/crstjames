@@ -6,127 +6,119 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   HomeIcon,
-  PersonIcon,
   LayersIcon,
-  MixIcon,
   GitHubLogoIcon,
   LinkedInLogoIcon,
   TwitterLogoIcon,
-  SunIcon,
-  MoonIcon,
+  EnvelopeClosedIcon,
+  ChatBubbleIcon,
+  CodeIcon,
 } from "@radix-ui/react-icons";
 import { useTerminal } from "@/contexts/TerminalContext";
 
+const IconButton = ({
+  icon: Icon,
+  label,
+  onClick,
+  isActive = false,
+}: {
+  icon: typeof HomeIcon;
+  label: string;
+  onClick?: () => void;
+  isActive?: boolean;
+}) => (
+  <button onClick={onClick} className="group relative flex flex-col items-center" aria-label={label}>
+    <Icon className="h-6 w-6 transition-all duration-200 group-hover:h-7 group-hover:w-7 text-muted-foreground group-hover:text-foreground" />
+    <span className="absolute -bottom-8 scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 text-xs bg-background/80 backdrop-blur-sm px-2 py-1 rounded-md whitespace-nowrap">
+      {label}
+    </span>
+  </button>
+);
+
 const NavigationBar = () => {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { setCurrentDirectory } = useTerminal();
+  const { setIsTerminalOpen } = useTerminal();
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        console.log("⌘K pressed");
+        e.preventDefault();
+        setIsTerminalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [setIsTerminalOpen]);
 
-  const handleThemeToggle = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
-
-  // Prevent theme icon flash during hydration
-  const themeIcon = mounted && theme === "dark" ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />;
+  if (!mounted) return null;
 
   const navItems = [
-    { name: "Home", path: "/", icon: <HomeIcon className="w-5 h-5" /> },
-    { name: "Resume", path: "/resume", icon: <PersonIcon className="w-5 h-5" /> },
-    { name: "Projects", path: "/projects", icon: <LayersIcon className="w-5 h-5" /> },
-    { name: "Blog", path: "/blog", icon: <MixIcon className="w-5 h-5" /> },
-    {
-      name: "GitHub",
-      path: "https://github.com/crstjames",
-      icon: <GitHubLogoIcon className="w-5 h-5" />,
-      external: true,
-    },
-    {
-      name: "LinkedIn",
-      path: "https://linkedin.com/in/crstjames",
-      icon: <LinkedInLogoIcon className="w-5 h-5" />,
-      external: true,
-    },
-    {
-      name: "Twitter",
-      path: "https://twitter.com/crstjames",
-      icon: <TwitterLogoIcon className="w-5 h-5" />,
-      external: true,
-    },
-    {
-      name: "Theme",
-      path: "#",
-      icon: themeIcon,
-      onClick: handleThemeToggle,
-    },
+    { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "/projects", icon: LayersIcon, label: "Projects" },
   ];
 
-  const handleNavigation = (path: string) => {
-    const directory = path === "/" ? "~" : `~${path}`;
-    setCurrentDirectory(directory);
-  };
+  const socialLinks = [
+    { href: "https://github.com/crstjames", icon: GitHubLogoIcon, label: "GitHub" },
+    { href: "https://linkedin.com/in/crstjames", icon: LinkedInLogoIcon, label: "LinkedIn" },
+    { href: "https://twitter.com/crstjames", icon: TwitterLogoIcon, label: "Twitter" },
+    { href: "mailto:chris@stjames.dev", icon: EnvelopeClosedIcon, label: "Email" },
+    { href: "https://t.me/crstjames", icon: ChatBubbleIcon, label: "Telegram" },
+  ];
 
-  if (!mounted) {
-    return null; // or a loading skeleton
-  }
+  const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-nav-background backdrop-blur-lg rounded-full px-6 py-3 shadow-lg z-50">
-      <ul className="flex items-center justify-center gap-6">
-        {navItems.map((item) => {
-          const isActive = pathname === item.path;
+    <div className="fixed bottom-8 left-0 right-0 flex justify-center z-40">
+      <nav
+        className={`${
+          theme === "dark" ? "bg-black/90" : "bg-white/90"
+        } backdrop-blur-md rounded-full border border-muted px-6 py-3 transition-all duration-300 hover:shadow-lg`}
+      >
+        <div className="flex items-center space-x-6">
+          {navItems.map(({ href, icon: Icon, label }) => (
+            <Link key={href} href={href} className="group relative flex flex-col items-center">
+              <Icon
+                className={`h-6 w-6 transition-all duration-200 group-hover:h-7 group-hover:w-7 ${
+                  isActive(href) ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                }`}
+              />
+              <span className="absolute -bottom-8 scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 text-xs bg-background/80 backdrop-blur-sm px-2 py-1 rounded-md whitespace-nowrap">
+                {label}
+              </span>
+            </Link>
+          ))}
 
-          if (item.external) {
-            return (
-              <li key={item.name} className="flex items-center">
-                <a
-                  href={item.path}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-125"
-                  title={item.name}
-                >
-                  {item.icon}
-                </a>
-              </li>
-            );
-          }
+          {socialLinks.map(({ href, icon: Icon, label }) => (
+            <a
+              key={href}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col items-center"
+              aria-label={label}
+            >
+              <Icon className="h-6 w-6 transition-all duration-200 group-hover:h-7 group-hover:w-7 text-muted-foreground group-hover:text-foreground" />
+              <span className="absolute -bottom-8 scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 text-xs bg-background/80 backdrop-blur-sm px-2 py-1 rounded-md whitespace-nowrap">
+                {label}
+              </span>
+            </a>
+          ))}
 
-          if (item.onClick) {
-            return (
-              <li key={item.name} className="flex items-center">
-                <button
-                  onClick={item.onClick}
-                  className="text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-125"
-                  title={item.name}
-                >
-                  {item.icon}
-                </button>
-              </li>
-            );
-          }
-
-          return (
-            <li key={item.name} className="flex items-center">
-              <Link
-                href={item.path}
-                className={`${
-                  isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                } transition-all duration-200 hover:scale-125`}
-                title={item.name}
-                onClick={() => handleNavigation(item.path)}
-              >
-                {item.icon}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+          <IconButton
+            icon={CodeIcon}
+            label="Terminal (⌘K)"
+            onClick={() => {
+              console.log("Terminal button clicked");
+              setIsTerminalOpen((prev) => !prev);
+            }}
+          />
+        </div>
+      </nav>
+    </div>
   );
 };
 

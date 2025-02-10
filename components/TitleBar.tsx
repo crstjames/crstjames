@@ -3,7 +3,12 @@
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
-const TitleBar = () => {
+interface TitleBarProps {
+  onToggleTerminal: () => void;
+  isTerminalOpen: boolean;
+}
+
+const TitleBar = ({ onToggleTerminal, isTerminalOpen }: TitleBarProps) => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState<string>("");
@@ -38,9 +43,11 @@ const TitleBar = () => {
       } z-50`}
     >
       <div className="flex items-center space-x-2">
-        <div className={`w-3 h-3 rounded-full ${theme === "dark" ? "bg-green-400/50" : "bg-gray-300"}`} />
-        <div className={`w-3 h-3 rounded-full ${theme === "dark" ? "bg-green-400/50" : "bg-gray-300"}`} />
-        <div className={`w-3 h-3 rounded-full ${theme === "dark" ? "bg-green-400/50" : "bg-gray-300"}`} />
+        <button onClick={onToggleTerminal} className="flex space-x-2">
+          <div className={`w-3 h-3 rounded-full ${theme === "dark" ? "bg-green-400/50" : "bg-gray-300"}`} />
+          <div className={`w-3 h-3 rounded-full ${theme === "dark" ? "bg-green-400/50" : "bg-gray-300"}`} />
+          <div className={`w-3 h-3 rounded-full ${theme === "dark" ? "bg-green-400/50" : "bg-gray-300"}`} />
+        </button>
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2 font-mono">stjames.dev</div>
       <div className="font-mono">{time}</div>
