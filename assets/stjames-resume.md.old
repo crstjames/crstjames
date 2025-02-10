@@ -11,15 +11,15 @@ Seasoned technology leader with over 17 years of comprehensive experience spanni
 **Advanced Software Engineer, RallyHere Division** | Remote - Alpharetta, GA  
 _September 2023 - February 2025_
 
-- Engineered React-based Developer Portal solutions for Smite 2, implementing comprehensive systems for item management, loot vendors, and game flow configuration
+- Engineered React-based Developer Portal solutions for Smite 2, implementing comprehensive systems for items, loot, vendors, and game flow configuration
 - Developed Python-based API layer facilitating seamless communication between the portal interface and game databases
 - Contributed to backend services architecture, ensuring scalability and performance for game systems
 
-**Senior Backend Engineer, Prophecy Games Division** | Alpharetta, GA  
+**Senior Backend Engineer, Prophecy Games Division** | Remote - Alpharetta, GA  
 _January 2022 - September 2023_
 
-- Led gameplay systems development for Starsiege: Raiders and Starsiege: Deadzone
-- Architected and implemented user interface systems, ensuring optimal performance and player experience
+- Designed and developed user interface systems, ensuring optimal performance and player experience
+- Developed game mode features and match statistics for Starsiege: Raiders and Starsiege: Deadzone
 - Collaborated with cross-functional teams to deliver robust gaming experiences
 
 ### KEOLIS COMMUTER SERVICES, LLC
@@ -65,11 +65,24 @@ Bachelor of Science in Information Technology, May 2006
 
 ## TECHNICAL SKILLS
 
-- **Languages**: Python, NodeJS, React, React Native, JavaScript, .NET, SQL, Objective C
-- **Design Tools**: Adobe Creative Suite, Sketch, Invision, Whimsical, Wordpress
-- **Cloud Platforms**: Azure, AWS, Google Cloud
-- **Additional**: Game Development, API Design, Database Architecture, UI/UX Design
+- **Frontend Development**:
 
-## ENTREPRENEURIAL VENTURES
+  - React, React Native, JavaScript/TypeScript
+  - UI/UX Design, Adobe Creative Suite, Sketch, Figma
+  - Modern Web Technologies (HTML5, CSS3, Tailwind, REST/GraphQL)
 
-- **Coldcoast Collective**: Founded and developed lifestyle brand (coldcoast.co)
+- **Backend Development**:
+
+  - Node.js Ecosystem
+  - Python (FastAPI, Django)
+  - Database Systems (SQL, NoSQL)
+  - Legacy Systems (.NET, Objective-C)
+
+- **Cloud & Infrastructure**:
+
+  - Azure, AWS, Google Cloud
+  - CI/CD, Docker, Microservices
+  - API Design & Architecture
+
+- **Gaming & Real-time Systems**:
+  - Unreal Engine, C++
