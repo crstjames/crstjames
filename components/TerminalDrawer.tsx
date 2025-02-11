@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 import Terminal from "./Terminal";
 

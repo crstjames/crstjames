@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import { loadMarkdown } from "@/utils/loadMarkdown";
 
 const skillGroups = {
@@ -147,9 +148,6 @@ const RESUME_CONTENT = {
 };
 
 export default function Home() {
-  // Remove the loadMarkdown call
-  // const _resumeContent = loadMarkdown("stjames-resume.md");
-
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 font-mono">
       <div className="flex flex-col md:flex-row gap-8">
