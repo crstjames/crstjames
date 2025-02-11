@@ -5,10 +5,9 @@ import { useState, useEffect } from "react";
 
 interface TitleBarProps {
   onToggleTerminal: () => void;
-  isTerminalOpen: boolean;
 }
 
-const TitleBar = ({ onToggleTerminal, isTerminalOpen }: TitleBarProps) => {
+const TitleBar = ({ onToggleTerminal }: TitleBarProps) => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState<string>("");

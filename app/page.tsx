@@ -1,4 +1,4 @@
-import { loadMarkdown } from "@/utils/loadMarkdown";
+// import { loadMarkdown } from "@/utils/loadMarkdown";
 
 const skillGroups = {
   frontend: {
@@ -28,8 +28,41 @@ const skillGroups = {
   },
 };
 
+// Add the resume content as a constant
+const RESUME_CONTENT = {
+  summary: `Technology leader with 19+ years of experience in full-stack development, UI/UX design, and technical
+  leadership. Successfully transitioned from managing development teams to engineering software solutions
+  in game development and enterprise architecture. Specializes in React, Python, and Node.js solutions
+  across gaming and enterprise systems.`,
+  experience: [
+    {
+      company: "HI-REZ STUDIOS",
+      period: "2022-2025",
+      roles: [
+        {
+          title: "Advanced Software Engineer, RallyHere Division",
+          location: "Remote - Alpharetta, GA",
+          period: "2023-2025",
+          highlights: [
+            "Engineered React-based Developer Portal solutions for Smite 2",
+            "Developed Python-based API layer for game databases",
+          ],
+        },
+        {
+          title: "Senior Backend Engineer, Prophecy Games Division",
+          location: "Alpharetta, GA",
+          period: "2022-2023",
+          highlights: ["Led gameplay systems development for Starsiege: Raiders"],
+        },
+      ],
+    },
+    // ... other experience entries
+  ],
+};
+
 export default function Home() {
-  const _resumeContent = loadMarkdown("stjames-resume.md");
+  // Remove the loadMarkdown call
+  // const _resumeContent = loadMarkdown("stjames-resume.md");
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 font-mono">
@@ -55,12 +88,7 @@ export default function Home() {
           <section className="relative">
             <div className="text-xs text-muted-foreground mb-4">{"// PROFESSIONAL_SUMMARY"}</div>
             <div className="space-y-4 text-sm leading-relaxed">
-              <p className="text-muted-foreground">
-                Technology leader with 19+ years of experience in full-stack development, UI/UX design, and technical
-                leadership. Successfully transitioned from managing development teams to engineering software solutions
-                in game development and enterprise architecture. Specializes in React, Python, and Node.js solutions
-                across gaming and enterprise systems.
-              </p>
+              <p className="text-muted-foreground">{RESUME_CONTENT.summary}</p>
             </div>
           </section>
 

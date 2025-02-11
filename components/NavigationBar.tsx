@@ -69,8 +69,6 @@ const NavigationBar = () => {
     { href: "https://t.me/crstjames", icon: ChatBubbleIcon, label: "Telegram" },
   ];
 
-  const isActive = (path: string) => pathname === path;
-
   return (
     <div className="fixed bottom-8 left-0 right-0 flex justify-center z-40">
       <nav
@@ -83,7 +81,7 @@ const NavigationBar = () => {
             <Link key={href} href={href} className="group relative flex flex-col items-center">
               <Icon
                 className={`h-6 w-6 transition-all duration-200 group-hover:h-7 group-hover:w-7 ${
-                  isActive(href) ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
+                  pathname === href ? "text-foreground" : "text-muted-foreground group-hover:text-foreground"
                 }`}
               />
               <span className="absolute -bottom-8 scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 text-xs bg-background/80 backdrop-blur-sm px-2 py-1 rounded-md whitespace-nowrap">

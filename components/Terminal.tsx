@@ -16,7 +16,7 @@ const Terminal = () => {
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<Command[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { currentDirectory, setCurrentDirectory, setIsTerminalOpen } = useTerminal();
+  const { setIsTerminalOpen } = useTerminal();
   const router = useRouter();
   const { setTheme } = useTheme();
 

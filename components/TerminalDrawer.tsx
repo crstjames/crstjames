@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Terminal from "./Terminal";
-import { Cross2Icon, GripIcon } from "@radix-ui/react-icons";
 
 interface TerminalDrawerProps {
   isOpen: boolean;
