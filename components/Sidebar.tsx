@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import Link from "next/link";
 import { Github, Linkedin, Twitter, Mail, FileText, MessagesSquare, Home, Menu } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
