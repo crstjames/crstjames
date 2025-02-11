@@ -1,5 +1,4 @@
 import { loadMarkdown } from "@/utils/loadMarkdown";
-import { Fragment } from "react";
 
 const skillGroups = {
   frontend: {
@@ -30,7 +29,7 @@ const skillGroups = {
 };
 
 export default function Home() {
-  const resumeContent = loadMarkdown("stjames-resume.md");
+  const _resumeContent = loadMarkdown("stjames-resume.md");
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 font-mono">
@@ -41,7 +40,7 @@ export default function Home() {
           <div className="relative mb-16">
             <div className="absolute inset-0 grid-pattern opacity-10" />
             <div className="relative">
-              <div className="text-xs text-muted-foreground mb-2">// IDENTITY</div>
+              <div className="text-xs text-muted-foreground mb-2">{"// IDENTITY"}</div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-foreground/90">
                 Christopher St James
               </h1>
@@ -54,19 +53,20 @@ export default function Home() {
 
           {/* Professional Summary */}
           <section className="relative">
-            <div className="text-xs text-muted-foreground mb-4">// PROFESSIONAL_SUMMARY</div>
+            <div className="text-xs text-muted-foreground mb-4">{"// PROFESSIONAL_SUMMARY"}</div>
             <div className="space-y-4 text-sm leading-relaxed">
               <p className="text-muted-foreground">
-                Seasoned technology leader with over 17 years of comprehensive experience spanning full-stack
-                development, UI/UX design, and technical leadership. Proven track record in gaming industry backend
-                development, enterprise application architecture, and team management.
+                Technology leader with 19+ years of experience in full-stack development, UI/UX design, and technical
+                leadership. Successfully transitioned from managing development teams to engineering software solutions
+                in game development and enterprise architecture. Specializes in React, Python, and Node.js solutions
+                across gaming and enterprise systems.
               </p>
             </div>
           </section>
 
           {/* Experience */}
           <section className="relative">
-            <div className="text-xs text-muted-foreground mb-4">// EXPERIENCE[]</div>
+            <div className="text-xs text-muted-foreground mb-4">{"// EXPERIENCE[]"}</div>
             <div className="space-y-8">
               {/* Hi-Rez */}
               <div className="group">
@@ -201,7 +201,7 @@ export default function Home() {
 
           {/* Education */}
           <section className="relative">
-            <div className="text-xs text-muted-foreground mb-4">// EDUCATION</div>
+            <div className="text-xs text-muted-foreground mb-4">{"// EDUCATION"}</div>
             <div className="group">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-emerald-500">$</span>
@@ -220,7 +220,7 @@ export default function Home() {
         {/* Skills Sidebar (1/3) */}
         <div className="md:w-1/3 space-y-8">
           <div className="sticky top-4">
-            <div className="text-xs text-muted-foreground mb-4">// TECHNICAL_SKILLS</div>
+            <div className="text-xs text-muted-foreground mb-4">{"// TECHNICAL_SKILLS"}</div>
             <div className="space-y-6">
               {Object.entries(skillGroups).map(([key, group]) => (
                 <div key={key} className="space-y-2">
@@ -245,7 +245,7 @@ export default function Home() {
 
             {/* Entrepreneurial Ventures */}
             <div className="mt-8">
-              <div className="text-xs text-muted-foreground mb-4">// VENTURES</div>
+              <div className="text-xs text-muted-foreground mb-4">{"// VENTURES"}</div>
               <div className="group">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-emerald-500">$</span>
