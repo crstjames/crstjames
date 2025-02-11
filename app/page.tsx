@@ -30,7 +30,7 @@ const skillGroups = {
 
 // Add the resume content as a constant
 const RESUME_CONTENT = {
-  summary: `Technology leader with 19+ years of experience in full-stack development, UI/UX design, and technical leadership. Successfully transitioned from managing development teams to engineering software solutions in game development and enterprise architecture. Specializes in React, Python, and Node.js solutions across gaming and enterprise systems. Proven track record of leading teams and architecting complex data solutions.`,
+  summary: `Technology leader with 19+ years of experience in full-stack development, UI/UX, and technical leadership. Transitioned from managing development teams to gameplay design and software engineering. Specializes in React, Python, and Node.js with a strong record of leading teams and architecting complex data systems.`,
   experience: [
     {
       company: "HI-REZ STUDIOS",
