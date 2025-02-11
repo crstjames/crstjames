@@ -30,34 +30,120 @@ const skillGroups = {
 
 // Add the resume content as a constant
 const RESUME_CONTENT = {
-  summary: `Technology leader with 19+ years of experience in full-stack development, UI/UX design, and technical
-  leadership. Successfully transitioned from managing development teams to engineering software solutions
-  in game development and enterprise architecture. Specializes in React, Python, and Node.js solutions
-  across gaming and enterprise systems.`,
+  summary: `Technology leader with 19+ years of experience in full-stack development, UI/UX design, and technical leadership. Successfully transitioned from managing development teams to engineering software solutions in game development and enterprise architecture. Specializes in React, Python, and Node.js solutions across gaming and enterprise systems. Proven track record of leading teams and architecting complex data solutions.`,
   experience: [
     {
       company: "HI-REZ STUDIOS",
       period: "2022-2025",
       roles: [
         {
-          title: "Advanced Software Engineer, RallyHere Division",
+          title: "Advanced Software Engineer, RallyHere",
           location: "Remote - Alpharetta, GA",
           period: "2023-2025",
           highlights: [
-            "Engineered React-based Developer Portal solutions for Smite 2",
-            "Developed Python-based API layer for game databases",
+            "Designed and Developed React Developer Portal for Smite 2, implementing systems for items, loot, vendors, and game configuration",
+            "Developed Python API layer using FastAPI, SQLAlchemy, and Pydantic with Liquibase for database migrations",
+            "Designed and implemented RESTful APIs for game configuration management and content delivery",
           ],
         },
         {
-          title: "Senior Backend Engineer, Prophecy Games Division",
-          location: "Alpharetta, GA",
+          title: "Senior / Principal Backend Engineer, Prophecy Games",
+          location: "Remote - Alpharetta, GA",
           period: "2022-2023",
-          highlights: ["Led gameplay systems development for Starsiege: Raiders"],
+          highlights: [
+            "Designed and implemented user interface systems for in-game menus, player progression, and match results",
+            "Developed core gameplay systems including matchmaking algorithms, player ranking, and real-time statistics tracking",
+            "Ran demo of Starsiege: Raiders at TwitchCon 2022 and release of Starsiege: Deadzone in 2023",
+          ],
         },
       ],
     },
-    // ... other experience entries
+    {
+      company: "KEOLIS COMMUTER SERVICES, LLC",
+      period: "2014-2022",
+      roles: [
+        {
+          title: "UI/UX Designer, Developer, and IT Manager",
+          location: "Boston, MA",
+          period: "2014-2022",
+          highlights: [
+            "Built 20+ Node.JS and React/Native applications serving 2,400 employees",
+            "Led App Development and Business Intelligence teams",
+            "Architected Keolis Data Architecture Platform across Keolis Americas in Azure",
+            "Created working UI/UX prototypes for pre-development validation",
+            "Managed ITIL Systems, VOIP, Corporate Website, and Mobile Device Management",
+          ],
+        },
+      ],
+    },
+    {
+      company: "EVERSAINT CREATIVE",
+      period: "2013-2014",
+      roles: [
+        {
+          title: "Owner / Developer / Designer",
+          location: "Cape Cod, MA",
+          period: "2013-2014",
+          highlights: [
+            "Developed 3 iOS Applications reaching 150,000+ downloads and #2 in Health & Fitness Category",
+            "Implemented IT infrastructure including ITIL systems and VOIP solutions",
+            "Built customer-facing mobile application reaching 200,000 Boston Metro users",
+          ],
+        },
+      ],
+    },
+    {
+      company: "HILL HOLLIDAY (INTERPUBLIC GROUP)",
+      period: "2009-2013",
+      roles: [
+        {
+          title: "Business Analyst",
+          location: "Boston, MA",
+          period: "2009-2013",
+          highlights: [
+            "Developed finance department applications and business intelligence dashboards",
+            "Managed time and attendance and media buying systems",
+          ],
+        },
+      ],
+    },
+    {
+      company: "EMC CORPORATION (DELL)",
+      period: "2006-2009",
+      roles: [
+        {
+          title: "Junior Business Systems Analyst",
+          location: "Hopkinton, MA",
+          period: "2006-2009",
+          highlights: [
+            "Developed ASP .NET applications for internal financial systems",
+            "Created Oracle PL/SQL packages for master customer database management",
+          ],
+        },
+      ],
+    },
   ],
+  education: {
+    school: "BRYANT UNIVERSITY",
+    location: "North Smithfield, RI",
+    degree: "Bachelor of Science in Information Technology",
+    graduationDate: "May 2006",
+  },
+  skills: {
+    frontend: [
+      "React, React Native, JavaScript/TypeScript",
+      "UI/UX Design, Adobe Creative Suite, Sketch, Figma",
+      "Modern Web Technologies (HTML5, CSS3, Tailwind, REST/GraphQL)",
+    ],
+    backend: [
+      "Node.js Ecosystem",
+      "Python (FastAPI, Django, SQLAlchemy, Pydantic)",
+      "Database Systems (SQL, NoSQL, Liquibase)",
+      "Legacy Systems (.NET, Objective-C)",
+    ],
+    cloud: ["Azure, AWS, Google Cloud", "CI/CD, Docker, Microservices", "API Design & Architecture"],
+    gaming: ["Unreal Engine, C++"],
+  },
 };
 
 export default function Home() {
@@ -67,10 +153,10 @@ export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 font-mono">
       <div className="flex flex-col md:flex-row gap-8">
-        {/* Main Content (2/3) */}
-        <div className="md:w-2/3 space-y-16">
+        {/* Main Content (2/3) - Remove independent scrolling */}
+        <div className="md:w-2/3 space-y-6">
           {/* Header */}
-          <div className="relative mb-16">
+          <div className="relative">
             <div className="absolute inset-0 grid-pattern opacity-10" />
             <div className="relative">
               <div className="text-xs text-muted-foreground mb-2">{"// IDENTITY"}</div>
@@ -86,16 +172,16 @@ export default function Home() {
 
           {/* Professional Summary */}
           <section className="relative">
-            <div className="text-xs text-muted-foreground mb-4">{"// PROFESSIONAL_SUMMARY"}</div>
-            <div className="space-y-4 text-sm leading-relaxed">
+            <div className="text-xs text-muted-foreground mb-2">{"// PROFESSIONAL_SUMMARY"}</div>
+            <div className="space-y-2 text-sm leading-relaxed">
               <p className="text-muted-foreground">{RESUME_CONTENT.summary}</p>
             </div>
           </section>
 
           {/* Experience */}
           <section className="relative">
-            <div className="text-xs text-muted-foreground mb-4">{"// EXPERIENCE[]"}</div>
-            <div className="space-y-8">
+            <div className="text-xs text-muted-foreground mb-2">{"// EXPERIENCE"}</div>
+            <div className="space-y-4">
               {/* Hi-Rez */}
               <div className="group">
                 <div className="flex items-center gap-2 mb-2">
@@ -107,26 +193,56 @@ export default function Home() {
                 </div>
                 <div className="pl-4 border-l border-muted space-y-4">
                   <div>
-                    <div className="text-sm text-emerald-500/90">Advanced Software Engineer, RallyHere Division</div>
+                    <div className="text-sm text-emerald-500/90">Advanced Software Engineer, RallyHere</div>
                     <div className="text-xs text-muted-foreground mb-2">Remote - Alpharetta, GA | 2023-2025</div>
                     <ul className="list-none space-y-2 text-sm text-muted-foreground">
                       <li className="flex gap-2">
                         <span className="text-emerald-500">-&gt;</span>
-                        <span>Engineered React-based Developer Portal solutions for Smite 2</span>
+                        <span>
+                          Designed and Developed React Developer Portal for Smite 2, implementing systems for items,
+                          loot, vendors, and game configuration
+                        </span>
                       </li>
                       <li className="flex gap-2">
                         <span className="text-emerald-500">-&gt;</span>
-                        <span>Developed Python-based API layer for game databases</span>
+                        <span>
+                          Developed Python API layer using FastAPI, SQLAlchemy, and Pydantic with Liquibase for database
+                          migrations
+                        </span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span className="text-emerald-500">-&gt;</span>
+                        <span>
+                          Designed and implemented RESTful APIs for game configuration management and content delivery
+                        </span>
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <div className="text-sm text-emerald-500/90">Senior Backend Engineer, Prophecy Games Division</div>
-                    <div className="text-xs text-muted-foreground mb-2">Alpharetta, GA | 2022-2023</div>
+                    <div className="text-sm text-emerald-500/90">
+                      Senior / Principal Backend Engineer, Prophecy Games
+                    </div>
+                    <div className="text-xs text-muted-foreground mb-2">Remote - Alpharetta, GA | 2022-2023</div>
                     <ul className="list-none space-y-2 text-sm text-muted-foreground">
                       <li className="flex gap-2">
                         <span className="text-emerald-500">-&gt;</span>
-                        <span>Led gameplay systems development for Starsiege: Raiders</span>
+                        <span>
+                          Designed and implemented user interface systems for in-game menus, player progression, and
+                          match results
+                        </span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span className="text-emerald-500">-&gt;</span>
+                        <span>
+                          Developed core gameplay systems including matchmaking algorithms, player ranking, and
+                          real-time statistics tracking
+                        </span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span className="text-emerald-500">-&gt;</span>
+                        <span>
+                          Led demo of Starsiege: Raiders at TwitchCon 2022 and release of Starsiege: Deadzone in 2023
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -148,11 +264,23 @@ export default function Home() {
                   <ul className="list-none space-y-2 text-sm text-muted-foreground">
                     <li className="flex gap-2">
                       <span className="text-emerald-500">-&gt;</span>
-                      <span>Developed 20+ internal applications using Node.JS and React/Native</span>
+                      <span>Built 20+ Node.JS and React/Native applications serving 2,400 employees</span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-emerald-500">-&gt;</span>
-                      <span>Led Development and Business Intelligence Teams</span>
+                      <span>Led App Development and Business Intelligence teams</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Architected Keolis Data Architecture Platform across Keolis Americas in Azure</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Created working UI/UX prototypes for pre-development validation</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Managed ITIL Systems, VOIP, Corporate Website, and Mobile Device Management</span>
                     </li>
                   </ul>
                 </div>
@@ -173,11 +301,17 @@ export default function Home() {
                   <ul className="list-none space-y-2 text-sm text-muted-foreground">
                     <li className="flex gap-2">
                       <span className="text-emerald-500">-&gt;</span>
-                      <span>Developed successful iOS Applications reaching 150,000+ downloads</span>
+                      <span>
+                        Developed 3 iOS Applications reaching 150,000+ downloads and #2 in Health & Fitness Category
+                      </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-emerald-500">-&gt;</span>
-                      <span>Implemented comprehensive IT infrastructure and VOIP solutions</span>
+                      <span>Implemented IT infrastructure including ITIL systems and VOIP solutions</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Built customer-facing mobile application reaching 200,000 Boston Metro users</span>
                     </li>
                   </ul>
                 </div>
@@ -198,7 +332,11 @@ export default function Home() {
                   <ul className="list-none space-y-2 text-sm text-muted-foreground">
                     <li className="flex gap-2">
                       <span className="text-emerald-500">-&gt;</span>
-                      <span>Developed custom applications and business intelligence dashboards</span>
+                      <span>Developed finance department applications and business intelligence dashboards</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Managed time and attendance and media buying systems</span>
                     </li>
                   </ul>
                 </div>
@@ -219,7 +357,11 @@ export default function Home() {
                   <ul className="list-none space-y-2 text-sm text-muted-foreground">
                     <li className="flex gap-2">
                       <span className="text-emerald-500">-&gt;</span>
-                      <span>Developed ASP .NET applications and Oracle PL/SQL solutions</span>
+                      <span>Developed ASP .NET applications for internal financial systems</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Created Oracle PL/SQL packages for master customer database management</span>
                     </li>
                   </ul>
                 </div>
@@ -246,10 +388,10 @@ export default function Home() {
         </div>
 
         {/* Skills Sidebar (1/3) */}
-        <div className="md:w-1/3 space-y-8">
-          <div className="sticky top-4">
+        <div className="md:w-1/3">
+          <div className="space-y-6">
             <div className="text-xs text-muted-foreground mb-4">{"// TECHNICAL_SKILLS"}</div>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {Object.entries(skillGroups).map(([key, group]) => (
                 <div key={key} className="space-y-2">
                   <div className="flex items-center gap-2">
@@ -272,8 +414,8 @@ export default function Home() {
             </div>
 
             {/* Entrepreneurial Ventures */}
-            <div className="mt-8">
-              <div className="text-xs text-muted-foreground mb-4">{"// VENTURES"}</div>
+            <div className="mt-6">
+              <div className="text-xs text-muted-foreground mb-2">{"// VENTURES"}</div>
               <div className="group">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-emerald-500">$</span>

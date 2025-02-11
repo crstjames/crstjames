@@ -20,6 +20,7 @@ _January 2022 - September 2023_
 
 - Designed and implemented user interface systems for in-game menus, player progression, and match results
 - Developed core gameplay systems including matchmaking algorithms, player ranking, and real-time statistics tracking
+- Demo of Starsiege: Raiders at TwitchCon 2022 and release of Starsiege: Deadzone in 2023
 
 ### KEOLIS COMMUTER SERVICES, LLC
 

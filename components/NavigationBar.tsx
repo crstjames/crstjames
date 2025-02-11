@@ -16,17 +16,7 @@ import {
 } from "@radix-ui/react-icons";
 import { useTerminal } from "@/contexts/TerminalContext";
 
-const IconButton = ({
-  icon: Icon,
-  label,
-  onClick,
-  isActive = false,
-}: {
-  icon: typeof HomeIcon;
-  label: string;
-  onClick?: () => void;
-  isActive?: boolean;
-}) => (
+const IconButton = ({ icon: Icon, label, onClick }: { icon: typeof HomeIcon; label: string; onClick?: () => void }) => (
   <button onClick={onClick} className="group relative flex flex-col items-center" aria-label={label}>
     <Icon className="h-6 w-6 transition-all duration-200 group-hover:h-7 group-hover:w-7 text-muted-foreground group-hover:text-foreground" />
     <span className="absolute -bottom-8 scale-0 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100 text-xs bg-background/80 backdrop-blur-sm px-2 py-1 rounded-md whitespace-nowrap">
