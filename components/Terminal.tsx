@@ -6,10 +6,16 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useTerminal } from "@/contexts/TerminalContext";
 
+// First, let's define types for our commands
+type CommandAction = () => string | JSX.Element;
+
 interface Command {
-  input: string;
-  output: string | React.ReactNode;
-  timestamp: string;
+  description: string;
+  action: CommandAction;
+}
+
+interface Commands {
+  [key: string]: Command;
 }
 
 const Terminal = () => {
@@ -20,7 +26,7 @@ const Terminal = () => {
   const router = useRouter();
   const { setTheme } = useTheme();
 
-  const commands = {
+  const commands: Commands = {
     help: {
       description: "Show available commands",
       action: () => (
@@ -131,15 +137,14 @@ const Terminal = () => {
     }
 
     const newCommand: Command = {
-      input: input,
-      output: "",
-      timestamp: new Date().toLocaleTimeString(),
+      description: input,
+      action: () => "",
     };
 
-    if (commands[trimmedInput]) {
-      newCommand.output = commands[trimmedInput].action();
+    if (commands[trimmedInput as keyof typeof commands]) {
+      newCommand.action = commands[trimmedInput].action;
     } else {
-      newCommand.output = `Command not found: ${input}. Type 'help' for available commands.`;
+      newCommand.action = () => `Command not found: ${input}. Type 'help' for available commands.`;
     }
 
     setCommandHistory((prev) => [...prev, newCommand]);
@@ -160,9 +165,9 @@ const Terminal = () => {
         <div key={i} className="mb-2">
           <div className="flex items-center text-xs">
             <span className="text-gray-500">anon@stjames.dev %</span>
-            <span className="ml-2">{cmd.input}</span>
+            <span className="ml-2">{cmd.description}</span>
           </div>
-          {cmd.output && <div className="mt-1 ml-4 text-xs">{cmd.output}</div>}
+          {cmd.action() && <div className="mt-1 ml-4 text-xs">{cmd.action()}</div>}
         </div>
       ))}
 

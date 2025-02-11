@@ -159,7 +159,6 @@ export default function Home() {
           <div className="relative">
             <div className="absolute inset-0 grid-pattern opacity-10" />
             <div className="relative">
-              <div className="text-xs text-muted-foreground mb-2">{"// IDENTITY"}</div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-foreground/90">
                 Christopher St James
               </h1>

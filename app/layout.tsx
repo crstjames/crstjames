@@ -6,7 +6,6 @@ import { ThemeProvider } from "next-themes";
 import TerminalDrawer from "@/components/TerminalDrawer";
 import { TerminalProvider, useTerminal } from "@/contexts/TerminalContext";
 import Sidebar from "@/components/Sidebar";
-import TopNavigation from "@/components/TopNavigation";
 import { useEffect } from "react";
 
 const geistSans = Geist({
@@ -23,9 +22,9 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const { isTerminalOpen, setIsTerminalOpen } = useTerminal();
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
-        event.preventDefault();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
         setIsTerminalOpen(true);
       }
     };
@@ -42,8 +41,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Sidebar />
           <div className="pl-16">
-            <TopNavigation />
-            <main className="pt-8">{children}</main>
+            <main>{children}</main>
           </div>
           <TerminalDrawer isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
         </ThemeProvider>
