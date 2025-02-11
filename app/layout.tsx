@@ -2,11 +2,12 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import NavigationBar from "@/components/NavigationBar";
 import { ThemeProvider } from "next-themes";
-import TitleBar from "@/components/TitleBar";
 import TerminalDrawer from "@/components/TerminalDrawer";
 import { TerminalProvider, useTerminal } from "@/contexts/TerminalContext";
+import Sidebar from "@/components/Sidebar";
+import TopNavigation from "@/components/TopNavigation";
+import { useEffect } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,15 +22,29 @@ const geistMono = Geist_Mono({
 function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const { isTerminalOpen, setIsTerminalOpen } = useTerminal();
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+        event.preventDefault();
+        setIsTerminalOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [setIsTerminalOpen]);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <TitleBar onToggleTerminal={() => setIsTerminalOpen(!isTerminalOpen)} isTerminalOpen={isTerminalOpen} />
-          <main className="pt-8">{children}</main>
-          <NavigationBar />
+          <Sidebar />
+          <div className="pl-16">
+            <TopNavigation />
+            <main className="pt-8">{children}</main>
+          </div>
           <TerminalDrawer isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
         </ThemeProvider>
       </body>

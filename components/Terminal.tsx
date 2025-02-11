@@ -16,7 +16,7 @@ const Terminal = () => {
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<Command[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { currentDirectory, setCurrentDirectory } = useTerminal();
+  const { currentDirectory, setCurrentDirectory, setIsTerminalOpen } = useTerminal();
   const router = useRouter();
   const { setTheme } = useTheme();
 
@@ -94,6 +94,27 @@ const Terminal = () => {
       description: "Usage: theme light|dark",
       action: () => "Usage: theme light|dark",
     },
+    close: {
+      description: "Close the terminal window",
+      action: () => {
+        setTimeout(() => setIsTerminalOpen(false), 500);
+        return "Closing terminal...";
+      },
+    },
+    quit: {
+      description: "Close the terminal window",
+      action: () => {
+        setTimeout(() => setIsTerminalOpen(false), 500);
+        return "Closing terminal...";
+      },
+    },
+    exit: {
+      description: "Close the terminal window",
+      action: () => {
+        setTimeout(() => setIsTerminalOpen(false), 500);
+        return "Closing terminal...";
+      },
+    },
   };
 
   const handleCommand = (e: React.FormEvent) => {
@@ -135,23 +156,18 @@ const Terminal = () => {
 
   return (
     <div className="h-full font-mono text-sm p-4 text-green-400">
-      <div className="flex items-center text-xs mb-2">
-        <span className="text-gray-500">crstjames@Christophers-MacBook-Pro</span>
-        <span className="text-gray-500 mx-1">%</span>
-      </div>
-
       {commandHistory.map((cmd, i) => (
         <div key={i} className="mb-2">
-          <div className="flex items-center">
-            <span className="text-gray-500">$</span>
+          <div className="flex items-center text-xs">
+            <span className="text-gray-500">anon@stjames.dev %</span>
             <span className="ml-2">{cmd.input}</span>
           </div>
-          {cmd.output && <div className="mt-1 ml-4">{cmd.output}</div>}
+          {cmd.output && <div className="mt-1 ml-4 text-xs">{cmd.output}</div>}
         </div>
       ))}
 
-      <form onSubmit={handleCommand} className="flex items-center">
-        <span className="text-gray-500">$</span>
+      <form onSubmit={handleCommand} className="flex items-center text-xs">
+        <span className="text-gray-500">anon@stjames.dev %</span>
         <input
           ref={inputRef}
           type="text"

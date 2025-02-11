@@ -1,4 +1,5 @@
 import { loadMarkdown } from "@/utils/loadMarkdown";
+import { Fragment } from "react";
 
 const skillGroups = {
   frontend: {
@@ -32,46 +33,231 @@ export default function Home() {
   const resumeContent = loadMarkdown("stjames-resume.md");
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <section className="mb-12">
-        <h1 className="text-6xl font-bold mb-4">Christopher St James</h1>
-        <h2 className="text-3xl text-muted-foreground mb-8">Technology Leader & Software Engineer</h2>
-      </section>
+    <div className="max-w-7xl mx-auto px-4 py-4 font-mono">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Main Content (2/3) */}
+        <div className="md:w-2/3 space-y-16">
+          {/* Header */}
+          <div className="relative mb-16">
+            <div className="absolute inset-0 grid-pattern opacity-10" />
+            <div className="relative">
+              <div className="text-xs text-muted-foreground mb-2">// IDENTITY</div>
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight text-foreground/90">
+                Christopher St James
+              </h1>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <span className="text-emerald-500">&gt;</span>
+                <span className="text-sm md:text-base">Technology Leader & Software Engineer</span>
+              </div>
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-        <section>
-          <h2 className="text-4xl font-bold mb-6">Latest Projects</h2>
-          <div className="space-y-6">
-            <div className="p-6 rounded-lg border border-muted bg-background/50">
-              <h3 className="text-2xl font-bold mb-2">Smite 2 Developer Portal</h3>
+          {/* Professional Summary */}
+          <section className="relative">
+            <div className="text-xs text-muted-foreground mb-4">// PROFESSIONAL_SUMMARY</div>
+            <div className="space-y-4 text-sm leading-relaxed">
               <p className="text-muted-foreground">
-                React-based configuration management system for game items, loot, and vendors
+                Seasoned technology leader with over 17 years of comprehensive experience spanning full-stack
+                development, UI/UX design, and technical leadership. Proven track record in gaming industry backend
+                development, enterprise application architecture, and team management.
               </p>
             </div>
-            <div className="p-6 rounded-lg border border-muted bg-background/50">
-              <h3 className="text-2xl font-bold mb-2">Starsiege: Raiders</h3>
-              <p className="text-muted-foreground">Backend systems for matchmaking and player progression</p>
-            </div>
-          </div>
-        </section>
+          </section>
 
-        <section>
-          <h2 className="text-4xl font-bold mb-6">Skills & Expertise</h2>
-          <div className="space-y-4">
-            {Object.entries(skillGroups).map(([key, group]) => (
-              <div key={key} className="space-y-2">
-                <h3 className="text-lg font-semibold">{group.title}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill) => (
-                    <span key={skill} className={`px-3 py-1 rounded-full text-sm ${group.color}`}>
-                      {skill}
-                    </span>
-                  ))}
+          {/* Experience */}
+          <section className="relative">
+            <div className="text-xs text-muted-foreground mb-4">// EXPERIENCE[]</div>
+            <div className="space-y-8">
+              {/* Hi-Rez */}
+              <div className="group">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-emerald-500">$</span>
+                  <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+                    HI-REZ STUDIOS
+                  </h3>
+                  <span className="text-xs text-muted-foreground">2022-2025</span>
+                </div>
+                <div className="pl-4 border-l border-muted space-y-4">
+                  <div>
+                    <div className="text-sm text-emerald-500/90">Advanced Software Engineer, RallyHere Division</div>
+                    <div className="text-xs text-muted-foreground mb-2">Remote - Alpharetta, GA | 2023-2025</div>
+                    <ul className="list-none space-y-2 text-sm text-muted-foreground">
+                      <li className="flex gap-2">
+                        <span className="text-emerald-500">-&gt;</span>
+                        <span>Engineered React-based Developer Portal solutions for Smite 2</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span className="text-emerald-500">-&gt;</span>
+                        <span>Developed Python-based API layer for game databases</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-sm text-emerald-500/90">Senior Backend Engineer, Prophecy Games Division</div>
+                    <div className="text-xs text-muted-foreground mb-2">Alpharetta, GA | 2022-2023</div>
+                    <ul className="list-none space-y-2 text-sm text-muted-foreground">
+                      <li className="flex gap-2">
+                        <span className="text-emerald-500">-&gt;</span>
+                        <span>Led gameplay systems development for Starsiege: Raiders</span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            ))}
+
+              {/* Keolis */}
+              <div className="group">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-emerald-500">$</span>
+                  <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+                    KEOLIS COMMUTER SERVICES
+                  </h3>
+                  <span className="text-xs text-muted-foreground">2014-2022</span>
+                </div>
+                <div className="pl-4 border-l border-muted">
+                  <div className="text-sm text-emerald-500/90">UI/UX Designer, Developer, and IT Manager</div>
+                  <div className="text-xs text-muted-foreground mb-2">Boston, MA</div>
+                  <ul className="list-none space-y-2 text-sm text-muted-foreground">
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Developed 20+ internal applications using Node.JS and React/Native</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Led Development and Business Intelligence Teams</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Eversaint Creative */}
+              <div className="group">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-emerald-500">$</span>
+                  <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+                    EVERSAINT CREATIVE
+                  </h3>
+                  <span className="text-xs text-muted-foreground">2013-2014</span>
+                </div>
+                <div className="pl-4 border-l border-muted">
+                  <div className="text-sm text-emerald-500/90">Owner / Developer / Designer</div>
+                  <div className="text-xs text-muted-foreground mb-2">Cape Cod, MA</div>
+                  <ul className="list-none space-y-2 text-sm text-muted-foreground">
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Developed successful iOS Applications reaching 150,000+ downloads</span>
+                    </li>
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Implemented comprehensive IT infrastructure and VOIP solutions</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Hill Holliday */}
+              <div className="group">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-emerald-500">$</span>
+                  <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+                    HILL HOLLIDAY
+                  </h3>
+                  <span className="text-xs text-muted-foreground">2009-2013</span>
+                </div>
+                <div className="pl-4 border-l border-muted">
+                  <div className="text-sm text-emerald-500/90">Business Analyst</div>
+                  <div className="text-xs text-muted-foreground mb-2">Boston, MA</div>
+                  <ul className="list-none space-y-2 text-sm text-muted-foreground">
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Developed custom applications and business intelligence dashboards</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* EMC */}
+              <div className="group">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-emerald-500">$</span>
+                  <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+                    EMC CORPORATION
+                  </h3>
+                  <span className="text-xs text-muted-foreground">2006-2009</span>
+                </div>
+                <div className="pl-4 border-l border-muted">
+                  <div className="text-sm text-emerald-500/90">Junior Business Systems Analyst</div>
+                  <div className="text-xs text-muted-foreground mb-2">Hopkinton, MA</div>
+                  <ul className="list-none space-y-2 text-sm text-muted-foreground">
+                    <li className="flex gap-2">
+                      <span className="text-emerald-500">-&gt;</span>
+                      <span>Developed ASP .NET applications and Oracle PL/SQL solutions</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Education */}
+          <section className="relative">
+            <div className="text-xs text-muted-foreground mb-4">// EDUCATION</div>
+            <div className="group">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-emerald-500">$</span>
+                <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
+                  BRYANT UNIVERSITY
+                </h3>
+                <span className="text-xs text-muted-foreground">2006</span>
+              </div>
+              <div className="pl-4 border-l border-muted text-sm text-muted-foreground">
+                Bachelor of Science in Information Technology
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* Skills Sidebar (1/3) */}
+        <div className="md:w-1/3 space-y-8">
+          <div className="sticky top-4">
+            <div className="text-xs text-muted-foreground mb-4">// TECHNICAL_SKILLS</div>
+            <div className="space-y-6">
+              {Object.entries(skillGroups).map(([key, group]) => (
+                <div key={key} className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-500">#</span>
+                    <h3 className="text-sm font-medium text-muted-foreground">{group.title}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2 py-0.5 text-xs bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 
+                          transition-colors rounded font-medium"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Entrepreneurial Ventures */}
+            <div className="mt-8">
+              <div className="text-xs text-muted-foreground mb-4">// VENTURES</div>
+              <div className="group">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-emerald-500">$</span>
+                  <span className="text-sm text-muted-foreground">Coldcoast Collective</span>
+                </div>
+                <div className="pl-4 border-l border-muted text-xs text-muted-foreground">
+                  Founded and developed lifestyle brand (coldcoast.co)
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   );

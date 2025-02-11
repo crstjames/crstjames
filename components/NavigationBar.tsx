@@ -57,7 +57,7 @@ const NavigationBar = () => {
   if (!mounted) return null;
 
   const navItems = [
-    { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "/", icon: HomeIcon, label: "home" },
     { href: "/projects", icon: LayersIcon, label: "Projects" },
   ];
 
