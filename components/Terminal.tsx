@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 import { useTerminal } from "@/contexts/TerminalContext";
 
 // First, let's define types for our commands
-type CommandAction = () => string | JSX.Element;
+type CommandAction = () => string | React.ReactNode;
 
 interface Command {
   description: string;
