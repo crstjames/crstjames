@@ -18,7 +18,6 @@ const socialLinks = [
   { href: "https://linkedin.com/in/crstjames", icon: Linkedin, label: "LinkedIn" },
   { href: "https://twitter.com/crstjames", icon: Twitter, label: "Twitter" },
   { href: "https://t.me/crstjames", icon: MessagesSquare, label: "Telegram" },
-  { href: "/resume", icon: FileText, label: "Resume" },
 ];
 
 export default function Sidebar() {

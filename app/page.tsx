@@ -1,5 +1,9 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { loadMarkdown } from "@/utils/loadMarkdown";
+
+import React from "react";
 
 const skillGroups = {
   frontend: {
@@ -148,6 +152,20 @@ const RESUME_CONTENT = {
 };
 
 export default function Home() {
+  React.useEffect(() => {
+    const preventDefault = (e: Event) => {
+      e.stopPropagation();
+    };
+
+    document.addEventListener("mouseup", preventDefault, true);
+    document.addEventListener("click", preventDefault, true);
+
+    return () => {
+      document.removeEventListener("mouseup", preventDefault, true);
+      document.removeEventListener("click", preventDefault, true);
+    };
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-4 font-mono">
       <div className="flex flex-col md:flex-row gap-8">
@@ -170,8 +188,8 @@ export default function Home() {
           {/* Professional Summary */}
           <section className="relative">
             <div className="text-xs text-muted-foreground mb-2">{"// PROFESSIONAL_SUMMARY"}</div>
-            <div className="space-y-2 text-sm leading-relaxed">
-              <p className="text-muted-foreground">{RESUME_CONTENT.summary}</p>
+            <div className="space-y-2 text-sm leading-relaxed select-text">
+              <p className="text-muted-foreground select-text">{RESUME_CONTENT.summary}</p>
             </div>
           </section>
 

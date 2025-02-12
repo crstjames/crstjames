@@ -24,6 +24,16 @@
     --nav-background: 0 0% 4% / 0.8;
     --nav-foreground: 0 0% 93%;
   }
+
+  ::selection {
+    background-color: rgb(16 185 129 / 0.2);
+    color: rgb(167 243 208);
+  }
+
+  ::-moz-selection {
+    background-color: rgb(16 185 129 / 0.2);
+    color: rgb(167 243 208);
+  }
 }
 
 body {
