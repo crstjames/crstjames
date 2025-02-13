@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import TerminalDrawer from "@/components/TerminalDrawer";
 import { TerminalProvider, useTerminal } from "@/contexts/TerminalContext";
 import Sidebar from "@/components/Sidebar";
+import TitleBar from "@/components/TitleBar";
 import { useEffect } from "react";
 
 const geistSans = Geist({
@@ -39,8 +40,9 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <TitleBar />
           <Sidebar />
-          <div className="pl-16">
+          <div className="md:pl-16 pt-16 md:pt-0">
             <main>{children}</main>
           </div>
           <TerminalDrawer isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
