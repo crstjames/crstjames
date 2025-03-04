@@ -49,7 +49,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
 
           {/* Only render TopNavBar when client-side is mounted */}
           {mounted && <TopNavBar />}
-          <div className="pt-24">
+          <div className="pt-16">
             <main>{children}</main>
           </div>
           <TerminalDrawer isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />

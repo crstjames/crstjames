@@ -71,18 +71,9 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="h-screen max-w-7xl mx-auto px-4 font-mono flex flex-col relative overflow-hidden">
-      {/* Remove the retro grid since we now have the site-wide Tron grid */}
-
-      {/* Main content */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 flex justify-center"
-        style={{ marginTop: "20vh" }}
-      >
-        <div className="flex flex-col items-start max-w-xl">
+    <div className="flex h-[calc(100vh-96px)] flex-col items-center justify-start pt-32 overflow-hidden">
+      <motion.div className="w-full px-4 flex justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <div className="flex flex-col items-start">
           {lines.map((line, lineIndex) => {
             // Determine if this line should be displayed yet
             const shouldDisplay = position.line > lineIndex || position.line === lineIndex;
