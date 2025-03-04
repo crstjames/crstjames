@@ -17,7 +17,7 @@ const projects = [
     details: {
       overview:
         "An enterprise application interface for backend live service systems for games such as Smite 2, allowing game developers to configure items, loot, vendors, and matchmaking configurations. Developed the OpenAPI FastAPI Python API layer between the developer portal and the game database.",
-      images: ["/portfolio/project1-detail1.jpg", "/portfolio/project1-detail2.jpg"],
+      images: ["/images/devportal1.jpg", "/images/devportal2.jpg"],
       challenges: "Creating a design system that works across multiple platforms while maintaining consistency.",
       solution: "Developed a modular component library with extensive documentation and usage examples.",
       technologies: ["React", "Tailwind", "Material UI", "Python"],
@@ -34,7 +34,7 @@ const projects = [
     details: {
       overview:
         "Worked on the HUD UI elements and interactions, inventory management, End Of Match live stats, in-game combat stats, achievement system, and progress bar displays.",
-      images: [],
+      images: ["/images/deadzone1.jpg", "/images/deadzone2.png"],
       challenges: "Seamlessly integrating high-quality video content into the web experience.",
       solution: "Leveraged modern web technologies for smooth playback and interaction.",
       technologies: ["C++", "Unreal Engine", "Sketch"],
@@ -69,7 +69,7 @@ const projects = [
     details: {
       overview:
         "Built the UI/UX and Product Design around Quantum Flux NFT Marketplace, a supplement to game systems for buying and selling in-game earned NFTs across the metaverse.",
-      images: [],
+      images: ["/images/qflux1.jpg", "/images/qflux2.jpg"],
       challenges: "Understanding and harnessing the power of quantum mechanics.",
       solution: "Developed innovative algorithms to leverage quantum computing capabilities.",
       technologies: ["Quantum Algorithms", "Qiskit", "Python"],
@@ -104,7 +104,7 @@ const projects = [
     details: {
       overview:
         "Over 10+ internal enterprise apps ranging from communications, passenger counting, internal authentication system, conductor guides and management apps, Event manager Systems, Snow Removal tracker Apps, Live On Time Performance and All Page alerting systems.",
-      images: [],
+      images: ["/images/enterprise1.png", "/images/enterprise2.png"],
       challenges: "Integrating diverse enterprise systems into a cohesive platform.",
       solution: "Developed a scalable architecture with seamless integration capabilities.",
       technologies: ["Java", "Spring Boot", "Microservices", "Docker"],
@@ -277,11 +277,11 @@ export default function WorkPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {selectedProject.details.images.map((image, index) => (
                       <div key={index} className="aspect-video relative bg-background/20 rounded-lg overflow-hidden">
-                        {/* Placeholder for project detail images - replace with actual images */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-purple-500/10" />
-                        <div className="flex items-center justify-center h-full text-muted-foreground text-xs">
-                          Project Image {index + 1}
-                        </div>
+                        <img
+                          src={image}
+                          alt={`Project Image ${index + 1}`}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
                       </div>
                     ))}
                   </div>
