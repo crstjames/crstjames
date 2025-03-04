@@ -12,7 +12,7 @@ interface TerminalDrawerProps {
 const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
   console.log("TerminalDrawer render:", { isOpen });
 
-  const [height, setHeight] = useState(300); // Reduced default height in pixels
+  const [height, setHeight] = useState(400); // Increased default height
   const dragRef = useRef<HTMLDivElement>(null);
   const startDragRef = useRef<{ y: number; height: number } | null>(null);
 
@@ -20,7 +20,7 @@ const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!startDragRef.current) return;
       const dy = startDragRef.current.y - e.clientY;
-      const newHeight = Math.max(200, Math.min(600, startDragRef.current.height + dy));
+      const newHeight = Math.max(250, Math.min(800, startDragRef.current.height + dy)); // Increased max height
       setHeight(newHeight);
     };
 
