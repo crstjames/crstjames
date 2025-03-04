@@ -5,9 +5,8 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import TerminalDrawer from "@/components/TerminalDrawer";
 import { TerminalProvider, useTerminal } from "@/contexts/TerminalContext";
-import Sidebar from "@/components/Sidebar";
-import TitleBar from "@/components/TitleBar";
-import { useEffect } from "react";
+import TopNavBar from "@/components/TopNavBar";
+import { useEffect, useState } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +20,11 @@ const geistMono = Geist_Mono({
 
 function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const { isTerminalOpen, setIsTerminalOpen } = useTerminal();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -40,9 +44,9 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <TitleBar />
-          <Sidebar />
-          <div className="md:pl-16 pt-16 md:pt-0">
+          {/* Only render TopNavBar when client-side is mounted */}
+          {mounted && <TopNavBar />}
+          <div className="pt-24">
             <main>{children}</main>
           </div>
           <TerminalDrawer isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />

@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { Home } from "lucide-react";
+import { Home, Briefcase, FileText } from "lucide-react";
 import Image from "next/image";
 import { socialLinks } from "@/lib/constants";
 
@@ -16,6 +16,12 @@ export default function Sidebar() {
         </Link>
         <Link href="/" className="hover:text-foreground/80">
           <Home className="w-5 h-5" />
+        </Link>
+        <Link href="/work" className="hover:text-foreground/80">
+          <Briefcase className="w-5 h-5" />
+        </Link>
+        <Link href="/resume" className="hover:text-foreground/80">
+          <FileText className="w-5 h-5" />
         </Link>
       </div>
 

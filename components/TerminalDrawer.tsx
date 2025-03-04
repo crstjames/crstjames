@@ -12,7 +12,7 @@ interface TerminalDrawerProps {
 const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
   console.log("TerminalDrawer render:", { isOpen });
 
-  const [height, setHeight] = useState(400); // Default height in pixels
+  const [height, setHeight] = useState(300); // Reduced default height in pixels
   const dragRef = useRef<HTMLDivElement>(null);
   const startDragRef = useRef<{ y: number; height: number } | null>(null);
 
@@ -20,7 +20,7 @@ const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!startDragRef.current) return;
       const dy = startDragRef.current.y - e.clientY;
-      const newHeight = Math.max(200, Math.min(800, startDragRef.current.height + dy));
+      const newHeight = Math.max(200, Math.min(600, startDragRef.current.height + dy));
       setHeight(newHeight);
     };
 
@@ -54,7 +54,7 @@ const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
       {/* Backdrop */}
       <div
         className={`fixed inset-0 bg-background/80 backdrop-blur-sm transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          isOpen ? "opacity-100 z-40" : "opacity-0 pointer-events-none -z-10"
         }`}
         onClick={onClose}
       />
@@ -62,7 +62,7 @@ const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
       {/* Terminal Window */}
       <div
         style={{ height: `${height}px` }}
-        className={`fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl transform transition-all duration-300 ease-out ${
+        className={`fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl transform transition-all duration-300 ease-out z-50 ${
           isOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
         }`}
       >
@@ -78,15 +78,15 @@ const TerminalDrawer = ({ isOpen, onClose }: TerminalDrawerProps) => {
           <div className="w-20 h-1 rounded-full bg-muted-foreground/20 group-hover:bg-muted-foreground/40 transition-colors" />
         </div>
 
-        <div className="relative h-full bg-black border border-muted rounded-t-lg overflow-hidden">
+        <div className="relative h-full bg-black border border-emerald-500/20 rounded-t-lg overflow-hidden shadow-lg">
           {/* Title Bar */}
-          <div className="absolute top-0 left-0 right-0 h-8 bg-black/50 backdrop-blur-sm border-b border-muted flex items-center justify-between px-4">
+          <div className="absolute top-0 left-0 right-0 h-8 bg-black/50 backdrop-blur-sm border-b border-emerald-500/20 flex items-center justify-between px-4">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 rounded-full bg-red-500 cursor-pointer" onClick={onClose} />
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full bg-green-500" />
             </div>
-            <div className="text-xs text-muted-foreground">Terminal</div>
+            <div className="text-xs text-emerald-400/70">Terminal</div>
             <div className="w-20" /> {/* Spacer for symmetry */}
           </div>
 
