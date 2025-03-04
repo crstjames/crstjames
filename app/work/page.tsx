@@ -250,15 +250,15 @@ export default function WorkPage() {
                   <p className="text-sm text-muted-foreground">{selectedProject.details.overview}</p>
                 </div>
 
-                <div>
+                {/* <div>
                   <div className="text-xs text-muted-foreground mb-2">{"// CHALLENGE"}</div>
                   <p className="text-sm text-muted-foreground">{selectedProject.details.challenges}</p>
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <div className="text-xs text-muted-foreground mb-2">{"// SOLUTION"}</div>
                   <p className="text-sm text-muted-foreground">{selectedProject.details.solution}</p>
-                </div>
+                </div> */}
 
                 <div>
                   <div className="text-xs text-muted-foreground mb-2">{"// TECH_STACK"}</div>
