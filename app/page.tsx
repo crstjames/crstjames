@@ -71,9 +71,8 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="h-screen bg-black max-w-7xl mx-auto px-4 font-mono flex flex-col relative overflow-hidden">
-      {/* Retro grid background */}
-      <div className="absolute inset-0 retro-grid opacity-20"></div>
+    <div className="h-screen max-w-7xl mx-auto px-4 font-mono flex flex-col relative overflow-hidden">
+      {/* Remove the retro grid since we now have the site-wide Tron grid */}
 
       {/* Main content */}
       <motion.div

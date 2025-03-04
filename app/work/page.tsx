@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight, X, ArrowLeft } from "lucide-react";
+import ImageLightbox from "../components/ImageLightbox";
 
 // Project data - replace with your actual projects
 const projects = [
@@ -134,6 +135,7 @@ const projects = [
 export default function WorkPage() {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null);
   const detailViewRef = useRef<HTMLDivElement>(null);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   // Click outside handler
   useEffect(() => {
@@ -153,6 +155,18 @@ export default function WorkPage() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, [selectedProject]);
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && selectedProject) {
+        setSelectedProject(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscKey);
+    return () => window.removeEventListener("keydown", handleEscKey);
   }, [selectedProject]);
 
   // Animation variants
@@ -197,8 +211,12 @@ export default function WorkPage() {
       <div className="relative">
         <div className="text-xs text-muted-foreground mb-4">{"// PORTFOLIO_PROJECTS"}</div>
 
-        {/* Portfolio Grid */}
-        {!selectedProject ? (
+        {/* Portfolio Grid - Always render, but hide when project is selected */}
+        <div
+          className={`transition-opacity duration-300 ${
+            selectedProject ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
             variants={containerVariants}
@@ -248,80 +266,128 @@ export default function WorkPage() {
               </motion.div>
             ))}
           </motion.div>
-        ) : (
-          // Project Detail View with ref for click-outside detection
-          <motion.div
-            ref={detailViewRef}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="bg-background/5 border border-transparent rounded-lg overflow-hidden"
-            style={{ borderImage: "linear-gradient(to bottom right, #34D399, #1F2937, #8B5CF6) 1" }}
-          >
-            <div className="flex justify-between items-center p-4 border-b border-muted">
-              <h2 className="font-medium text-emerald-500">{selectedProject.title}</h2>
-              <button
+        </div>
+
+        {/* Full screen overlay when project is selected */}
+        <AnimatePresence>
+          {selectedProject && (
+            <>
+              {/* Semi-transparent backdrop */}
+              <motion.div
+                className="fixed inset-0 bg-black/70 z-40"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 onClick={() => setSelectedProject(null)}
-                className="text-emerald-500 hover:text-foreground transition-colors"
+              />
+
+              {/* Project Detail View with ref for click-outside detection */}
+              <motion.div
+                ref={detailViewRef}
+                className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 pointer-events-none"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
               >
-                Back to Projects
-              </button>
-            </div>
-            <div className="p-6">
-              <div className="space-y-6">
-                <div>
-                  <div className="text-xs text-muted-foreground mb-2">{"// OVERVIEW"}</div>
-                  <p className="text-sm text-muted-foreground">{selectedProject.details.overview}</p>
-                </div>
-
-                {/* <div>
-                  <div className="text-xs text-muted-foreground mb-2">{"// CHALLENGE"}</div>
-                  <p className="text-sm text-muted-foreground">{selectedProject.details.challenges}</p>
-                </div> */}
-
-                {/* <div>
-                  <div className="text-xs text-muted-foreground mb-2">{"// SOLUTION"}</div>
-                  <p className="text-sm text-muted-foreground">{selectedProject.details.solution}</p>
-                </div> */}
-
-                <div>
-                  <div className="text-xs text-muted-foreground mb-2">{"// TECH_STACK"}</div>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.details.technologies.map((tech, index) => (
-                      <span key={index} className="px-2 py-1 bg-background/20 rounded text-xs text-muted-foreground">
-                        {tech}
-                      </span>
-                    ))}
+                <motion.div
+                  className="relative bg-background/95 border border-transparent rounded-lg overflow-hidden w-full max-w-4xl max-h-[90vh] overflow-y-auto pointer-events-auto"
+                  style={{ borderImage: "linear-gradient(to bottom right, #34D399, #1F2937, #8B5CF6) 1" }}
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 50, opacity: 0 }}
+                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                >
+                  <div className="sticky top-0 z-10 flex justify-between items-center p-4 border-b border-muted bg-background/95 backdrop-blur-sm">
+                    <div className="flex items-center gap-2">
+                      <h2 className="font-medium text-emerald-500">{selectedProject.title}</h2>
+                      <span className="text-xs text-muted-foreground">({selectedProject.year})</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => setSelectedProject(null)}
+                        className="group flex items-center gap-2 px-3 py-1.5 rounded hover:bg-emerald-500/10 text-sm transition-colors border border-emerald-500/50"
+                        aria-label="Return to gallery"
+                      >
+                        <ArrowLeft className="w-4 h-4 text-emerald-400 group-hover:text-emerald-500" />
+                        <span className="text-emerald-400 group-hover:text-emerald-500">Return to Gallery</span>
+                      </button>
+                      <button
+                        onClick={() => setSelectedProject(null)}
+                        className="rounded-full p-1.5 hover:bg-emerald-500/10 transition-colors"
+                        aria-label="Close modal"
+                      >
+                        <X className="w-5 h-5 text-emerald-400 hover:text-emerald-500" />
+                      </button>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <div className="text-xs text-muted-foreground mb-2">{"// PROJECT_IMAGES"}</div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {selectedProject.details.images.map((image, index) => (
-                      <div key={index} className="aspect-video relative bg-background/20 rounded-lg overflow-hidden">
-                        <img
-                          src={image}
-                          alt={`Project Image ${index + 1}`}
-                          className="absolute inset-0 w-full h-full object-cover"
-                        />
+                  <div className="p-6">
+                    <div className="space-y-6">
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-2">{"// OVERVIEW"}</div>
+                        <p className="text-sm text-muted-foreground">{selectedProject.details.overview}</p>
                       </div>
-                    ))}
-                  </div>
-                </div>
 
-                {selectedProject.details.video && (
-                  <div className="aspect-video relative bg-background/20 rounded-lg overflow-hidden mb-6">
-                    <video autoPlay loop muted playsInline className="w-full h-full object-cover">
-                      <source src={selectedProject.details.video} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-2">{"// TECH_STACK"}</div>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedProject.details.technologies.map((tech, index) => (
+                            <span
+                              key={index}
+                              className="px-2 py-1 bg-background/20 rounded text-xs text-muted-foreground"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-2">{"// PROJECT_IMAGES"}</div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {selectedProject.details.images.map((image, index) => (
+                            <div
+                              key={index}
+                              className="aspect-video relative bg-background/20 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all"
+                              onClick={() => setLightboxImage(image)}
+                            >
+                              <img
+                                src={image}
+                                alt={`Project Image ${index + 1}`}
+                                className="absolute inset-0 w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-black/0 hover:bg-black/30 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                <span className="text-white text-sm">Click to enlarge</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {selectedProject.details.video && (
+                        <div className="aspect-video relative bg-background/20 rounded-lg overflow-hidden mb-6">
+                          <video autoPlay loop muted playsInline className="w-full h-full object-cover">
+                            <source src={selectedProject.details.video} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
+                </motion.div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
+
+      {/* Image Lightbox */}
+      <ImageLightbox
+        isOpen={!!lightboxImage}
+        onClose={() => setLightboxImage(null)}
+        imageSrc={lightboxImage || ""}
+        alt="Project image detail"
+      />
     </div>
   );
 }

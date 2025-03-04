@@ -44,6 +44,9 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen bg-background text-foreground`}
       >
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {/* Add the Tron grid background */}
+          <div className="tron-grid"></div>
+
           {/* Only render TopNavBar when client-side is mounted */}
           {mounted && <TopNavBar />}
           <div className="pt-24">

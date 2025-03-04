@@ -149,3 +149,74 @@ body {
     }
   }
 }
+
+/* Tron Grid Background Animation */
+.tron-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0.15; /* Increased from 0.05 to be more visible */
+  background-size: 50px 50px;
+  background-image: linear-gradient(to right, rgba(52, 211, 153, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(52, 211, 153, 0.3) 1px, transparent 1px);
+}
+
+.tron-grid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 150px 150px;
+  background-image: linear-gradient(to right, rgba(139, 92, 246, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(139, 92, 246, 0.4) 1px, transparent 1px);
+  animation: tron-pulse 8s infinite alternate;
+}
+
+.tron-grid::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 300px 300px;
+  background-image: linear-gradient(to right, rgba(52, 211, 153, 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(52, 211, 153, 0.5) 1px, transparent 1px);
+  animation: tron-scan 12s infinite linear;
+}
+
+@keyframes tron-pulse {
+  0% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+}
+
+@keyframes tron-scan {
+  0% {
+    background-position: 0 0;
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    background-position: 300px 300px;
+    opacity: 0.15;
+  }
+}
