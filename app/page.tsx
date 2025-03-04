@@ -12,7 +12,7 @@ export default function HomePage() {
   const [cursorVisible, setCursorVisible] = useState(true);
 
   // Define all the text as a single string with line breaks
-  const fullText = "stjames.dev\nWelcome to the personal site of\nChristopher St. James";
+  const fullText = "stjames.dev\nHi, I'm Christopher St. James!\nWelcome to my personal site";
 
   // Split the text into lines for rendering
   const lines = fullText.split("\n");
@@ -74,84 +74,73 @@ export default function HomePage() {
     <div className="flex h-[calc(100vh-106px)] flex-col items-center justify-start pt-32 overflow-hidden">
       <motion.div className="w-full px-4 flex justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <div className="flex flex-col items-start">
+          {/* Render each line with a typing effect */}
           {lines.map((line, lineIndex) => {
             // Determine if this line should be displayed yet
-            const shouldDisplay = position.line > lineIndex || position.line === lineIndex;
+            const position = calculatePosition(charIndex);
+            const isLineVisible = position.line > lineIndex || position.line === lineIndex;
 
-            if (!shouldDisplay) return null;
+            // For the current line, determine how many characters to show
+            const charsToShow = position.line === lineIndex ? position.char : line.length;
 
-            // Calculate how much of this line to show
-            const displayText = position.line === lineIndex ? line.substring(0, position.char) : line;
+            // Only show lines that should be visible
+            if (!isLineVisible) return null;
 
-            // Add indentation to lines after the first
-            const indentClass = lineIndex === 0 ? "" : "ml-8";
+            // For the first line (title), use special styling with ~$ prefix
+            if (lineIndex === 0) {
+              return (
+                <div key={lineIndex} className="mb-4">
+                  <div className="inline-flex items-center">
+                    <span className="text-emerald-400 mr-0.5 text-xl md:text-2xl">~</span>
+                    <span className="text-violet-400 text-xl md:text-2xl">$</span>
+                    <span className="text-emerald-400 font-mono text-xl md:text-2xl ml-2">
+                      {line.substring(0, charsToShow)}
+                    </span>
+                    {position.line === lineIndex && position.char === line.length && cursorVisible && (
+                      <span className="animate-blink text-emerald-400 ml-0.5">▎</span>
+                    )}
+                  </div>
+                </div>
+              );
+            }
 
-            return (
-              <div key={lineIndex} className={`flex items-center mb-3 ${indentClass}`}>
-                {lineIndex === 0 && (
-                  <span className="flex items-center">
-                    <span className="text-emerald-400 mr-1 text-2xl md:text-3xl">~</span>
-                    <span className="text-violet-400 mr-2 text-2xl md:text-3xl">$</span>
-                  </span>
-                )}
-                <p
-                  className={`font-mono ${
-                    lineIndex === 0 ? "text-2xl md:text-3xl text-emerald-400" : "text-xl md:text-2xl text-gray-300"
-                  } tracking-wide`}
-                  style={lineIndex === 0 ? { filter: "drop-shadow(0 0 2px rgba(16, 185, 129, 0.3))" } : {}}
-                >
-                  {displayText}
-                  {position.line === lineIndex && (
-                    <span
-                      className={`inline-block w-2.5 h-6 bg-emerald-400 ml-1 cursor-blink ${
-                        cursorVisible ? "opacity-100" : "opacity-0"
-                      }`}
-                    ></span>
-                  )}
-                </p>
-              </div>
-            );
+            // For other lines (welcome text, name)
+            else {
+              return (
+                <div key={lineIndex} className="mb-4">
+                  <div className="inline-flex items-center">
+                    <span className="text-gray-300 font-mono text-lg md:text-xl">{line.substring(0, charsToShow)}</span>
+                    {position.line === lineIndex && position.char === line.length && cursorVisible && (
+                      <span className="animate-blink text-gray-300 ml-0.5">▎</span>
+                    )}
+                  </div>
+                </div>
+              );
+            }
           })}
 
-          {/* Additional navigation links with terminal styling */}
+          {/* Navigation buttons that fade in after typing is complete */}
           {position.line >= lines.length - 1 && position.char >= lines[lines.length - 1].length && (
-            <>
-              <motion.div
-                className="flex items-start mb-3 mt-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+            <motion.div
+              className="flex flex-row space-x-4 mt-8 w-full justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <a
+                href="/resume"
+                className="font-mono text-sm sm:text-lg md:text-xl inline-flex items-center justify-center border border-emerald-500 rounded-md px-3 sm:px-4 py-2 text-emerald-400 hover:bg-emerald-500/10 transition-colors min-w-24 sm:min-w-32"
               >
-                <span className="inline-flex items-center mr-2 text-lg md:text-xl">
-                  <span className="text-emerald-400 mr-0.5">~</span>
-                  <span className="text-violet-400">$</span>
-                </span>
-                <a
-                  href="/resume"
-                  className="font-mono text-lg md:text-xl text-gray-300 hover:text-emerald-400 transition-colors tracking-wide"
-                >
-                  <span className="text-emerald-400">resume:</span> view my professional experience
-                </a>
-              </motion.div>
+                <span className="text-emerald-400">View Resume</span>
+              </a>
 
-              <motion.div
-                className="flex items-start mb-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.7 }}
+              <a
+                href="/work"
+                className="font-mono text-sm sm:text-lg md:text-xl inline-flex items-center justify-center border border-emerald-500 rounded-md px-3 sm:px-4 py-2 text-emerald-400 hover:bg-emerald-500/10 transition-colors min-w-24 sm:min-w-32"
               >
-                <span className="inline-flex items-center mr-2 text-lg md:text-xl">
-                  <span className="text-emerald-400 mr-0.5">~</span>
-                  <span className="text-violet-400">$</span>
-                </span>
-                <a
-                  href="/work"
-                  className="font-mono text-lg md:text-xl text-gray-300 hover:text-emerald-400 transition-colors tracking-wide"
-                >
-                  <span className="text-emerald-400">work:</span> browse my projects
-                </a>
-              </motion.div>
-            </>
+                <span className="text-emerald-400">View Projects</span>
+              </a>
+            </motion.div>
           )}
         </div>
       </motion.div>

@@ -30,11 +30,13 @@ export default function TopNavBar() {
       <div className="max-w-screen-xl mx-auto flex items-center">
         {/* Terminal prompt - centered at all widths */}
         <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
-          <span className="flex items-center">
-            <span className="text-md text-emerald-400 mr-0.5">~</span>
-            <span className="text-md text-violet-400">$</span>
-            <span className="text-md text-emerald-400 mr-0.5 ml-1">stjames.dev</span>
-          </span>
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <span className="flex items-center">
+              <span className="text-md text-emerald-400 mr-0.5">~</span>
+              <span className="text-md text-violet-400">$</span>
+              <span className="text-md text-emerald-400 mr-0.5 ml-1">stjames.dev</span>
+            </span>
+          </Link>
         </div>
 
         {/* Desktop Navigation Links */}
