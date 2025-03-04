@@ -4,7 +4,7 @@ function TopNavBar() {
   const [showBanner, setShowBanner] = useState(false);
 
   const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("your-email@example.com");
+    navigator.clipboard.writeText("chris@eversaint.com");
     setShowBanner(true);
     setTimeout(() => setShowBanner(false), 2000);
   };

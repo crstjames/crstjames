@@ -14,6 +14,9 @@ import {
   EnvelopeClosedIcon,
   ChatBubbleIcon,
   CodeIcon,
+  DesktopIcon,
+  PersonIcon,
+  FileTextIcon,
 } from "@radix-ui/react-icons";
 import { useTerminal } from "@/contexts/TerminalContext";
 
@@ -48,17 +51,17 @@ const NavigationBar = () => {
   if (!mounted) return null;
 
   const navItems = [
-    { href: "/", icon: HomeIcon, label: "home" },
-    { href: "/projects", icon: LayersIcon, label: "Projects" },
-  ];
-
-  const socialLinks = [
+    { href: "/", icon: HomeIcon, label: "Home" },
+    { href: "/work", icon: DesktopIcon, label: "Work" },
+    { href: "/profile", icon: PersonIcon, label: "Profile" },
+    { href: "/resume", icon: FileTextIcon, label: "Resume" },
     { href: "https://github.com/crstjames", icon: GitHubLogoIcon, label: "GitHub" },
     { href: "https://linkedin.com/in/crstjames", icon: LinkedInLogoIcon, label: "LinkedIn" },
     { href: "https://twitter.com/crstjames", icon: TwitterLogoIcon, label: "Twitter" },
-    { href: "mailto:chris@stjames.dev", icon: EnvelopeClosedIcon, label: "Email" },
-    { href: "https://t.me/crstjames", icon: ChatBubbleIcon, label: "Telegram" },
+    { href: "mailto:chris@eversaint.com", icon: EnvelopeClosedIcon, label: "Email" },
   ];
+
+  const socialLinks = [{ href: "https://t.me/crstjames", icon: ChatBubbleIcon, label: "Telegram" }];
 
   return (
     <div className="fixed bottom-8 left-0 right-0 flex justify-center z-40">

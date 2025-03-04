@@ -11,7 +11,7 @@ export default function TopNavigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   const socialLinks = [
-    { href: "mailto:christopher.stjames@gmail.com", icon: Mail, label: "Email" },
+    { href: "mailto:chris@eversaint.com", icon: Mail, label: "Email" },
     { href: "https://github.com/crstjames", icon: Github, label: "GitHub" },
     { href: "https://linkedin.com/in/crstjames", icon: Linkedin, label: "LinkedIn" },
     { href: "https://twitter.com/crstjames", icon: Twitter, label: "Twitter" },
