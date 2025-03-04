@@ -29,6 +29,19 @@ const navigationLinks: NavLink[] = [
 ];
 
 export default function TitleBar() {
+  const [showBanner, setShowBanner] = useState(false);
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setShowBanner(true);
+    setTimeout(() => setShowBanner(false), 2000);
+  };
+
+  // Render icon function that handles the icon component properly
+  const renderIcon = (IconComponent: React.ComponentType<React.SVGProps<SVGSVGElement>>) => {
+    return <IconComponent className="w-4 h-4" />;
+  };
+
   return (
     <div className="md:hidden fixed top-0 left-0 right-0 h-16 border-b bg-background z-50 px-4">
       <div className="h-full flex items-center justify-between">
@@ -57,17 +70,41 @@ export default function TitleBar() {
             <Separator className="my-2" />
 
             {/* Social Links */}
-            {socialLinks.map((link: SocialLink) => (
-              <DropdownMenuItem key={link.href} asChild>
-                <Link href={link.href} className="flex items-center gap-2 w-full">
-                  <link.icon className="w-4 h-4" />
-                  <span>{link.label}</span>
-                </Link>
-              </DropdownMenuItem>
-            ))}
+            {socialLinks.map((link: SocialLink) => {
+              return link.type === "clipboard" ? (
+                <DropdownMenuItem key={link.href} asChild>
+                  <button
+                    onClick={() => copyToClipboard(link.href)}
+                    className="flex items-center gap-2 w-full text-left"
+                  >
+                    {renderIcon(link.icon)}
+                    <span>{link.label}</span>
+                  </button>
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem key={link.href} asChild>
+                  <Link
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 w-full"
+                  >
+                    {renderIcon(link.icon)}
+                    <span>{link.label}</span>
+                  </Link>
+                </DropdownMenuItem>
+              );
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      {/* Notification Banner */}
+      {showBanner && (
+        <div className="fixed top-16 right-4 bg-emerald-500 text-white px-4 py-2 rounded-md shadow-lg transition-opacity z-50 flex items-center">
+          <span className="text-sm font-mono">Email copied to clipboard!</span>
+        </div>
+      )}
     </div>
   );
 }
