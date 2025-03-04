@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 // Project data - replace with your actual projects
 const projects = [
@@ -232,15 +232,16 @@ export default function WorkPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-background/5 border border-muted rounded-lg overflow-hidden"
+            className="bg-background/5 border border-transparent rounded-lg overflow-hidden"
+            style={{ borderImage: "linear-gradient(to bottom right, #34D399, #1F2937, #8B5CF6) 1" }}
           >
             <div className="flex justify-between items-center p-4 border-b border-muted">
               <h2 className="font-medium text-emerald-500">{selectedProject.title}</h2>
               <button
                 onClick={() => setSelectedProject(null)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-emerald-500 hover:text-foreground transition-colors"
               >
-                <X className="h-5 w-5" />
+                Back to Projects
               </button>
             </div>
             <div className="p-6">
