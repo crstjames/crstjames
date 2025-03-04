@@ -249,7 +249,10 @@ export default function ResumePage() {
               {RESUME_CONTENT.experience.map((exp, expIndex) => (
                 <motion.div key={expIndex} className="group" variants={itemVariants} custom={expIndex}>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-emerald-500">$</span>
+                    <span className="inline-flex items-center">
+                      <span className="text-emerald-400 mr-0.5">~</span>
+                      <span className="text-violet-400">$</span>
+                    </span>
                     <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
                       {exp.company}
                     </h3>
@@ -283,7 +286,10 @@ export default function ResumePage() {
             <div className="text-xs text-muted-foreground mb-2">{"// EDUCATION"}</div>
             <div className="group">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-emerald-500">$</span>
+                <span className="inline-flex items-center">
+                  <span className="text-emerald-400 mr-0.5">~</span>
+                  <span className="text-violet-400">$</span>
+                </span>
                 <h3 className="text-base font-medium group-hover:text-emerald-500 transition-colors">
                   {RESUME_CONTENT.education.school}
                 </h3>

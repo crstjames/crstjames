@@ -28,13 +28,16 @@ export default function TopNavBar() {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 w-full px-4 py-3 font-mono bg-background/80 backdrop-blur-sm border-b border-gray-800/30">
       <div className="max-w-screen-xl mx-auto flex items-center">
-        {/* Terminal prompt */}
-        <div className="flex items-center">
-          <span className="text-xs text-emerald-300/70 hidden sm:block">TERMINAL</span>
+        {/* Terminal prompt - centered at all widths */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
+          <span className="flex items-center">
+            <span className="text-md text-emerald-400 mr-0.5">~</span>
+            <span className="text-md text-violet-400">$</span>
+          </span>
         </div>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden sm:flex ml-4">
+        <div className="hidden sm:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -83,7 +86,7 @@ export default function TopNavBar() {
             className="text-emerald-400 hover:text-emerald-300 transition-colors"
             aria-label="Open terminal"
           >
-            $ <Terminal className="w-4 h-4 inline-block" />
+            <Terminal className="w-4 h-4 inline-block" />
           </button>
 
           {/* Mobile menu button */}

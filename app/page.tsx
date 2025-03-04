@@ -91,7 +91,7 @@ export default function HomePage() {
                 {lineIndex === 0 && (
                   <span className="flex items-center">
                     <span className="text-emerald-400 mr-1 text-2xl md:text-3xl">~</span>
-                    <span className="text-purple-400 mr-2 text-2xl md:text-3xl">$</span>
+                    <span className="text-violet-400 mr-2 text-2xl md:text-3xl">$</span>
                   </span>
                 )}
                 <p

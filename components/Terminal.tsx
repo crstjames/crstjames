@@ -429,7 +429,7 @@ const Terminal = () => {
               <div className="flex">
                 <span className="text-emerald-500 mr-2">
                   {currentDirectory}
-                  <span className="text-purple-400">$</span>
+                  <span className="text-violet-400">$</span>
                 </span>
                 <span className="text-white">{item.content}</span>
               </div>
@@ -446,7 +446,7 @@ const Terminal = () => {
           <div className="flex items-center">
             <span className="text-emerald-500 whitespace-nowrap mr-2">
               {currentDirectory}
-              <span className="text-purple-400">$</span>
+              <span className="text-violet-400">$</span>
             </span>
             <input
               ref={inputRef}
