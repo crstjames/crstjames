@@ -88,10 +88,15 @@ export default function HomePage() {
 
             return (
               <div key={lineIndex} className={`flex items-center mb-3 ${indentClass}`}>
-                {lineIndex === 0 && <span className="text-emerald-400 mr-2 text-2xl md:text-3xl">$</span>}
+                {lineIndex === 0 && (
+                  <span className="flex items-center">
+                    <span className="text-emerald-400 mr-1 text-2xl md:text-3xl">~</span>
+                    <span className="text-purple-400 mr-2 text-2xl md:text-3xl">$</span>
+                  </span>
+                )}
                 <p
                   className={`font-mono ${
-                    lineIndex === 0 ? "text-2xl md:text-3xl text-emerald-300" : "text-xl md:text-2xl text-gray-300"
+                    lineIndex === 0 ? "text-2xl md:text-3xl text-emerald-400" : "text-xl md:text-2xl text-gray-300"
                   } tracking-wide`}
                   style={lineIndex === 0 ? { filter: "drop-shadow(0 0 2px rgba(16, 185, 129, 0.3))" } : {}}
                 >
