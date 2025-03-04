@@ -47,7 +47,7 @@ export default function HomePage() {
   // Get the current position
   const position = calculatePosition(charIndex);
 
-  // Typing animation
+  // Typing animation - faster speed (50ms instead of 100ms)
   useEffect(() => {
     // If we've typed all characters, stop
     if (charIndex >= fullText.length) {
@@ -56,7 +56,7 @@ export default function HomePage() {
 
     const timeout = setTimeout(() => {
       setCharIndex((prev) => prev + 1);
-    }, 100);
+    }, 50); // Reduced from 100ms to 50ms for faster typing
 
     return () => clearTimeout(timeout);
   }, [charIndex, fullText.length]);

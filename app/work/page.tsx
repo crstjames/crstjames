@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
@@ -133,6 +133,27 @@ const projects = [
 
 export default function WorkPage() {
   const [selectedProject, setSelectedProject] = useState<(typeof projects)[0] | null>(null);
+  const detailViewRef = useRef<HTMLDivElement>(null);
+
+  // Click outside handler
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      // If detail view is open and the click was outside the detail view container
+      if (selectedProject && detailViewRef.current && !detailViewRef.current.contains(event.target as Node)) {
+        setSelectedProject(null);
+      }
+    }
+
+    // Add event listener when a project is selected
+    if (selectedProject) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [selectedProject]);
 
   // Animation variants
   const containerVariants = {
@@ -228,8 +249,9 @@ export default function WorkPage() {
             ))}
           </motion.div>
         ) : (
-          // Project Detail View
+          // Project Detail View with ref for click-outside detection
           <motion.div
+            ref={detailViewRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="bg-background/5 border border-transparent rounded-lg overflow-hidden"
