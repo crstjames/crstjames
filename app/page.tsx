@@ -112,6 +112,47 @@ export default function HomePage() {
               </div>
             );
           })}
+
+          {/* Additional navigation links with terminal styling */}
+          {position.line >= lines.length - 1 && position.char >= lines[lines.length - 1].length && (
+            <>
+              <motion.div
+                className="flex items-start mb-3 mt-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <span className="inline-flex items-center mr-2 text-lg md:text-xl">
+                  <span className="text-emerald-400 mr-0.5">~</span>
+                  <span className="text-violet-400">$</span>
+                </span>
+                <a
+                  href="/resume"
+                  className="font-mono text-lg md:text-xl text-gray-300 hover:text-emerald-400 transition-colors tracking-wide"
+                >
+                  <span className="text-emerald-400">resume:</span> view my professional experience
+                </a>
+              </motion.div>
+
+              <motion.div
+                className="flex items-start mb-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7 }}
+              >
+                <span className="inline-flex items-center mr-2 text-lg md:text-xl">
+                  <span className="text-emerald-400 mr-0.5">~</span>
+                  <span className="text-violet-400">$</span>
+                </span>
+                <a
+                  href="/work"
+                  className="font-mono text-lg md:text-xl text-gray-300 hover:text-emerald-400 transition-colors tracking-wide"
+                >
+                  <span className="text-emerald-400">work:</span> browse my projects
+                </a>
+              </motion.div>
+            </>
+          )}
         </div>
       </motion.div>
     </div>
