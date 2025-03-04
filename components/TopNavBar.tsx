@@ -33,6 +33,7 @@ export default function TopNavBar() {
           <span className="flex items-center">
             <span className="text-md text-emerald-400 mr-0.5">~</span>
             <span className="text-md text-violet-400">$</span>
+            <span className="text-md text-emerald-400 mr-0.5 ml-1">stjames.dev</span>
           </span>
         </div>
 
