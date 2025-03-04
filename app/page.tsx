@@ -71,7 +71,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="flex h-[calc(100vh-96px)] flex-col items-center justify-start pt-32 overflow-hidden">
+    <div className="flex h-[calc(100vh-106px)] flex-col items-center justify-start pt-32 overflow-hidden">
       <motion.div className="w-full px-4 flex justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <div className="flex flex-col items-start">
           {lines.map((line, lineIndex) => {

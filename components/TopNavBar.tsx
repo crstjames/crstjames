@@ -26,7 +26,7 @@ export default function TopNavBar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 w-full px-4 py-3 font-mono">
+    <div className="fixed top-0 left-0 right-0 z-50 w-full px-4 py-3 font-mono bg-background/80 backdrop-blur-sm border-b border-gray-800/30">
       <div className="max-w-screen-xl mx-auto flex items-center">
         {/* Terminal prompt */}
         <div className="flex items-center">
@@ -52,7 +52,7 @@ export default function TopNavBar() {
         <div className="ml-auto flex items-center space-x-3">
           {/* Social Links - Desktop only */}
           <div className="hidden sm:flex space-x-3">
-            {socialLinks.slice(0, 3).map((link) =>
+            {socialLinks.map((link) =>
               link.type === "clipboard" ? (
                 <button
                   key={link.href}
@@ -115,7 +115,7 @@ export default function TopNavBar() {
             ))}
             <div className="border-t border-emerald-800/30 my-1"></div>
             <div className="flex space-x-4 px-4 py-1.5">
-              {socialLinks.slice(0, 3).map((link) =>
+              {socialLinks.map((link) =>
                 link.type === "clipboard" ? (
                   <button
                     key={link.href}

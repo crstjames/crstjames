@@ -126,12 +126,21 @@ body {
 
   /* Hide scrollbar class for a cleaner look in some components */
   .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
+  }
+
+  /* Add styles to ensure correct scrolling behavior */
+  html {
+    scroll-padding-top: 80px; /* Prevent content from scrolling behind the navbar */
+  }
+
+  body {
+    overflow-x: hidden;
   }
 
   /* Cursor animation */
