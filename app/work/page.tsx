@@ -8,6 +8,24 @@ import ImageLightbox from "../components/ImageLightbox";
 // Project data - replace with your actual projects
 const projects = [
   {
+    id: "project-lothirion",
+    title: "Founder of Lothirion Tech Consultanting",
+    description:
+      "AI consulting, rapid prototyping & product innovation—Lothirion crafts elegant, gamified digital experiences.",
+    thumbnail: "/portfolio/lothirion.png",
+    category: "Game Development & AI",
+    year: "2025",
+    tags: ["Game Development", "AI", "Product Design", "UI/UX"],
+    details: {
+      overview:
+        "Founder of Lothirion.com, actively leading AI consulting engagements, building rapid prototypes, and driving brand and product innovation. I oversee web and app development with a focus on elegant UX and subtle gamification, collaborating closely with cross-functional teams to deliver forward-thinking, high-impact solutions",
+      images: ["/images/lothirion1.png", "/images/lothirion2.png"],
+      challenges: "",
+      solution: "",
+      technologies: ["React", "Vite", "Tailwind", "Supabase"],
+    },
+  },
+  {
     id: "project-1",
     title: "Developer Portal",
     description: "Game Developer Interface",
