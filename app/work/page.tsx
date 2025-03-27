@@ -18,7 +18,7 @@ const projects = [
     tags: ["Game Development", "AI", "Product Design", "UI/UX"],
     details: {
       overview:
-        "Founder of Lothirion.com, actively leading AI consulting engagements, building rapid prototypes, and driving brand and product innovation. I oversee web and app development with a focus on elegant UX and subtle gamification, collaborating closely with cross-functional teams to deliver forward-thinking, high-impact solutions",
+        "Founder of Lothirion.com, leading AI consulting engagements, rapid prototyping, and brand/product innovation. Built the entire website using Vite, Next.js, TypeScript, Tailwind CSS, and Supabase. Deployed on Vercel, with full setup of domains, email infrastructure, and a content management system.",
       images: ["/images/lothirion1.png", "/images/lothirion2.png"],
       challenges: "",
       solution: "",
