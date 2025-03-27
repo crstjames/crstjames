@@ -9,7 +9,7 @@ import ImageLightbox from "../components/ImageLightbox";
 const projects = [
   {
     id: "project-lothirion",
-    title: "Founder of Lothirion Tech Consultanting",
+    title: "Lothirion Consulting React Website",
     description:
       "AI consulting, rapid prototyping & product innovation—Lothirion crafts elegant, gamified digital experiences.",
     thumbnail: "/portfolio/lothirion.png",
