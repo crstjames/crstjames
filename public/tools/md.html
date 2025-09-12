@@ -10,6 +10,7 @@
         margin: 0;
         height: 100%;
         font: 14px/1.4 system-ui, Segoe UI, Roboto, Helvetica, Arial;
+        overflow: hidden;
       }
       .app {
         display: grid;
@@ -108,6 +109,7 @@
       body {
         background: linear-gradient(180deg, #efe3d3, #e6d5c3);
         color: var(--ink);
+        overflow: hidden;
       }
       .app {
         margin: 18px;
@@ -233,12 +235,17 @@
         padding: 0.46rem 0.7rem;
         box-shadow: 0 2px 0 rgba(78, 54, 31, 0.5), 0 8px 16px rgba(0, 0, 0, 0.15);
         transition: transform 0.05s ease, box-shadow 0.05s ease, filter 0.15s ease, border-color 0.15s ease;
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
       }
-      button:hover {
+      button:hover,
+      input[type="file"]::file-selector-button:hover {
         filter: saturate(1.03);
         border-color: rgba(153, 106, 54, 0.6);
       }
-      button:active {
+      button:active,
+      input[type="file"]::file-selector-button:active {
         transform: translateY(1px);
         box-shadow: 0 1px 0 rgba(78, 54, 31, 0.55), 0 4px 10px rgba(0, 0, 0, 0.2);
       }
@@ -892,15 +899,17 @@
       layoutSplitBtn.addEventListener("click", () => setLayout("split"));
       layoutRightBtn.addEventListener("click", () => setLayout("right"));
 
-      // Initialize layout from URL parameter
-      const urlParams = new URLSearchParams(window.location.search);
-      const viewParam = urlParams.get("view");
-      if (viewParam === "code") {
-        setLayout("left");
-      } else if (viewParam === "preview") {
-        setLayout("right");
-      } else {
-        setLayout("split");
+      // Initialize layout from URL parameter (run after hash processing)
+      function initLayoutFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewParam = urlParams.get("view");
+        if (viewParam === "code") {
+          setLayout("left");
+        } else if (viewParam === "preview") {
+          setLayout("right");
+        } else {
+          setLayout("split");
+        }
       }
 
       // ============== Draggable splitter ==============
@@ -917,16 +926,25 @@
         if (!isDragging) return;
         if (getComputedStyle(gutter).display === "none") return;
         const rect = appEl.getBoundingClientRect();
-        const x = Math.min(Math.max(e.clientX - rect.left, 180), rect.width - 180);
+        const gutterWidth = 8;
+        const minPaneWidth = 200;
+        const maxLeftW = rect.width - gutterWidth - minPaneWidth;
+        const x = Math.min(Math.max(e.clientX - rect.left, minPaneWidth), maxLeftW);
         const leftW = x;
-        const rightW = rect.width - x;
-        appEl.style.gridTemplateColumns = `${leftW}px 8px ${rightW}px`;
+        const rightW = rect.width - x - gutterWidth;
+        appEl.style.gridTemplateColumns = `${leftW}px ${gutterWidth}px ${rightW}px`;
       });
 
-      // On load: decode hash if present
+      // On load: decode hash if present, then set layout
       (async function initFromHash() {
         const h = location.hash.slice(1);
-        if (!h || !h.startsWith("MDLITE:")) return;
+        if (!h || !h.startsWith("MDLITE:")) {
+          // No hash, just initialize layout from URL params
+          initLayoutFromURL();
+          return;
+        }
+
+        let loadedFromHash = false;
         try {
           const [tag, rest] = h.split("|", 2);
           const restAll = h.slice(tag.length + 1);
@@ -937,16 +955,26 @@
             currentMd = text;
             editor.value = currentMd;
             renderAll();
+            loadedFromHash = true;
           } else if (restAll.startsWith("b64|")) {
             const data = restAll.slice("b64|".length);
             currentMd = b64dec(data);
             editor.value = currentMd;
             renderAll();
+            loadedFromHash = true;
           }
           // Clean hash to avoid re-parsing on further edits
           history.replaceState(null, "", location.pathname + location.search);
         } catch (e) {
           console.warn("Failed to parse shared payload", e);
+        }
+
+        if (loadedFromHash) {
+          // If we loaded content from a shared link, default to preview mode
+          setLayout("right");
+        } else {
+          // Otherwise, use URL params
+          initLayoutFromURL();
         }
       })();
     </script>
