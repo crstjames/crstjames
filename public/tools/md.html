@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>md-lite (snapshots + diff)</title>
+    <title>DocuLatte — Perfectly Brewed Markdown, Ready to Share</title>
     <style>
       html,
       body {
@@ -139,9 +139,22 @@
         align-items: center;
         justify-content: space-between;
       }
-      header strong {
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .brand strong {
         font-weight: 800;
+        font-size: 16px;
         text-shadow: 0 1px 0 rgba(255, 238, 220, 0.6), 0 -1px 0 rgba(0, 0, 0, 0.15);
+      }
+      .tagline {
+        font-size: 11px;
+        opacity: 0.8;
+        font-style: italic;
+        font-weight: 400;
+        letter-spacing: 0.3px;
       }
       .bar {
         background: linear-gradient(180deg, var(--sand-100), var(--sand-200));
@@ -458,7 +471,10 @@
   <body>
     <div class="app" data-layout="split">
       <header>
-        <div><strong>md-lite</strong> — Markdown editor + preview + inline <em>snapshots</em> (no backend)</div>
+        <div class="brand">
+          <strong>DocuLatte ☕ </strong>
+          <span class="tagline">Perfectly Brewed Markdown, Ready to Share</span>
+        </div>
         <div class="layout-toggle" role="group" aria-label="Layout">
           <button class="seg" id="layoutLeft" aria-pressed="false" title="Code view">Code</button>
           <button class="seg" id="layoutSplit" aria-pressed="true" title="Split view">Split</button>
