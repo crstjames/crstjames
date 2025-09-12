@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>md-lite (snapshots + diff)</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        font: 14px/1.4 system-ui, Segoe UI, Roboto, Helvetica, Arial;
+      }
+      .app {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr auto;
+        height: 100%;
+      }
+      header,
+      footer {
+        grid-column: 1 / -1;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid #ddd;
+      }
+      footer {
+        border-top: 1px solid #ddd;
+        border-bottom: none;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+      textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        padding: 0.75rem;
+        resize: none;
+        font-family: ui-monospace, Consolas, monospace;
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .bar {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        padding: 0.5rem;
+        border-bottom: 1px solid #eee;
+        flex-wrap: wrap;
+      }
+      .preview {
+        padding: 0.75rem;
+        overflow: auto;
+      }
+      .diff {
+        padding: 0.5rem;
+        white-space: pre-wrap;
+        font-family: ui-monospace, Consolas, monospace;
+        overflow: auto;
+        border-top: 1px dashed #ddd;
+      }
+      .add {
+        background: #e8f5e9;
+      }
+      .del {
+        background: #ffebee;
+        text-decoration: line-through;
+      }
+      .muted {
+        opacity: 0.6;
+      }
+      button {
+        padding: 0.4rem 0.6rem;
+        border: 1px solid #ccc;
+        background: #f7f7f7;
+        border-radius: 0.4rem;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      input[type="file"] {
+        max-width: 210px;
+      }
+
+      /* ================= Keyboard-inspired theme ================= */
+      :root {
+        /* Coffee/amber palette */
+        --sand-50: #fffaf3;
+        --sand-100: #fff6ec;
+        --sand-150: #fbefe2;
+        --sand-200: #f3e5d5;
+        --sand-300: #e9d7c3;
+        --sand-400: #ddc5aa;
+        --cocoa-700: #7b5635;
+        --cocoa-800: #6b4b30;
+        --cocoa-900: #4e361f;
+        --amber-500: #c4945d;
+        --amber-600: #b37f45;
+        --amber-700: #996a36;
+        --ink: #2b1f18;
+      }
+      body {
+        background: linear-gradient(180deg, #efe3d3, #e6d5c3);
+        color: var(--ink);
+      }
+      .app {
+        margin: 18px;
+        gap: 0;
+        border-radius: 12px;
+        background: var(--sand-200);
+        border: 8px solid var(--cocoa-800);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+          0 0 0 2px rgba(0, 0, 0, 0.08);
+        height: calc(100dvh - 36px);
+        display: grid;
+        grid-template-columns: 1fr 8px 1fr;
+        grid-template-rows: auto 1fr auto;
+      }
+      header,
+      footer {
+        background: transparent;
+        border-color: rgba(0, 0, 0, 0.2);
+      }
+      header {
+        background: linear-gradient(180deg, var(--amber-500), var(--amber-700));
+        color: #2a1b12;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        letter-spacing: 0.02em;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header strong {
+        font-weight: 800;
+        text-shadow: 0 1px 0 rgba(255, 238, 220, 0.6), 0 -1px 0 rgba(0, 0, 0, 0.15);
+      }
+      .bar {
+        background: linear-gradient(180deg, var(--sand-100), var(--sand-200));
+        border-bottom: 1px solid rgba(153, 106, 54, 0.45);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+        flex-shrink: 0;
+      }
+      .col {
+        background: var(--sand-200);
+        min-height: 0;
+        overflow: hidden;
+      }
+      .left {
+        grid-column: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .right {
+        grid-column: 3;
+        display: flex;
+        flex-direction: column;
+      }
+      .gutter {
+        grid-column: 2;
+        background: linear-gradient(180deg, #d9c5ac, #cdb493);
+        cursor: col-resize;
+        position: relative;
+      }
+      .gutter::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 2px;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.18);
+      }
+      .gutter:hover {
+        background: linear-gradient(180deg, #e8d6be, #d4bb9c);
+      }
+      .gutter:active::before {
+        background: rgba(0, 0, 0, 0.3);
+      }
+      textarea,
+      .preview,
+      .diff {
+        background: var(--sand-50);
+        color: var(--ink);
+        border-radius: 8px;
+        border: 1px solid var(--sand-400);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -2px 6px rgba(0, 0, 0, 0.06);
+      }
+      .col > textarea,
+      .col > .preview {
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .col > textarea {
+        height: auto;
+      }
+      textarea {
+        overflow: auto;
+      }
+      .preview {
+        position: relative;
+        overflow: auto;
+      }
+      .diff {
+        background: var(--sand-150);
+        overflow: auto;
+        flex: 0 0 auto;
+        max-height: 40%;
+        margin-top: 0.5rem;
+      }
+      .add {
+        background: #e8f4ea;
+      }
+      .del {
+        background: #fae9ea;
+        text-decoration: line-through;
+      }
+
+      /* Keycap-like controls */
+      button,
+      input[type="file"]::file-selector-button {
+        background: linear-gradient(180deg, var(--sand-100), var(--sand-200));
+        color: var(--ink);
+        border: 1px solid rgba(153, 106, 54, 0.35);
+        border-radius: 8px;
+        padding: 0.46rem 0.7rem;
+        box-shadow: 0 2px 0 rgba(78, 54, 31, 0.5), 0 8px 16px rgba(0, 0, 0, 0.15);
+        transition: transform 0.05s ease, box-shadow 0.05s ease, filter 0.15s ease, border-color 0.15s ease;
+      }
+      button:hover {
+        filter: saturate(1.03);
+        border-color: rgba(153, 106, 54, 0.6);
+      }
+      button:active {
+        transform: translateY(1px);
+        box-shadow: 0 1px 0 rgba(78, 54, 31, 0.55), 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+      #saveSnapBtn {
+        background: linear-gradient(180deg, #ffe9cf, #f5d3a9);
+        border-color: rgba(179, 127, 69, 0.6);
+      }
+
+      input[type="file"] {
+        max-width: 240px;
+        color: var(--ink);
+        background: transparent;
+        border: none;
+      }
+      input[type="file"]::file-selector-button {
+        margin-right: 0.5rem;
+      }
+
+      /* Typography - GitHub README style */
+      .preview {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+      }
+      .preview h1,
+      .preview h2,
+      .preview h3,
+      .preview h4,
+      .preview h5,
+      .preview h6 {
+        color: var(--cocoa-800);
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .preview h1 {
+        border-bottom: 1px solid #d0d7de;
+        padding-bottom: 0.3em;
+      }
+      .preview h2 {
+        border-bottom: 1px solid #d0d7de;
+        padding-bottom: 0.3em;
+      }
+      .preview p {
+        margin-bottom: 16px;
+      }
+      .preview code {
+        background: #f6f8fa;
+        color: var(--ink);
+        border-radius: 6px;
+        padding: 0.2em 0.4em;
+        font-size: 85%;
+        font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      }
+      .preview pre {
+        background: #f6f8fa;
+        color: var(--ink);
+        border-radius: 6px;
+        padding: 16px;
+        overflow: auto;
+        font-size: 85%;
+        line-height: 1.45;
+        border: 1px solid #d0d7de;
+      }
+      .preview pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: 100%;
+      }
+      .preview a {
+        color: #0969da;
+        text-decoration: none;
+      }
+      .preview a:hover {
+        text-decoration: underline;
+      }
+      .preview table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        margin-bottom: 16px;
+        border: 1px solid #d0d7de;
+      }
+      .preview th,
+      .preview td {
+        padding: 6px 13px;
+        border: 1px solid #d0d7de;
+        text-align: left;
+      }
+      .preview th {
+        background-color: #f6f8fa;
+        font-weight: 600;
+      }
+      .preview tr:nth-child(2n) {
+        background-color: #f6f8fa;
+      }
+      .preview ul,
+      .preview ol {
+        margin-bottom: 16px;
+        padding-left: 2em;
+      }
+      .preview li {
+        margin-bottom: 0.25em;
+      }
+      .preview ul.task-list {
+        list-style: none;
+        padding-left: 0;
+      }
+      .preview ul.task-list li {
+        margin-left: 0;
+      }
+      .preview ul.task-list input[type="checkbox"] {
+        margin-right: 0.5em;
+      }
+      .preview blockquote {
+        padding: 0 1em;
+        color: #656d76;
+        border-left: 0.25em solid #d0d7de;
+        margin: 0 0 16px 0;
+      }
+      .preview hr {
+        height: 0.25em;
+        padding: 0;
+        margin: 24px 0;
+        background-color: #d0d7de;
+        border: 0;
+      }
+      .preview img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 6px;
+        margin: 8px 0;
+      }
+
+      /* Scrollbars (WebKit/Blink) */
+      *::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+      }
+      *::-webkit-scrollbar-track {
+        background: var(--sand-150);
+      }
+      *::-webkit-scrollbar-thumb {
+        background: var(--amber-500);
+        border: 2px solid var(--sand-150);
+        border-radius: 8px;
+      }
+      *::-webkit-scrollbar-thumb:hover {
+        background: var(--amber-600);
+      }
+
+      /* Layout toggle */
+      .layout-toggle {
+        display: flex;
+        gap: 0.25rem;
+      }
+      .seg {
+        background: linear-gradient(180deg, var(--sand-100), var(--sand-200));
+        border: 1px solid rgba(153, 106, 54, 0.45);
+        padding: 0.35rem 0.6rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        box-shadow: 0 1px 0 rgba(78, 54, 31, 0.4);
+      }
+      .seg[aria-pressed="true"] {
+        background: linear-gradient(180deg, #ffe9cf, #f5d3a9);
+        border-color: rgba(179, 127, 69, 0.6);
+      }
+
+      /* Single-pane layouts */
+      .app[data-layout="left"] {
+        grid-template-columns: 1fr;
+      }
+      .app[data-layout="left"] .right,
+      .app[data-layout="left"] .gutter {
+        display: none;
+      }
+      .app[data-layout="left"] .left {
+        grid-column: 1;
+      }
+      .app[data-layout="right"] {
+        grid-template-columns: 1fr;
+      }
+      .app[data-layout="right"] .left,
+      .app[data-layout="right"] .gutter {
+        display: none;
+      }
+      .app[data-layout="right"] .right {
+        grid-column: 1;
+      }
+
+      /* Layout tweaks on small screens */
+      @media (max-width: 980px) {
+        .app {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr auto 1fr auto;
+          margin: 12px auto;
+          height: calc(100dvh - 24px);
+        }
+        .gutter {
+          display: none;
+        }
+        .bar {
+          border-radius: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" data-layout="split">
+      <header>
+        <div><strong>md-lite</strong> — Markdown editor + preview + inline <em>snapshots</em> (no backend)</div>
+        <div class="layout-toggle" role="group" aria-label="Layout">
+          <button class="seg" id="layoutLeft" aria-pressed="false" title="Code view">Code</button>
+          <button class="seg" id="layoutSplit" aria-pressed="true" title="Split view">Split</button>
+          <button class="seg" id="layoutRight" aria-pressed="false" title="Preview view">Preview</button>
+        </div>
+      </header>
+
+      <div class="col left">
+        <div class="bar">
+          <input type="file" id="fileIn" accept=".md,.markdown,.txt" />
+          <button id="newBtn">New</button>
+          <span class="muted">Edit Markdown</span>
+        </div>
+        <textarea id="editor" placeholder="# Start typing…"></textarea>
+      </div>
+
+      <div class="gutter" id="gutter"></div>
+
+      <div class="col right">
+        <div class="bar">
+          <button id="saveSnapBtn" title="Save a snapshot into the file’s hidden history">Save Snapshot</button>
+          <button id="diffLastTwoBtn">Diff: Last Two</button>
+          <button id="diffWorkingVsLastBtn">Diff: Working vs Last</button>
+          <button id="downloadBtn">Download .md</button>
+          <button id="shareBtn" title="Copy encoded .md (with history) to clipboard">Share</button>
+          <span id="status" class="muted"></span>
+        </div>
+        <div id="preview" class="preview"></div>
+        <div id="diff" class="diff" hidden></div>
+      </div>
+
+      <footer>
+        <span class="muted">History is appended at EOF inside an HTML comment. Text-only. No server.</span>
+      </footer>
+    </div>
+
+    <script>
+      // =================== Config ===================
+      const START = "MDHISTORY:v1";
+      const END = "END-MDHISTORY";
+
+      // =================== Utils ===================
+      // UTF-8 safe base64
+      const b64enc = (str) => {
+        const bytes = new TextEncoder().encode(str);
+        let bin = "";
+        bytes.forEach((b) => (bin += String.fromCharCode(b)));
+        return btoa(bin);
+      };
+      const b64dec = (b64) => {
+        try {
+          const bin = atob(b64);
+          const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+          return new TextDecoder().decode(bytes);
+        } catch {
+          return "";
+        }
+      };
+
+      // Base64url for bytes
+      const b64urlFromBytes = (bytes) => {
+        let bin = "";
+        bytes.forEach((b) => (bin += String.fromCharCode(b)));
+        return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+      };
+      const bytesFromB64url = (b64u) => {
+        let s = b64u.replace(/-/g, "+").replace(/_/g, "/");
+        const pad = s.length % 4;
+        if (pad) s += "====".slice(pad);
+        const bin = atob(s);
+        const arr = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+        return arr;
+      };
+
+      // Gzip helpers using built-ins (fallbacks handled at call sites)
+      async function gzipString(str) {
+        const enc = new TextEncoder().encode(str);
+        const cs = new CompressionStream("gzip");
+        const stream = new Blob([enc]).stream().pipeThrough(cs);
+        const buf = await new Response(stream).arrayBuffer();
+        return new Uint8Array(buf);
+      }
+      async function gunzipBytes(bytes) {
+        const ds = new DecompressionStream("gzip");
+        const stream = new Blob([bytes]).stream().pipeThrough(ds);
+        const buf = await new Response(stream).arrayBuffer();
+        return new Uint8Array(buf);
+      }
+
+      // Enhanced GitHub-style Markdown renderer
+      function mdToHtml(md) {
+        let s = md.replace(/\r\n/g, "\n");
+
+        // Code blocks with language support
+        s = s.replace(/```(\w+)?\n?([\s\S]*?)```/g, (_, lang, code) => {
+          const langClass = lang ? ` class="language-${lang}"` : "";
+          return `<pre><code${langClass}>${esc(code.trim())}</code></pre>`;
+        });
+
+        // Inline code
+        s = s.replace(/`([^`]+)`/g, (_, x) => `<code>${esc(x)}</code>`);
+
+        // Images (before links to avoid conflicts)
+        s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+          return `<img src="${esc(src)}" alt="${esc(alt)}" style="max-width: 100%; height: auto;" />`;
+        });
+
+        // Links
+        s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
+          return `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+        });
+
+        // Tables
+        s = s.replace(/((?:^|\n)\|.+\|(?:\n\|.+\|)*)/g, (match) => {
+          const lines = match.trim().split("\n");
+          if (lines.length < 2) return match;
+
+          const headerRow = lines[0];
+          const separatorRow = lines[1];
+          const dataRows = lines.slice(2);
+
+          // Check if second row is a separator
+          if (!/^\|[\s\-:|]+\|$/.test(separatorRow)) return match;
+
+          let table = "<table>\n<thead>\n<tr>";
+          headerRow
+            .split("|")
+            .slice(1, -1)
+            .forEach((cell) => {
+              table += `<th>${esc(cell.trim())}</th>`;
+            });
+          table += "</tr>\n</thead>\n<tbody>\n";
+
+          dataRows.forEach((row) => {
+            table += "<tr>";
+            row
+              .split("|")
+              .slice(1, -1)
+              .forEach((cell) => {
+                table += `<td>${esc(cell.trim())}</td>`;
+              });
+            table += "</tr>\n";
+          });
+          table += "</tbody>\n</table>";
+          return table;
+        });
+
+        // Headers
+        s = s
+          .replace(/^###### (.*)$/gm, "<h6>$1</h6>")
+          .replace(/^##### (.*)$/gm, "<h5>$1</h5>")
+          .replace(/^#### (.*)$/gm, "<h4>$1</h4>")
+          .replace(/^### (.*)$/gm, "<h3>$1</h3>")
+          .replace(/^## (.*)$/gm, "<h2>$1</h2>")
+          .replace(/^# (.*)$/gm, "<h1>$1</h1>");
+
+        // Strikethrough
+        s = s.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+
+        // Bold and italic
+        s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+        // Task lists
+        s = s.replace(/(^|\n)- \[( |x)\] (.*)(?=\n|$)/g, (m, pre, checked, text) => {
+          const isChecked = checked === "x" ? "checked" : "";
+          return `${pre}<ul class="task-list"><li><input type="checkbox" ${isChecked} disabled> ${esc(text)}</li></ul>`;
+        });
+
+        // Regular lists (numbered and bulleted)
+        s = s.replace(
+          /(^|\n)(\d+)\. (.*)(?=\n(?!\d+\. )|$)/g,
+          (m, pre, num, item) => `${pre}<ol><li>${item}</li></ol>`
+        );
+        s = s.replace(/(^|\n)- (.*)(?=\n(?!- )|$)/g, (m, pre, item) => `${pre}<ul><li>${item}</li></ul>`);
+        s = s.replace(/<\/(ol|ul)>\n<\1>/g, ""); // merge consecutive lists
+
+        // Blockquotes
+        s = s.replace(
+          /(^|\n)> (.*)(?=\n(?!> )|$)/g,
+          (m, pre, quote) => `${pre}<blockquote><p>${quote}</p></blockquote>`
+        );
+        s = s.replace(/<\/blockquote>\n<blockquote>/g, ""); // merge consecutive blockquotes
+
+        // Horizontal rules
+        s = s.replace(/^(---+|___+|\*\*\*+)$/gm, "<hr>");
+
+        // Paragraphs (don't wrap block elements)
+        s = s.replace(
+          /(^|\n)(?!<h\d|<ul|<ol|<pre>|<table|<blockquote|<hr|<\/|<code>)([^\n]+)(?=\n|$)/g,
+          (m, pre, line) => {
+            if (!line.trim()) return m;
+            return `${pre}<p>${line}</p>`;
+          }
+        );
+
+        return s;
+      }
+      const esc = (x) => x.replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
+
+      // =================== History (snapshots) ===================
+      function extractHistoryBlock(md) {
+        const re = new RegExp(`<!--\\s*${START}[\\s\\S]*?${END}\\s*-->\\s*$`);
+        const m = md.match(re);
+        return m ? m[0] : null;
+      }
+      function stripHistory(md) {
+        const blk = extractHistoryBlock(md);
+        return blk ? md.slice(0, md.lastIndexOf(blk)).trimEnd() : md.trimEnd?.() ?? md;
+      }
+      function parseHistory(md) {
+        const block = extractHistoryBlock(md);
+        if (!block) return [];
+        const body = block.replace(/^<!--\s*|\s*-->$/g, "");
+        const lines = body.split("\n").slice(1, -1); // between header/footer
+        return lines.filter(Boolean).map((line) => {
+          // ts|type=snap|enc=b64|data=...
+          const parts = line.split("|");
+          const meta = {};
+          for (const p of parts) {
+            const [k, v] = p.includes("=") ? p.split("=", 2) : ["timestamp", p];
+            meta[k] = v;
+          }
+          return meta;
+        });
+      }
+      function renderHistoryBlock(entries) {
+        const lines = [
+          "<!--",
+          START,
+          ...entries.map((e) => `${e.timestamp}|type=${e.type}|enc=${e.enc}|data=${e.data}`),
+          END,
+          "-->",
+        ];
+        return lines.join("\n");
+      }
+      function makeSnapshotEntry(currentText) {
+        return {
+          timestamp: new Date().toISOString(),
+          type: "snap",
+          enc: "b64",
+          data: b64enc(currentText.replace(/\r\n/g, "\n")),
+        };
+      }
+      function lastTwoSnapshots(md) {
+        const snaps = parseHistory(md).filter((e) => e.type === "snap");
+        if (snaps.length < 2) return null;
+        const a = b64dec(snaps[snaps.length - 2].data);
+        const b = b64dec(snaps[snaps.length - 1].data);
+        return { a, b };
+      }
+      function lastSnapshotText(md) {
+        const snaps = parseHistory(md).filter((e) => e.type === "snap");
+        if (!snaps.length) return null;
+        return b64dec(snaps[snaps.length - 1].data);
+      }
+
+      // =================== Diff (line-level 80/20) ===================
+      function lineDiff(before, after) {
+        const A = (before ?? "").split("\n"),
+          B = (after ?? "").split("\n");
+        const n = Math.max(A.length, B.length);
+        let out = "";
+        for (let i = 0; i < n; i++) {
+          const a = A[i] ?? "",
+            b = B[i] ?? "";
+          if (a === b) out += a + "\n";
+          else {
+            if (a) out += `\u2212 ${a}\n`; // minus
+            if (b) out += `+ ${b}\n`;
+          }
+        }
+        return out.trimEnd();
+      }
+      function renderDiffColored(diffText) {
+        return diffText
+          .split("\n")
+          .map((line) => {
+            if (line.startsWith("+ ")) return `<div class="add">${esc(line)}</div>`;
+            if (line.startsWith("− ") || line.startsWith("– ") || line.startsWith("- "))
+              return `<div class="del">${esc(line)}</div>`;
+            return `<div>${esc(line)}</div>`;
+          })
+          .join("");
+      }
+
+      // =================== UI wiring ===================
+      const editor = document.getElementById("editor");
+      const preview = document.getElementById("preview");
+      const diffEl = document.getElementById("diff");
+      const appEl = document.querySelector(".app");
+      const gutter = document.getElementById("gutter");
+      const layoutLeftBtn = document.getElementById("layoutLeft");
+      const layoutSplitBtn = document.getElementById("layoutSplit");
+      const layoutRightBtn = document.getElementById("layoutRight");
+      const fileIn = document.getElementById("fileIn");
+      const newBtn = document.getElementById("newBtn");
+      const saveSnapBtn = document.getElementById("saveSnapBtn");
+      const diffLastTwoBtn = document.getElementById("diffLastTwoBtn");
+      const diffWorkingVsLastBtn = document.getElementById("diffWorkingVsLastBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+      const shareBtn = document.getElementById("shareBtn");
+      const status = document.getElementById("status");
+
+      let currentMd = "# md-lite\n\nStart typing…";
+      let loadedFilename = "document.md";
+
+      function renderAll() {
+        const visible = stripHistory(currentMd);
+        preview.innerHTML = mdToHtml(visible);
+        status.textContent = `Chars: ${currentMd.length}`;
+      }
+      editor.addEventListener("input", () => {
+        currentMd = editor.value;
+        renderAll();
+      });
+
+      // Load file
+      fileIn.addEventListener("change", async (e) => {
+        const f = e.target.files?.[0];
+        if (!f) return;
+        loadedFilename = f.name;
+        const text = await f.text();
+        currentMd = text;
+        editor.value = currentMd;
+        renderAll();
+        diffEl.hidden = true;
+      });
+
+      // New
+      newBtn.addEventListener("click", () => {
+        loadedFilename = "document.md";
+        currentMd = "# Title\n\n";
+        editor.value = currentMd;
+        renderAll();
+        diffEl.hidden = true;
+      });
+
+      // Save Snapshot
+      saveSnapBtn.addEventListener("click", () => {
+        const entries = parseHistory(currentMd);
+        const visible = stripHistory(currentMd);
+        const snap = makeSnapshotEntry(visible);
+        const block = renderHistoryBlock([...entries, snap]);
+        currentMd = `${visible}\n\n${block}\n`;
+        editor.value = currentMd;
+        renderAll();
+        diffEl.hidden = true;
+      });
+
+      // Diff: Last Two snapshots (Vn-1 → Vn)
+      diffLastTwoBtn.addEventListener("click", () => {
+        const pair = lastTwoSnapshots(currentMd);
+        if (!pair) {
+          diffEl.innerHTML = "<em>Need ≥2 snapshots.</em>";
+          diffEl.hidden = false;
+          return;
+        }
+        const diffTxt = lineDiff(pair.a, pair.b);
+        diffEl.innerHTML = renderDiffColored(diffTxt);
+        diffEl.hidden = false;
+      });
+
+      // Diff: Working (editor) vs Last snapshot
+      diffWorkingVsLastBtn.addEventListener("click", () => {
+        const last = lastSnapshotText(currentMd);
+        if (last == null) {
+          diffEl.innerHTML = "<em>No snapshot yet.</em>";
+          diffEl.hidden = false;
+          return;
+        }
+        const working = stripHistory(editor.value);
+        const diffTxt = lineDiff(last, working);
+        diffEl.innerHTML = renderDiffColored(diffTxt);
+        diffEl.hidden = false;
+      });
+
+      // Download
+      downloadBtn.addEventListener("click", () => {
+        const blob = new Blob([currentMd], { type: "text/markdown" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = loadedFilename.endsWith(".md") ? loadedFilename : "document.md";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      });
+
+      // Share (copy encoded full file to clipboard)
+      shareBtn.addEventListener("click", async () => {
+        let payload = "";
+        try {
+          if ("CompressionStream" in window && "DecompressionStream" in window) {
+            const gz = await gzipString(currentMd);
+            payload = `MDLITE:v1|gz-b64url|` + b64urlFromBytes(gz);
+          } else {
+            payload = `MDLITE:v1|b64|` + b64enc(currentMd);
+          }
+          const link = location.origin + location.pathname + "#" + payload;
+          await navigator.clipboard.writeText(link);
+          status.textContent = "Copied share link to clipboard";
+        } catch (e) {
+          const link = location.origin + location.pathname + "#" + (payload || "MDLITE:v1|b64|" + b64enc(currentMd));
+          try {
+            const ok = window.prompt("Copy this link:", link);
+            status.textContent = ok != null ? "Link shown for manual copy" : "Copy cancelled";
+          } catch {}
+        }
+      });
+
+      // Init
+      editor.value = currentMd;
+      renderAll();
+
+      // ============== Layout toggle ==============
+      function setLayout(mode) {
+        appEl.dataset.layout = mode === "split" ? "split" : mode; // left | right or "split"
+        layoutLeftBtn.setAttribute("aria-pressed", String(mode === "left"));
+        layoutSplitBtn.setAttribute("aria-pressed", String(mode === "split"));
+        layoutRightBtn.setAttribute("aria-pressed", String(mode === "right"));
+        if (mode === "split") {
+          // restore equal columns when returning to split
+          appEl.style.gridTemplateColumns = "1fr 8px 1fr";
+        } else {
+          appEl.style.gridTemplateColumns = "1fr";
+        }
+        // Update URL parameter
+        const url = new URL(window.location);
+        if (mode === "split") {
+          url.searchParams.delete("view");
+        } else {
+          url.searchParams.set("view", mode === "left" ? "code" : "preview");
+        }
+        window.history.replaceState({}, "", url);
+      }
+      layoutLeftBtn.addEventListener("click", () => setLayout("left"));
+      layoutSplitBtn.addEventListener("click", () => setLayout("split"));
+      layoutRightBtn.addEventListener("click", () => setLayout("right"));
+
+      // Initialize layout from URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const viewParam = urlParams.get("view");
+      if (viewParam === "code") {
+        setLayout("left");
+      } else if (viewParam === "preview") {
+        setLayout("right");
+      } else {
+        setLayout("split");
+      }
+
+      // ============== Draggable splitter ==============
+      let isDragging = false;
+      gutter?.addEventListener("pointerdown", (e) => {
+        isDragging = true;
+        gutter.setPointerCapture(e.pointerId);
+      });
+      gutter?.addEventListener("pointerup", (e) => {
+        isDragging = false;
+        gutter.releasePointerCapture(e.pointerId);
+      });
+      gutter?.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+        if (getComputedStyle(gutter).display === "none") return;
+        const rect = appEl.getBoundingClientRect();
+        const x = Math.min(Math.max(e.clientX - rect.left, 180), rect.width - 180);
+        const leftW = x;
+        const rightW = rect.width - x;
+        appEl.style.gridTemplateColumns = `${leftW}px 8px ${rightW}px`;
+      });
+
+      // On load: decode hash if present
+      (async function initFromHash() {
+        const h = location.hash.slice(1);
+        if (!h || !h.startsWith("MDLITE:")) return;
+        try {
+          const [tag, rest] = h.split("|", 2);
+          const restAll = h.slice(tag.length + 1);
+          if (restAll.startsWith("gz-b64url|")) {
+            const data = restAll.slice("gz-b64url|".length);
+            const bytes = await gunzipBytes(bytesFromB64url(data));
+            const text = new TextDecoder().decode(bytes);
+            currentMd = text;
+            editor.value = currentMd;
+            renderAll();
+          } else if (restAll.startsWith("b64|")) {
+            const data = restAll.slice("b64|".length);
+            currentMd = b64dec(data);
+            editor.value = currentMd;
+            renderAll();
+          }
+          // Clean hash to avoid re-parsing on further edits
+          history.replaceState(null, "", location.pathname + location.search);
+        } catch (e) {
+          console.warn("Failed to parse shared payload", e);
+        }
+      })();
+    </script>
+  </body>
+</html>
