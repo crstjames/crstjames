@@ -514,6 +514,17 @@
         .bar {
           border-radius: 8px;
         }
+        /* Mobile-friendly code blocks */
+        .preview pre {
+          padding: 12px;
+          font-size: 12px;
+          margin: 12px 0;
+          overflow-x: auto;
+          word-wrap: break-word;
+        }
+        .preview code {
+          font-size: 12px;
+        }
       }
     </style>
   </head>
@@ -863,197 +874,20 @@
       const shareBtn = document.getElementById("shareBtn");
       const status = document.getElementById("status");
 
-      let currentMd = `# DocuLatte ☕: Comprehensive Overview
-### Date: ${new Date().toISOString().split("T")[0]}
+      let currentMd = `# DocuLatte ☕
 
-DocuLatte is an intuitive markdown editor designed to offer a seamless writing and preview experience with GitHub-style rendering. This document showcases the comprehensive features of DocuLatte, your perfectly brewed markdown companion.
+A clean, fast markdown editor with real-time preview and sharing.
 
----
+## Key Features
+- **Real-time preview** - See changes instantly as you type
+- **Split-screen editing** - Code and preview side-by-side  
+- **Easy sharing** - Generate shareable links
+- **Snapshot system** - Save document versions
+- **Mobile-friendly** - Works great on any device
 
-## ✨ Core Features
+![Coffee and coding workspace](https://images.unsplash.com/photo-1504707748692-419802cf939d?w=800&h=400&fit=crop)
 
-### 💾 Smart Document Management
-- **Instant Snapshots:** Save document versions with timestamp tracking
-- **Intelligent Diff:** Compare changes between versions with visual highlighting
-- **Easy Sharing:** Generate shareable links that open directly in preview mode
-- **File Import/Export:** Load existing markdown files or download your work
-
----
-
-## 🛠️ Technical Capabilities
-
-### Code Blocks with Syntax Highlighting
-
-DocuLatte supports code blocks with language-specific formatting:
-
-\`\`\`javascript
-// Example: React component with hooks
-import { useState, useEffect } from 'react';
-
-function MarkdownEditor() {
-  const [content, setContent] = useState('# Hello DocuLatte!');
-  
-  useEffect(() => {
-    console.log('Content updated:', content);
-  }, [content]);
-  
-  return (
-    <textarea 
-      value={content}
-      onChange={(e) => setContent(e.target.value)}
-      placeholder="Start brewing your markdown..."
-    />
-  );
-}
-\`\`\`
-
-### Inline Code
-Use \`backticks\` for inline code snippets like \`const coffee = "latte";\` or \`pip install markdown\`.
-
----
-
-## 📊 Table Support
-
-DocuLatte renders beautiful, responsive tables with GitHub styling:
-
-| Feature | Description | Status |
-|---------|-------------|--------|
-| **Real-time Preview** | See changes as you type | ✅ Implemented |
-| **Draggable Splitter** | Resize panels dynamically | ✅ Implemented |
-| **Snapshot System** | Save document versions | ✅ Implemented |
-| **Share Links** | Generate shareable URLs | ✅ Implemented |
-| **Image Support** | Embed images seamlessly | ✅ Implemented |
-| **Task Lists** | Interactive checkboxes | ✅ Implemented |
-| **Diff Viewer** | Visual change comparison | ✅ Implemented |
-
-### Compatibility Matrix
-
-| Browser | Desktop | Mobile | Notes |
-|---------|---------|--------|-------|
-| **Chrome** | ✅ Full | ✅ Full | Best performance |
-| **Firefox** | ✅ Full | ✅ Full | Excellent compatibility |
-| **Safari** | ✅ Full | ✅ Good | Minor styling differences |
-| **Edge** | ✅ Full | ✅ Good | Modern Chromium base |
-
----
-
-## 🖼️ Rich Media Support
-
-### Images
-DocuLatte handles images beautifully with automatic responsive sizing:
-
-![Coffee beans and laptop](https://images.unsplash.com/photo-1504707748692-419802cf939d?w=800&h=400&fit=crop)
-
-*A perfect workspace for brewing markdown*
-
-![Markdown visualization](https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=300&fit=crop)
-
-*Clean, organized, and ready for productivity*
-
----
-
-## ✅ Task Management
-
-DocuLatte supports interactive task lists:
-
-- [x] ~~Design coffee-themed interface~~
-- [x] ~~Implement real-time preview~~
-- [x] ~~Add draggable splitter~~
-- [x] ~~Create snapshot system~~
-- [x] ~~Build diff viewer~~
-- [x] ~~Add sharing capabilities~~
-- [ ] Add dark mode toggle
-- [ ] Implement collaborative editing
-- [ ] Create mobile app
-
-### Project Roadmap
-
-- [x] **Phase 1:** Core editor functionality
-- [x] **Phase 2:** Advanced markdown features  
-- [x] **Phase 3:** Sharing and collaboration
-- [ ] **Phase 4:** Mobile optimization
-- [ ] **Phase 5:** Plugin system
-
----
-
-## 🎯 Advanced Formatting
-
-### Emphasis and Style
-You can use **bold text**, *italic text*, ~~strikethrough~~, and even combine them like ***bold italic*** text.
-
-### Blockquotes
-> "DocuLatte has transformed how I write and share markdown documents. The real-time preview and sharing features are game-changers!"
-> 
-> — Happy User
-
-> 💡 **Pro Tip:** Use the snapshot feature before making major changes to your document. You can always compare versions using the diff viewer.
-
-### Horizontal Rules
-Use horizontal rules to separate sections:
-
----
-
-### Lists
-
-**Ordered Lists:**
-1. Import or create your markdown document
-2. Choose your preferred layout (Code, Split, or Preview)
-3. Start writing with real-time preview
-4. Save snapshots of important versions
-5. Share your perfectly brewed content
-
-**Unordered Lists:**
-- ☕ Coffee-themed design
-- 🚀 Lightning-fast performance  
-- 📱 Mobile-responsive interface
-- 🔄 Real-time synchronization
-- 💾 Automatic version tracking
-
----
-
-## 🚀 Getting Started
-
-### Quick Start Guide
-
-1. **Open DocuLatte** in your web browser
-2. **Choose your layout:**
-   - **Code:** Focus on writing
-   - **Split:** Write and preview simultaneously  
-   - **Preview:** Review your formatted content
-3. **Start typing** in the editor pane
-4. **Save snapshots** to track your progress
-5. **Share your work** with generated links
-
-### Keyboard Shortcuts (Coming Soon)
-- \`Cmd/Ctrl + S\` - Save snapshot
-- \`Cmd/Ctrl + D\` - Toggle diff view
-- \`Cmd/Ctrl + 1/2/3\` - Switch layouts
-- \`Cmd/Ctrl + Enter\` - Full-screen preview
-
----
-
-## 🤝 Perfect for Teams
-
-DocuLatte is ideal for:
-- **Documentation teams** creating technical guides
-- **Content creators** drafting blog posts and articles
-- **Developers** writing README files and documentation
-- **Students** taking notes and creating reports
-- **Writers** crafting manuscripts with formatting preview
-
----
-
-## 🔗 Links and References
-
-Visit our resources:
-- [GitHub Repository](https://github.com/example/doculatte)
-- [Documentation](https://doculatte.dev/docs)
-- [Community Forum](https://community.doculatte.dev)
-- [Feature Requests](https://github.com/example/doculatte/issues)
-
----
-
-*Enjoy your perfectly brewed markdown experience with DocuLatte! ☕*`;
+*Start typing to replace this content and create your own markdown documents!*`;
       let loadedFilename = "doculatte-overview.md";
 
       function renderAll() {
@@ -1138,21 +972,51 @@ Visit our resources:
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       });
 
-      // Share (copy encoded full file to clipboard)
+      // Share (copy encoded file to clipboard - use shorter version if too long)
       shareBtn.addEventListener("click", async () => {
         let payload = "";
+        let contentToShare = currentMd;
+
+        // If content is too long, use a shorter version
+        if (currentMd.length > 3000) {
+          contentToShare = `# Shared from DocuLatte ☕
+
+This document was created with DocuLatte - a markdown editor with real-time preview.
+
+## Sample Code
+
+\`\`\`javascript
+function hello(name) {
+  return \`Hello, \${name}!\`;
+}
+
+console.log(hello("World"));
+\`\`\`
+
+Visit DocuLatte to create and edit markdown documents with live preview!`;
+        }
+
         try {
           if ("CompressionStream" in window && "DecompressionStream" in window) {
-            const gz = await gzipString(currentMd);
+            const gz = await gzipString(contentToShare);
             payload = `MDLITE:v1|gz-b64url|` + b64urlFromBytes(gz);
           } else {
-            payload = `MDLITE:v1|b64|` + b64enc(currentMd);
+            payload = `MDLITE:v1|b64|` + b64enc(contentToShare);
           }
+
           const link = location.origin + location.pathname + "#" + payload;
+
+          // Check if link is too long (most browsers limit ~2000-8000 chars)
+          if (link.length > 2000) {
+            status.textContent = "Document too large to share via URL";
+            return;
+          }
+
           await navigator.clipboard.writeText(link);
           status.textContent = "Copied share link to clipboard";
         } catch (e) {
-          const link = location.origin + location.pathname + "#" + (payload || "MDLITE:v1|b64|" + b64enc(currentMd));
+          const link =
+            location.origin + location.pathname + "#" + (payload || "MDLITE:v1|b64|" + b64enc(contentToShare));
           try {
             const ok = window.prompt("Copy this link:", link);
             status.textContent = ok != null ? "Link shown for manual copy" : "Copy cancelled";
