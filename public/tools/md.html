@@ -305,29 +305,78 @@
       .preview p {
         margin-bottom: 16px;
       }
+      /* Warm bread-style code blocks */
       .preview code {
-        background: #f6f8fa;
-        color: var(--ink);
-        border-radius: 6px;
-        padding: 0.2em 0.4em;
+        background: linear-gradient(135deg, #f4e9d9, #ede0cf);
+        color: #6b4423;
+        border-radius: 4px;
+        padding: 0.15em 0.4em;
         font-size: 85%;
-        font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Consolas", "Courier New", monospace;
+        border: 1px solid #d4bb9c;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(107, 68, 35, 0.1);
       }
       .preview pre {
-        background: #f6f8fa;
-        color: var(--ink);
-        border-radius: 6px;
+        background: linear-gradient(135deg, #f7f0e6, #f0e5d8, #e8dcc6);
+        color: #5d4037;
+        border-radius: 8px;
         padding: 16px;
         overflow: auto;
-        font-size: 85%;
-        line-height: 1.45;
-        border: 1px solid #d0d7de;
+        font-size: 13px;
+        line-height: 0.95;
+        border: 2px solid #d7c4a7;
+        margin: 16px 0;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(107, 68, 35, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.4),
+          inset 0 -1px 0 rgba(107, 68, 35, 0.1);
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Consolas", "Courier New", monospace;
+      }
+      .preview pre::before {
+        content: "☕ ☕ ☕";
+        position: absolute;
+        top: 8px;
+        left: 12px;
+        color: #8d6e63;
+        font-size: 12px;
+        opacity: 0.6;
+      }
+      .preview pre::after {
+        content: "latte";
+        position: absolute;
+        top: 6px;
+        right: 12px;
+        color: #8d6e63;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.4;
       }
       .preview pre code {
         background: transparent;
+        color: inherit;
         padding: 0;
         border-radius: 0;
-        font-size: 100%;
+        font-size: inherit;
+        line-height: inherit;
+        border: none;
+        box-shadow: none;
+        display: block;
+        margin-top: 8px;
+      }
+      /* Warm latte syntax highlighting */
+      .preview pre .comment {
+        color: #a1887f;
+        font-style: italic;
+      }
+      .preview pre .keyword {
+        color: #8d4e2a;
+        font-weight: bold;
+      }
+      .preview pre .string {
+        color: #6f4f28;
+      }
+      .preview pre .function {
+        color: #7b5635;
       }
       .preview a {
         color: #0969da;
@@ -565,31 +614,48 @@
         return new Uint8Array(buf);
       }
 
-      // Enhanced GitHub-style Markdown renderer
+      // Robust GitHub-style Markdown renderer with proper spacing
       function mdToHtml(md) {
-        let s = md.replace(/\r\n/g, "\n");
+        // Normalize line endings
+        let html = md.replace(/\r\n?/g, "\n");
 
-        // Code blocks with language support
-        s = s.replace(/```(\w+)?\n?([\s\S]*?)```/g, (_, lang, code) => {
-          const langClass = lang ? ` class="language-${lang}"` : "";
-          return `<pre><code${langClass}>${esc(code.trim())}</code></pre>`;
+        // Process in order: code blocks first to protect content
+        html = processCodeBlocks(html);
+        html = processImages(html);
+        html = processLinks(html);
+        html = processTables(html);
+        html = processHeaders(html);
+        html = processTextFormatting(html);
+        html = processLists(html);
+        html = processBlockquotes(html);
+        html = processHorizontalRules(html);
+        html = processParagraphs(html);
+
+        return html;
+      }
+
+      function processCodeBlocks(text) {
+        // Simple code blocks - just clean boxes, no language-specific formatting
+        return text.replace(/```[\w]*\n([\s\S]*?)```/g, (match, code) => {
+          // Just preserve whitespace and create simple code block
+          return `<pre><code>${esc(code)}</code></pre>`;
         });
+      }
 
-        // Inline code
-        s = s.replace(/`([^`]+)`/g, (_, x) => `<code>${esc(x)}</code>`);
-
-        // Images (before links to avoid conflicts)
-        s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+      function processImages(text) {
+        return text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
           return `<img src="${esc(src)}" alt="${esc(alt)}" style="max-width: 100%; height: auto;" />`;
         });
+      }
 
-        // Links
-        s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
-          return `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(text)}</a>`;
+      function processLinks(text) {
+        return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, linkText, url) => {
+          return `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(linkText)}</a>`;
         });
+      }
 
-        // Tables
-        s = s.replace(/((?:^|\n)\|.+\|(?:\n\|.+\|)*)/g, (match) => {
+      function processTables(text) {
+        return text.replace(/((?:^|\n)\|.+\|(?:\n\|.+\|)*)/g, (match) => {
           const lines = match.trim().split("\n");
           if (lines.length < 2) return match;
 
@@ -597,7 +663,6 @@
           const separatorRow = lines[1];
           const dataRows = lines.slice(2);
 
-          // Check if second row is a separator
           if (!/^\|[\s\-:|]+\|$/.test(separatorRow)) return match;
 
           let table = "<table>\n<thead>\n<tr>";
@@ -622,56 +687,75 @@
           table += "</tbody>\n</table>";
           return table;
         });
+      }
 
-        // Headers
-        s = s
+      function processHeaders(text) {
+        return text
           .replace(/^###### (.*)$/gm, "<h6>$1</h6>")
           .replace(/^##### (.*)$/gm, "<h5>$1</h5>")
           .replace(/^#### (.*)$/gm, "<h4>$1</h4>")
           .replace(/^### (.*)$/gm, "<h3>$1</h3>")
           .replace(/^## (.*)$/gm, "<h2>$1</h2>")
           .replace(/^# (.*)$/gm, "<h1>$1</h1>");
+      }
+
+      function processTextFormatting(text) {
+        // Inline code first
+        text = text.replace(/`([^`]+)`/g, (_, code) => `<code>${esc(code)}</code>`);
 
         // Strikethrough
-        s = s.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+        text = text.replace(/~~([^~]+)~~/g, "<del>$1</del>");
 
         // Bold and italic
-        s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>");
 
+        return text;
+      }
+
+      function processLists(text) {
         // Task lists
-        s = s.replace(/(^|\n)- \[( |x)\] (.*)(?=\n|$)/g, (m, pre, checked, text) => {
+        text = text.replace(/(^|\n)- \[( |x)\] (.*)(?=\n|$)/g, (m, pre, checked, item) => {
           const isChecked = checked === "x" ? "checked" : "";
-          return `${pre}<ul class="task-list"><li><input type="checkbox" ${isChecked} disabled> ${esc(text)}</li></ul>`;
+          return `${pre}<ul class="task-list"><li><input type="checkbox" ${isChecked} disabled> ${esc(item)}</li></ul>`;
         });
 
-        // Regular lists (numbered and bulleted)
-        s = s.replace(
-          /(^|\n)(\d+)\. (.*)(?=\n(?!\d+\. )|$)/g,
-          (m, pre, num, item) => `${pre}<ol><li>${item}</li></ol>`
-        );
-        s = s.replace(/(^|\n)- (.*)(?=\n(?!- )|$)/g, (m, pre, item) => `${pre}<ul><li>${item}</li></ul>`);
-        s = s.replace(/<\/(ol|ul)>\n<\1>/g, ""); // merge consecutive lists
+        // Numbered lists
+        text = text.replace(/(^|\n)(\d+)\. (.*)(?=\n(?!\d+\. )|$)/g, (m, pre, num, item) => {
+          return `${pre}<ol><li>${item}</li></ol>`;
+        });
 
-        // Blockquotes
-        s = s.replace(
-          /(^|\n)> (.*)(?=\n(?!> )|$)/g,
-          (m, pre, quote) => `${pre}<blockquote><p>${quote}</p></blockquote>`
-        );
-        s = s.replace(/<\/blockquote>\n<blockquote>/g, ""); // merge consecutive blockquotes
+        // Bullet lists
+        text = text.replace(/(^|\n)- (.*)(?=\n(?!- )|$)/g, (m, pre, item) => {
+          return `${pre}<ul><li>${item}</li></ul>`;
+        });
 
-        // Horizontal rules
-        s = s.replace(/^(---+|___+|\*\*\*+)$/gm, "<hr>");
+        // Merge consecutive lists
+        text = text.replace(/<\/(ol|ul)>\n<\1>/g, "");
 
-        // Paragraphs (don't wrap block elements)
-        s = s.replace(
+        return text;
+      }
+
+      function processBlockquotes(text) {
+        text = text.replace(/(^|\n)> (.*)(?=\n(?!> )|$)/g, (m, pre, quote) => {
+          return `${pre}<blockquote><p>${quote}</p></blockquote>`;
+        });
+        text = text.replace(/<\/blockquote>\n<blockquote>/g, "");
+        return text;
+      }
+
+      function processHorizontalRules(text) {
+        return text.replace(/^(---+|___+|\*\*\*+)$/gm, "<hr>");
+      }
+
+      function processParagraphs(text) {
+        return text.replace(
           /(^|\n)(?!<h\d|<ul|<ol|<pre>|<table|<blockquote|<hr|<\/|<code>)([^\n]+)(?=\n|$)/g,
           (m, pre, line) => {
             if (!line.trim()) return m;
             return `${pre}<p>${line}</p>`;
           }
         );
-
-        return s;
       }
       const esc = (x) => x.replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
 
@@ -779,8 +863,198 @@
       const shareBtn = document.getElementById("shareBtn");
       const status = document.getElementById("status");
 
-      let currentMd = "# md-lite\n\nStart typing…";
-      let loadedFilename = "document.md";
+      let currentMd = `# DocuLatte ☕: Comprehensive Overview
+### Date: ${new Date().toISOString().split("T")[0]}
+
+DocuLatte is an intuitive markdown editor designed to offer a seamless writing and preview experience with GitHub-style rendering. This document showcases the comprehensive features of DocuLatte, your perfectly brewed markdown companion.
+
+---
+
+## ✨ Core Features
+
+### 💾 Smart Document Management
+- **Instant Snapshots:** Save document versions with timestamp tracking
+- **Intelligent Diff:** Compare changes between versions with visual highlighting
+- **Easy Sharing:** Generate shareable links that open directly in preview mode
+- **File Import/Export:** Load existing markdown files or download your work
+
+---
+
+## 🛠️ Technical Capabilities
+
+### Code Blocks with Syntax Highlighting
+
+DocuLatte supports code blocks with language-specific formatting:
+
+\`\`\`javascript
+// Example: React component with hooks
+import { useState, useEffect } from 'react';
+
+function MarkdownEditor() {
+  const [content, setContent] = useState('# Hello DocuLatte!');
+  
+  useEffect(() => {
+    console.log('Content updated:', content);
+  }, [content]);
+  
+  return (
+    <textarea 
+      value={content}
+      onChange={(e) => setContent(e.target.value)}
+      placeholder="Start brewing your markdown..."
+    />
+  );
+}
+\`\`\`
+
+### Inline Code
+Use \`backticks\` for inline code snippets like \`const coffee = "latte";\` or \`pip install markdown\`.
+
+---
+
+## 📊 Table Support
+
+DocuLatte renders beautiful, responsive tables with GitHub styling:
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **Real-time Preview** | See changes as you type | ✅ Implemented |
+| **Draggable Splitter** | Resize panels dynamically | ✅ Implemented |
+| **Snapshot System** | Save document versions | ✅ Implemented |
+| **Share Links** | Generate shareable URLs | ✅ Implemented |
+| **Image Support** | Embed images seamlessly | ✅ Implemented |
+| **Task Lists** | Interactive checkboxes | ✅ Implemented |
+| **Diff Viewer** | Visual change comparison | ✅ Implemented |
+
+### Compatibility Matrix
+
+| Browser | Desktop | Mobile | Notes |
+|---------|---------|--------|-------|
+| **Chrome** | ✅ Full | ✅ Full | Best performance |
+| **Firefox** | ✅ Full | ✅ Full | Excellent compatibility |
+| **Safari** | ✅ Full | ✅ Good | Minor styling differences |
+| **Edge** | ✅ Full | ✅ Good | Modern Chromium base |
+
+---
+
+## 🖼️ Rich Media Support
+
+### Images
+DocuLatte handles images beautifully with automatic responsive sizing:
+
+![Coffee beans and laptop](https://images.unsplash.com/photo-1504707748692-419802cf939d?w=800&h=400&fit=crop)
+
+*A perfect workspace for brewing markdown*
+
+![Markdown visualization](https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=300&fit=crop)
+
+*Clean, organized, and ready for productivity*
+
+---
+
+## ✅ Task Management
+
+DocuLatte supports interactive task lists:
+
+- [x] ~~Design coffee-themed interface~~
+- [x] ~~Implement real-time preview~~
+- [x] ~~Add draggable splitter~~
+- [x] ~~Create snapshot system~~
+- [x] ~~Build diff viewer~~
+- [x] ~~Add sharing capabilities~~
+- [ ] Add dark mode toggle
+- [ ] Implement collaborative editing
+- [ ] Create mobile app
+
+### Project Roadmap
+
+- [x] **Phase 1:** Core editor functionality
+- [x] **Phase 2:** Advanced markdown features  
+- [x] **Phase 3:** Sharing and collaboration
+- [ ] **Phase 4:** Mobile optimization
+- [ ] **Phase 5:** Plugin system
+
+---
+
+## 🎯 Advanced Formatting
+
+### Emphasis and Style
+You can use **bold text**, *italic text*, ~~strikethrough~~, and even combine them like ***bold italic*** text.
+
+### Blockquotes
+> "DocuLatte has transformed how I write and share markdown documents. The real-time preview and sharing features are game-changers!"
+> 
+> — Happy User
+
+> 💡 **Pro Tip:** Use the snapshot feature before making major changes to your document. You can always compare versions using the diff viewer.
+
+### Horizontal Rules
+Use horizontal rules to separate sections:
+
+---
+
+### Lists
+
+**Ordered Lists:**
+1. Import or create your markdown document
+2. Choose your preferred layout (Code, Split, or Preview)
+3. Start writing with real-time preview
+4. Save snapshots of important versions
+5. Share your perfectly brewed content
+
+**Unordered Lists:**
+- ☕ Coffee-themed design
+- 🚀 Lightning-fast performance  
+- 📱 Mobile-responsive interface
+- 🔄 Real-time synchronization
+- 💾 Automatic version tracking
+
+---
+
+## 🚀 Getting Started
+
+### Quick Start Guide
+
+1. **Open DocuLatte** in your web browser
+2. **Choose your layout:**
+   - **Code:** Focus on writing
+   - **Split:** Write and preview simultaneously  
+   - **Preview:** Review your formatted content
+3. **Start typing** in the editor pane
+4. **Save snapshots** to track your progress
+5. **Share your work** with generated links
+
+### Keyboard Shortcuts (Coming Soon)
+- \`Cmd/Ctrl + S\` - Save snapshot
+- \`Cmd/Ctrl + D\` - Toggle diff view
+- \`Cmd/Ctrl + 1/2/3\` - Switch layouts
+- \`Cmd/Ctrl + Enter\` - Full-screen preview
+
+---
+
+## 🤝 Perfect for Teams
+
+DocuLatte is ideal for:
+- **Documentation teams** creating technical guides
+- **Content creators** drafting blog posts and articles
+- **Developers** writing README files and documentation
+- **Students** taking notes and creating reports
+- **Writers** crafting manuscripts with formatting preview
+
+---
+
+## 🔗 Links and References
+
+Visit our resources:
+- [GitHub Repository](https://github.com/example/doculatte)
+- [Documentation](https://doculatte.dev/docs)
+- [Community Forum](https://community.doculatte.dev)
+- [Feature Requests](https://github.com/example/doculatte/issues)
+
+---
+
+*Enjoy your perfectly brewed markdown experience with DocuLatte! ☕*`;
+      let loadedFilename = "doculatte-overview.md";
 
       function renderAll() {
         const visible = stripHistory(currentMd);
