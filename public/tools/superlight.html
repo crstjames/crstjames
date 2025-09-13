@@ -75,6 +75,41 @@
         margin-top: 1px;
       }
 
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .theme-toggle {
+        padding: 6px;
+        background: #f8f8f8;
+        border: 1px solid #d8d8d8;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.12s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+      }
+
+      .theme-toggle:hover {
+        background: #fff;
+        border-color: #ccc;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-toggle:active {
+        transform: translateY(1px);
+      }
+
+      .theme-icon {
+        font-size: 14px;
+        line-height: 1;
+      }
+
       .nav-buttons {
         display: flex;
         gap: 2px;
@@ -238,7 +273,9 @@
         border-right: 1px solid #d0d0d0;
         padding: 24px;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-        overflow-y: auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
       }
 
       .editor-textarea {
@@ -253,6 +290,8 @@
         resize: none;
         line-height: 1.6;
         font-weight: 400;
+        overflow-y: auto;
+        flex: 1;
       }
 
       .editor-textarea::placeholder {
@@ -270,14 +309,14 @@
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
 
-      /* GitHub-style markdown rendering */
+      /* Enhanced GitHub-style markdown rendering */
       .preview-panel h1,
       .preview-panel h2,
       .preview-panel h3,
       .preview-panel h4,
       .preview-panel h5,
       .preview-panel h6 {
-        color: #333;
+        color: #24292f;
         margin-top: 24px;
         margin-bottom: 16px;
         font-weight: 600;
@@ -285,38 +324,66 @@
       }
 
       .preview-panel h1 {
+        font-size: 2em;
         border-bottom: 1px solid #d0d7de;
         padding-bottom: 0.3em;
+        margin-top: 0;
       }
 
       .preview-panel h2 {
+        font-size: 1.5em;
         border-bottom: 1px solid #d0d7de;
         padding-bottom: 0.3em;
       }
 
+      .preview-panel h3 {
+        font-size: 1.25em;
+      }
+
+      .preview-panel h4 {
+        font-size: 1em;
+      }
+
+      .preview-panel h5 {
+        font-size: 0.875em;
+      }
+
+      .preview-panel h6 {
+        font-size: 0.85em;
+        color: #656d76;
+      }
+
       .preview-panel p {
+        margin-top: 0;
         margin-bottom: 16px;
+        line-height: 1.6;
       }
 
       .preview-panel code {
-        background-color: #f6f8fa;
-        color: #24292e;
-        border-radius: 6px;
+        background-color: rgba(175, 184, 193, 0.2);
+        color: #24292f;
+        border-radius: 4px;
         padding: 0.2em 0.4em;
         font-size: 85%;
         font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        border: 1px solid rgba(255, 107, 53, 0.15);
+        box-shadow: 0 1px 2px rgba(255, 107, 53, 0.08);
       }
 
       .preview-panel pre {
-        background-color: #f6f8fa;
-        color: #24292e;
+        background: #f6f8fa;
+        color: #24292f;
         border-radius: 6px;
-        padding: 16px;
+        padding: 16px 20px;
         overflow: auto;
-        font-size: 14px;
+        font-size: 85%;
         line-height: 1.45;
         margin: 16px 0;
         font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        border: 1px solid #d0d7de;
+        border-left: 3px solid #ff6b35;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        position: relative;
       }
 
       .preview-panel pre code {
@@ -329,6 +396,8 @@
         border: none;
         box-shadow: none;
         display: block;
+        word-wrap: normal;
+        white-space: pre;
       }
 
       .preview-panel a {
@@ -342,12 +411,51 @@
 
       .preview-panel ul,
       .preview-panel ol {
+        margin-top: 0;
         margin-bottom: 16px;
         padding-left: 2em;
       }
 
+      .preview-panel ul ul,
+      .preview-panel ul ol,
+      .preview-panel ol ol,
+      .preview-panel ol ul {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
       .preview-panel li {
         margin-bottom: 0.25em;
+        line-height: 1.6;
+      }
+
+      .preview-panel li > p {
+        margin-top: 16px;
+      }
+
+      .preview-panel li + li {
+        margin-top: 0.25em;
+      }
+
+      /* Task lists */
+      .preview-panel ul.task-list {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .preview-panel .task-list-item {
+        list-style: none;
+        position: relative;
+        padding-left: 1.6em;
+      }
+
+      .preview-panel .task-list-item input[type="checkbox"] {
+        position: absolute;
+        left: 0;
+        top: 0.3em;
+        margin: 0;
+        width: 1em;
+        height: 1em;
       }
 
       .preview-panel blockquote {
@@ -357,12 +465,21 @@
         margin: 0 0 16px 0;
       }
 
+      .preview-panel blockquote > :first-child {
+        margin-top: 0;
+      }
+
+      .preview-panel blockquote > :last-child {
+        margin-bottom: 0;
+      }
+
       .preview-panel hr {
         height: 0.25em;
         padding: 0;
         margin: 24px 0;
         background-color: #d0d7de;
         border: 0;
+        border-radius: 2px;
       }
 
       .preview-panel img {
@@ -370,14 +487,18 @@
         height: auto;
         border-radius: 6px;
         margin: 8px 0;
+        box-sizing: content-box;
       }
 
       .preview-panel table {
         border-collapse: collapse;
         border-spacing: 0;
         width: 100%;
-        margin-bottom: 16px;
+        margin: 16px 0;
         border: 1px solid #d0d7de;
+        border-radius: 6px;
+        overflow: hidden;
+        display: table;
       }
 
       .preview-panel th,
@@ -385,6 +506,7 @@
         padding: 6px 13px;
         border: 1px solid #d0d7de;
         text-align: left;
+        vertical-align: top;
       }
 
       .preview-panel th {
@@ -394,6 +516,22 @@
 
       .preview-panel tr:nth-child(2n) {
         background-color: #f6f8fa;
+      }
+
+      .preview-panel tbody tr:hover {
+        background-color: rgba(175, 184, 193, 0.1);
+      }
+
+      /* Responsive tables */
+      @media (max-width: 768px) {
+        .preview-panel table {
+          font-size: 14px;
+        }
+
+        .preview-panel th,
+        .preview-panel td {
+          padding: 4px 8px;
+        }
       }
 
       /* Layout states */
@@ -800,6 +938,358 @@
         font-weight: 500;
       }
 
+      /* Dark Mode Styles */
+      [data-theme="dark"] {
+        background: #1a1a1a;
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .container {
+        background: #1a1a1a;
+      }
+
+      [data-theme="dark"] .header {
+        background: linear-gradient(180deg, #2a2a2a 0%, #222 100%);
+        border-bottom: 1px solid #333;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      [data-theme="dark"] .logo h1 {
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .tagline {
+        color: #999;
+      }
+
+      [data-theme="dark"] .logo-icon {
+        background: linear-gradient(135deg, #ccc 0%, #aaa 100%);
+      }
+
+      [data-theme="dark"] .theme-toggle {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .theme-toggle:hover {
+        background: #333;
+        border-color: #555;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .nav-btn {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .nav-btn:hover:not(.active) {
+        background: #333;
+        border-color: #555;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .nav-btn.active {
+        background: #e0e0e0;
+        border-color: #ccc;
+        color: #222;
+      }
+
+      [data-theme="dark"] .nav-btn.active:hover {
+        background: #f0f0f0;
+      }
+
+      [data-theme="dark"] .toolbar {
+        background: linear-gradient(180deg, #2a2a2a 0%, #222 100%);
+        border-bottom: 1px solid #333;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      [data-theme="dark"] .btn {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .btn:hover:not(.primary) {
+        background: #333;
+        border-color: #555;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .btn.primary {
+        background: #ff6b35;
+        border-color: #e55a2b;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .btn.primary:hover {
+        background: #ff7849;
+      }
+
+      [data-theme="dark"] .editor-panel {
+        background: #1a1a1a;
+        border-right: 1px solid #333;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      [data-theme="dark"] .editor-textarea {
+        background: #1a1a1a;
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .editor-textarea::placeholder {
+        color: #666;
+      }
+
+      [data-theme="dark"] .preview-panel {
+        background: #1e1e1e;
+        border-left: 1px solid #333;
+        color: #d0d0d0;
+      }
+
+      [data-theme="dark"] .preview-panel h1,
+      [data-theme="dark"] .preview-panel h2,
+      [data-theme="dark"] .preview-panel h3,
+      [data-theme="dark"] .preview-panel h4,
+      [data-theme="dark"] .preview-panel h5 {
+        color: #e0e0e0;
+        border-color: #444;
+      }
+
+      [data-theme="dark"] .preview-panel h6 {
+        color: #aaa;
+        border-color: #444;
+      }
+
+      [data-theme="dark"] .preview-panel p {
+        color: #d0d0d0;
+      }
+
+      [data-theme="dark"] .preview-panel code {
+        background-color: rgba(110, 118, 129, 0.4);
+        color: #e0e0e0;
+        border: 1px solid rgba(255, 107, 53, 0.25);
+        box-shadow: 0 1px 2px rgba(255, 107, 53, 0.12);
+      }
+
+      [data-theme="dark"] .preview-panel pre {
+        background: #2a2a2a;
+        color: #e0e0e0;
+        border-color: #444;
+        border-left: 3px solid #ff6b35;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+
+      [data-theme="dark"] .preview-panel a {
+        color: #4da6ff;
+      }
+
+      [data-theme="dark"] .preview-panel blockquote {
+        color: #aaa;
+        border-left-color: #444;
+      }
+
+      [data-theme="dark"] .preview-panel hr {
+        background-color: #444;
+      }
+
+      [data-theme="dark"] .preview-panel table {
+        border-color: #444;
+      }
+
+      [data-theme="dark"] .preview-panel th,
+      [data-theme="dark"] .preview-panel td {
+        border-color: #444;
+      }
+
+      [data-theme="dark"] .preview-panel th {
+        background-color: #2a2a2a;
+      }
+
+      [data-theme="dark"] .preview-panel tr:nth-child(2n) {
+        background-color: #242424;
+      }
+
+      [data-theme="dark"] .preview-panel tbody tr:hover {
+        background-color: rgba(110, 118, 129, 0.2);
+      }
+
+      [data-theme="dark"] .footer-toolbar {
+        background: linear-gradient(0deg, #222 0%, #2a2a2a 100%);
+        border-top: 1px solid #333;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      [data-theme="dark"] .stat-item,
+      [data-theme="dark"] .datetime {
+        color: #999;
+      }
+
+      [data-theme="dark"] .modal-overlay {
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      [data-theme="dark"] .modal {
+        background: #222;
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .modal-header {
+        background: #2a2a2a;
+        border-bottom: 1px solid #333;
+      }
+
+      [data-theme="dark"] .modal-title {
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .modal-close {
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .modal-close:hover {
+        background: #333;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .modal-tabs {
+        background: #2a2a2a;
+        border-bottom: 1px solid #333;
+      }
+
+      [data-theme="dark"] .modal-tab {
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .modal-tab.active {
+        background: #222;
+        color: #e0e0e0;
+        border-bottom-color: #ff6b35;
+      }
+
+      [data-theme="dark"] .import-textarea {
+        background: #1a1a1a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .import-textarea:focus {
+        border-color: #ff6b35;
+        box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+      }
+
+      [data-theme="dark"] .file-drop-zone {
+        background: #1e1e1e;
+        border-color: #444;
+      }
+
+      [data-theme="dark"] .file-drop-zone:hover,
+      [data-theme="dark"] .file-drop-zone.drag-over {
+        border-color: #ff6b35;
+        background: rgba(255, 107, 53, 0.1);
+      }
+
+      [data-theme="dark"] .file-drop-zone p {
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .modal-btn {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .modal-btn:hover {
+        background: #333;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .modal-btn.primary {
+        background: #ff6b35;
+        border-color: #e55a2b;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .modal-btn.primary:hover {
+        background: #ff7849;
+      }
+
+      [data-theme="dark"] .share-option {
+        background: #1e1e1e;
+        border-color: #444;
+      }
+
+      [data-theme="dark"] .share-option:hover {
+        background: #242424;
+        border-color: #ff6b35;
+      }
+
+      [data-theme="dark"] .share-option.success {
+        border-color: #28a745;
+        background: #1a2e1a;
+      }
+
+      [data-theme="dark"] .share-option.warning {
+        border-color: #ffa500;
+        background: #2e2a1a;
+      }
+
+      [data-theme="dark"] .share-option-title {
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .share-option-description {
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .encoded-text-preview {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      [data-theme="dark"] .share-btn-small {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #ccc;
+      }
+
+      [data-theme="dark"] .share-btn-small:hover {
+        background: #333;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .share-btn-small.primary {
+        background: #ff6b35;
+        border-color: #e55a2b;
+        color: #fff;
+      }
+
+      [data-theme="dark"] .share-btn-small.primary:hover {
+        background: #ff7849;
+      }
+
+      [data-theme="dark"] ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      [data-theme="dark"] ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+
+      [data-theme="dark"] ::-webkit-scrollbar-thumb {
+        background: #444;
+        border-radius: 4px;
+      }
+
+      [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
       /* Mobile responsive */
       @media (max-width: 980px) {
         .editor-container {
@@ -869,11 +1359,16 @@
             <div class="tagline">Markdown Editor</div>
           </div>
         </div>
-        <nav class="nav-buttons">
-          <button class="nav-btn" data-layout="code">Code</button>
-          <button class="nav-btn active" data-layout="split">Split</button>
-          <button class="nav-btn" data-layout="preview">Preview</button>
-        </nav>
+        <div class="header-right">
+          <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">
+            <span class="theme-icon">☀️</span>
+          </button>
+          <nav class="nav-buttons">
+            <button class="nav-btn" data-layout="code">Code</button>
+            <button class="nav-btn active" data-layout="split">Split</button>
+            <button class="nav-btn" data-layout="preview">Preview</button>
+          </nav>
+        </div>
       </header>
 
       <div class="toolbar">
@@ -1015,134 +1510,270 @@
         return new Uint8Array(buf);
       }
 
-      // Markdown renderer
+      // Enhanced GitHub-compatible Markdown renderer
       function mdToHtml(md) {
+        if (!md.trim()) return '<p style="color: #999; font-style: italic">Preview will appear here...</p>';
+
         let html = md.replace(/\r\n?/g, "\n");
+
+        // Process in the correct order to avoid conflicts
         html = processCodeBlocks(html);
-        html = processImages(html);
-        html = processLinks(html);
+        html = processHorizontalRules(html);
         html = processTables(html);
         html = processHeaders(html);
-        html = processTextFormatting(html);
-        html = processLists(html);
         html = processBlockquotes(html);
-        html = processHorizontalRules(html);
+        html = processLists(html);
+        html = processImages(html);
+        html = processLinks(html);
+        html = processTextFormatting(html);
         html = processParagraphs(html);
+
         return html;
       }
 
       function processCodeBlocks(text) {
-        return text.replace(/```[\w]*\n([\s\S]*?)```/g, (match, code) => {
-          return `<pre><code>${esc(code)}</code></pre>`;
+        // Handle fenced code blocks with language specification
+        return text.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+          const language = lang ? ` class="language-${esc(lang)}"` : "";
+          return `<pre><code${language}>${esc(code.trim())}</code></pre>`;
         });
       }
 
-      function processImages(text) {
-        return text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
-          return `<img src="${esc(src)}" alt="${esc(alt)}" style="max-width: 100%; height: auto;" />`;
-        });
-      }
-
-      function processLinks(text) {
-        return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, linkText, url) => {
-          return `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(linkText)}</a>`;
-        });
+      function processHorizontalRules(text) {
+        return text.replace(/^(\s*)(---+|___+|\*\*\*+)\s*$/gm, "<hr>");
       }
 
       function processTables(text) {
-        return text.replace(/((?:^|\n)\|.+\|(?:\n\|.+\|)*)/g, (match) => {
-          const lines = match.trim().split("\n");
+        return text.replace(/(^|\n\n)(\s*\|.+\|(?:\s*\n\s*\|.+\|)*)/gm, (match, prefix, tableContent) => {
+          const lines = tableContent
+            .trim()
+            .split("\n")
+            .map((line) => line.trim());
           if (lines.length < 2) return match;
 
           const headerRow = lines[0];
           const separatorRow = lines[1];
           const dataRows = lines.slice(2);
 
-          if (!/^\|[\s\-:|]+\|$/.test(separatorRow)) return match;
+          // Validate separator row
+          if (!/^\|\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|$/.test(separatorRow)) return match;
 
-          let table = "<table>\n<thead>\n<tr>";
-          headerRow
+          // Parse alignment from separator
+          const alignments = separatorRow
             .split("|")
             .slice(1, -1)
-            .forEach((cell) => {
-              table += `<th>${esc(cell.trim())}</th>`;
+            .map((cell) => {
+              const trimmed = cell.trim();
+              if (trimmed.startsWith(":") && trimmed.endsWith(":")) return "center";
+              if (trimmed.endsWith(":")) return "right";
+              return "left";
             });
+
+          let table = "<table>\n<thead>\n<tr>";
+          const headerCells = headerRow.split("|").slice(1, -1);
+          headerCells.forEach((cell, i) => {
+            const align = alignments[i] ? ` style="text-align: ${alignments[i]}"` : "";
+            table += `<th${align}>${processInlineFormatting(cell.trim())}</th>`;
+          });
           table += "</tr>\n</thead>\n<tbody>\n";
 
           dataRows.forEach((row) => {
             table += "<tr>";
-            row
-              .split("|")
-              .slice(1, -1)
-              .forEach((cell) => {
-                table += `<td>${esc(cell.trim())}</td>`;
-              });
+            const cells = row.split("|").slice(1, -1);
+            cells.forEach((cell, i) => {
+              const align = alignments[i] ? ` style="text-align: ${alignments[i]}"` : "";
+              table += `<td${align}>${processInlineFormatting(cell.trim())}</td>`;
+            });
             table += "</tr>\n";
           });
           table += "</tbody>\n</table>";
-          return table;
+
+          // Return with proper prefix (preserve paragraph breaks)
+          return prefix + table;
         });
       }
 
       function processHeaders(text) {
-        return text
-          .replace(/^###### (.*)$/gm, "<h6>$1</h6>")
-          .replace(/^##### (.*)$/gm, "<h5>$1</h5>")
-          .replace(/^#### (.*)$/gm, "<h4>$1</h4>")
-          .replace(/^### (.*)$/gm, "<h3>$1</h3>")
-          .replace(/^## (.*)$/gm, "<h2>$1</h2>")
-          .replace(/^# (.*)$/gm, "<h1>$1</h1>");
-      }
-
-      function processTextFormatting(text) {
-        text = text.replace(/`([^`]+)`/g, (_, code) => `<code>${esc(code)}</code>`);
-        text = text.replace(/~~([^~]+)~~/g, "<del>$1</del>");
-        text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-        text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-        return text;
-      }
-
-      function processLists(text) {
-        text = text.replace(/(^|\n)- \[( |x)\] (.*)(?=\n|$)/g, (m, pre, checked, item) => {
-          const isChecked = checked === "x" ? "checked" : "";
-          return `${pre}<ul class="task-list"><li><input type="checkbox" ${isChecked} disabled> ${esc(item)}</li></ul>`;
+        return text.replace(/^(#{1,6})\s+(.+)$/gm, (match, hashes, content) => {
+          const level = hashes.length;
+          const id = content
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/\s+/g, "-");
+          return `<h${level} id="${id}">${processInlineFormatting(content.trim())}</h${level}>`;
         });
-
-        text = text.replace(/(^|\n)(\d+)\. (.*)(?=\n(?!\d+\. )|$)/g, (m, pre, num, item) => {
-          return `${pre}<ol><li>${item}</li></ol>`;
-        });
-
-        text = text.replace(/(^|\n)- (.*)(?=\n(?!- )|$)/g, (m, pre, item) => {
-          return `${pre}<ul><li>${item}</li></ul>`;
-        });
-
-        text = text.replace(/<\/(ol|ul)>\n<\1>/g, "");
-        return text;
       }
 
       function processBlockquotes(text) {
-        text = text.replace(/(^|\n)> (.*)(?=\n(?!> )|$)/g, (m, pre, quote) => {
-          return `${pre}<blockquote><p>${quote}</p></blockquote>`;
+        return text.replace(/(^|\n)(>\s*.+(?:\n>\s*.+)*)/gm, (match, prefix, quote) => {
+          const lines = quote.split("\n").map((line) => line.replace(/^>\s?/, ""));
+          const content = lines.join("\n");
+          return `${prefix}<blockquote>\n${mdToHtml(content)}\n</blockquote>`;
         });
-        text = text.replace(/<\/blockquote>\n<blockquote>/g, "");
+      }
+
+      function processLists(text) {
+        // Process task lists first
+        text = text.replace(/(^|\n)((?:\s*[-*+]\s+\[[ x]\]\s+.+(?:\n|$))+)/gm, (match, prefix, listContent) => {
+          const items = listContent.split("\n").filter((line) => line.trim());
+          let html = `${prefix}<ul class="task-list">\n`;
+
+          items.forEach((item) => {
+            const taskMatch = item.match(/^\s*[-*+]\s+\[([x ])\]\s+(.+)$/);
+            if (taskMatch) {
+              const [, checked, content] = taskMatch;
+              const isChecked = checked === "x" ? "checked" : "";
+              html += `<li class="task-list-item"><input type="checkbox" ${isChecked} disabled> ${processInlineFormatting(
+                content
+              )}</li>\n`;
+            }
+          });
+
+          html += "</ul>";
+          return html;
+        });
+
+        // Process ordered lists
+        text = text.replace(
+          /(^|\n)((?:\s*\d+\.\s+.+(?:\n(?:\s*\d+\.\s+.+|\s*\n)*)*)+)/gm,
+          (match, prefix, listContent) => {
+            const lines = listContent.split("\n").filter((line) => line.trim());
+            let html = `${prefix}<ol>\n`;
+
+            lines.forEach((line) => {
+              const itemMatch = line.match(/^\s*\d+\.\s+(.+)$/);
+              if (itemMatch) {
+                html += `<li>${processInlineFormatting(itemMatch[1])}</li>\n`;
+              }
+            });
+
+            html += "</ol>";
+            return html;
+          }
+        );
+
+        // Process unordered lists
+        text = text.replace(
+          /(^|\n)((?:\s*[-*+]\s+.+(?:\n(?:\s*[-*+]\s+.+|\s*\n)*)*)+)/gm,
+          (match, prefix, listContent) => {
+            const lines = listContent.split("\n").filter((line) => line.trim());
+            let html = `${prefix}<ul>\n`;
+
+            lines.forEach((line) => {
+              const itemMatch = line.match(/^\s*[-*+]\s+(.+)$/);
+              if (itemMatch) {
+                html += `<li>${processInlineFormatting(itemMatch[1])}</li>\n`;
+              }
+            });
+
+            html += "</ul>";
+            return html;
+          }
+        );
+
         return text;
       }
 
-      function processHorizontalRules(text) {
-        return text.replace(/^(---+|___+|\*\*\*+)$/gm, "<hr>");
+      function processImages(text) {
+        return text.replace(/!\[([^\]]*)\]\(([^)]+)(?:\s+"([^"]*)")?\)/g, (match, alt, src, title) => {
+          const titleAttr = title ? ` title="${esc(title)}"` : "";
+          return `<img src="${esc(src)}" alt="${esc(alt)}"${titleAttr} />`;
+        });
+      }
+
+      function processLinks(text) {
+        // Handle reference-style links first
+        const refLinks = {};
+        text = text.replace(/^\[([^\]]+)\]:\s*(.+)$/gm, (match, label, url) => {
+          refLinks[label.toLowerCase()] = url.trim();
+          return "";
+        });
+
+        // Process reference links
+        text = text.replace(/\[([^\]]+)\]\[([^\]]*)\]/g, (match, linkText, ref) => {
+          const refKey = (ref || linkText).toLowerCase();
+          const url = refLinks[refKey];
+          if (url) {
+            return `<a href="${esc(url)}" target="_blank" rel="noopener">${processInlineFormatting(linkText)}</a>`;
+          }
+          return match;
+        });
+
+        // Process inline links
+        return text.replace(/\[([^\]]+)\]\(([^)]+)(?:\s+"([^"]*)")?\)/g, (match, linkText, url, title) => {
+          const titleAttr = title ? ` title="${esc(title)}"` : "";
+          return `<a href="${esc(url)}" target="_blank" rel="noopener"${titleAttr}>${processInlineFormatting(
+            linkText
+          )}</a>`;
+        });
+      }
+
+      function processInlineFormatting(text) {
+        // Handle inline code first to protect it from other formatting
+        text = text.replace(/`([^`]+)`/g, (match, code) => {
+          return `<code>${esc(code)}</code>`;
+        });
+
+        // Handle strong/bold (** or __)
+        text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        text = text.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+
+        // Handle emphasis/italic (* or _)
+        text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        text = text.replace(/_([^_]+)_/g, "<em>$1</em>");
+
+        // Handle strikethrough
+        text = text.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+
+        return text;
+      }
+
+      function processTextFormatting(text) {
+        return processInlineFormatting(text);
       }
 
       function processParagraphs(text) {
-        return text.replace(
-          /(^|\n)(?!<h\d|<ul|<ol|<pre>|<table|<blockquote|<hr|<\/|<code>)([^\n]+)(?=\n|$)/g,
-          (m, pre, line) => {
-            if (!line.trim()) return m;
-            return `${pre}<p>${line}</p>`;
-          }
-        );
+        // Split by double newlines to identify paragraph breaks
+        const blocks = text.split(/\n\s*\n/);
+
+        return blocks
+          .map((block) => {
+            block = block.trim();
+            if (!block) return "";
+
+            // Skip if it's already an HTML element
+            if (block.match(/^<(h[1-6]|ul|ol|blockquote|pre|table|hr|div)/)) {
+              return block;
+            }
+
+            // Skip if it's a table (starts with |)
+            if (block.match(/^\|/)) {
+              return block;
+            }
+
+            // Handle single line breaks within paragraphs
+            block = block.replace(/\n/g, "<br>");
+
+            return `<p>${block}</p>`;
+          })
+          .filter((block) => block) // Remove empty blocks
+          .join("\n\n");
       }
 
-      const esc = (x) => x.replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
+      const esc = (x) => {
+        if (typeof x !== "string") return x;
+        return x.replace(
+          /[&<>"']/g,
+          (m) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[m])
+        );
+      };
 
       // History functions (simplified for this example)
       function extractHistoryBlock(md) {
@@ -1187,6 +1818,7 @@ A clean, fast markdown editor with real-time preview and sharing.
       const importBtn = document.getElementById("import-btn");
       const clearBtn = document.getElementById("clear-btn");
       const shareBtn = document.getElementById("share-btn");
+      const themeToggle = document.getElementById("theme-toggle");
 
       // Modal elements
       const importModal = document.getElementById("import-modal");
@@ -1482,6 +2114,31 @@ A clean, fast markdown editor with real-time preview and sharing.
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       }
 
+      // Theme functionality
+      function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+
+        // Update the theme icon
+        const themeIcon = themeToggle.querySelector(".theme-icon");
+        themeIcon.textContent = newTheme === "dark" ? "🌙" : "☀️";
+        themeToggle.title = newTheme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+      }
+
+      function initializeTheme() {
+        // Check for saved theme preference or default to 'light'
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+
+        // Update the theme icon
+        const themeIcon = themeToggle.querySelector(".theme-icon");
+        themeIcon.textContent = savedTheme === "dark" ? "🌙" : "☀️";
+        themeToggle.title = savedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+      }
+
       // =================== Event Listeners ===================
       textarea.addEventListener("input", function () {
         currentMd = this.value;
@@ -1611,6 +2268,9 @@ A clean, fast markdown editor with real-time preview and sharing.
         showShareModal();
       });
 
+      // Theme toggle functionality
+      themeToggle.addEventListener("click", toggleTheme);
+
       // Keyboard support
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
@@ -1636,6 +2296,9 @@ A clean, fast markdown editor with real-time preview and sharing.
       // =================== Initialize ===================
       textarea.value = currentMd;
       renderAll();
+
+      // Initialize theme
+      initializeTheme();
 
       // Initialize and start the clock
       updateDateTime();
