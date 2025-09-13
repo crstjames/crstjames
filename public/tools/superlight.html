@@ -82,32 +82,38 @@
       }
 
       .theme-toggle {
-        padding: 6px;
-        background: #f8f8f8;
-        border: 1px solid #d8d8d8;
-        border-radius: 3px;
+        padding: 0;
+        background: linear-gradient(145deg, #f5f5f5, #e8e8e8);
+        border: 2px solid #d0d0d0;
+        border-radius: 50%;
         cursor: pointer;
-        transition: all 0.12s ease;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        position: relative;
       }
 
       .theme-toggle:hover {
-        background: #fff;
-        border-color: #ccc;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(145deg, #fff, #f0f0f0);
+        border-color: #ff6b35;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 0 0 2px rgba(255, 107, 53, 0.1);
       }
 
       .theme-toggle:active {
         transform: translateY(1px);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .theme-icon {
-        font-size: 14px;
+        font-size: 16px;
         line-height: 1;
+        transition: all 0.2s ease;
       }
 
       .nav-buttons {
@@ -210,42 +216,65 @@
 
       .btn {
         padding: 8px 14px;
-        background: #f8f8f8;
+        background: linear-gradient(145deg, #f8f8f8, #f0f0f0);
         border: 1px solid #d8d8d8;
-        border-radius: 3px;
+        border-radius: 4px;
         color: #555;
         font-size: 10px;
         cursor: pointer;
-        transition: all 0.12s ease;
+        transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         text-transform: uppercase;
         letter-spacing: 0.8px;
         font-family: inherit;
         font-weight: 500;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        position: relative;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(255, 107, 53, 0.3);
+        transition: all 0.15s ease;
       }
 
       .btn.primary {
-        background: #ff6b35;
-        border-color: #e55a2b;
+        background: linear-gradient(145deg, #ff6b35, #e55a2b);
+        border-color: #d44a1f;
         color: #fff;
-        box-shadow: 0 1px 3px rgba(255, 107, 53, 0.2);
+        box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      .btn.primary::before {
+        background: rgba(255, 255, 255, 0.6);
       }
 
       .btn.primary:hover {
-        background: #ff7849;
-        box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+        background: linear-gradient(145deg, #ff7849, #ff6b35);
+        box-shadow: 0 3px 8px rgba(255, 107, 53, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
         transform: translateY(-1px);
       }
 
       .btn:hover:not(.primary) {
-        background: #fff;
+        background: linear-gradient(145deg, #fff, #f8f8f8);
         border-color: #ccc;
         color: #333;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      }
+
+      .btn:hover:not(.primary)::before {
+        background: rgba(255, 107, 53, 0.6);
       }
 
       .btn:active {
         transform: translateY(1px);
-        box-shadow: none;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .char-count {
@@ -967,15 +996,23 @@
       }
 
       [data-theme="dark"] .theme-toggle {
-        background: #2a2a2a;
+        background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
         border-color: #444;
         color: #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.3);
       }
 
       [data-theme="dark"] .theme-toggle:hover {
-        background: #333;
-        border-color: #555;
+        background: linear-gradient(145deg, #333, #222);
+        border-color: #ff6b35;
         color: #fff;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15),
+          inset 0 -1px 0 rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 107, 53, 0.2);
+      }
+
+      [data-theme="dark"] .theme-toggle:active {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(0, 0, 0, 0.3);
       }
 
       [data-theme="dark"] .nav-btn {
@@ -1007,25 +1044,41 @@
       }
 
       [data-theme="dark"] .btn {
-        background: #2a2a2a;
+        background: linear-gradient(145deg, #2a2a2a, #222);
         border-color: #444;
         color: #ccc;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      [data-theme="dark"] .btn::before {
+        background: rgba(255, 107, 53, 0.4);
       }
 
       [data-theme="dark"] .btn:hover:not(.primary) {
-        background: #333;
+        background: linear-gradient(145deg, #333, #2a2a2a);
         border-color: #555;
         color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      }
+
+      [data-theme="dark"] .btn:hover:not(.primary)::before {
+        background: rgba(255, 107, 53, 0.7);
       }
 
       [data-theme="dark"] .btn.primary {
-        background: #ff6b35;
-        border-color: #e55a2b;
+        background: linear-gradient(145deg, #ff6b35, #e55a2b);
+        border-color: #d44a1f;
         color: #fff;
+        box-shadow: 0 2px 4px rgba(255, 107, 53, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      [data-theme="dark"] .btn.primary::before {
+        background: rgba(255, 255, 255, 0.6);
       }
 
       [data-theme="dark"] .btn.primary:hover {
-        background: #ff7849;
+        background: linear-gradient(145deg, #ff7849, #ff6b35);
+        box-shadow: 0 3px 8px rgba(255, 107, 53, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
       }
 
       [data-theme="dark"] .editor-panel {
