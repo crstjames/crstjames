@@ -38,10 +38,11 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0;
-        padding: 16px 24px;
+        padding: 12px 20px;
         border-bottom: 1px solid #d0d0d0;
-        background: #e8e8e8;
+        background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
         flex-shrink: 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
       }
 
       .logo {
@@ -51,25 +52,27 @@
       }
 
       .logo h1 {
-        font-size: 16px;
-        font-weight: 400;
+        font-size: 15px;
+        font-weight: 600;
         color: #333;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
       }
 
       .logo-icon {
-        width: 20px;
-        height: 20px;
-        background: #333;
+        width: 18px;
+        height: 18px;
+        background: linear-gradient(135deg, #333 0%, #555 100%);
         border-radius: 2px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
       }
 
       .tagline {
-        font-size: 10px;
-        color: #666;
-        font-weight: 300;
+        font-size: 9px;
+        color: #777;
+        font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.2px;
+        margin-top: 1px;
       }
 
       .nav-buttons {
@@ -78,46 +81,46 @@
       }
 
       .nav-btn {
-        padding: 8px 16px;
-        background: #f0f0f0;
-        border: 1px solid #d0d0d0;
-        color: #333;
-        font-size: 11px;
-        font-weight: 400;
+        padding: 6px 14px;
+        background: #f8f8f8;
+        border: 1px solid #d8d8d8;
+        color: #555;
+        font-size: 10px;
+        font-weight: 500;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.12s ease;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.8px;
         font-family: inherit;
       }
 
       .nav-btn:first-child {
-        border-radius: 4px 0 0 4px;
+        border-radius: 3px 0 0 3px;
       }
 
       .nav-btn:last-child {
-        border-radius: 0 4px 4px 0;
+        border-radius: 0 3px 3px 0;
       }
 
       .nav-btn.active {
-        background: #ff6b35;
-        border-color: #e55a2b;
+        background: #333;
+        border-color: #222;
         color: #fff;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
       }
 
-      .nav-btn:hover {
+      .nav-btn:hover:not(.active) {
         background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-color: #ccc;
+        color: #333;
       }
 
       .nav-btn.active:hover {
-        background: #ff7849;
-        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        background: #444;
       }
 
       .nav-btn:active {
-        background: #e0e0e0;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: translateY(1px);
       }
 
       .toolbar {
@@ -125,10 +128,11 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 0;
-        padding: 16px 24px;
+        padding: 10px 20px;
         border-bottom: 1px solid #d0d0d0;
-        background: #e8e8e8;
+        background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 100%);
         flex-shrink: 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
       }
 
       .toolbar-left,
@@ -170,38 +174,43 @@
       }
 
       .btn {
-        padding: 10px 16px;
+        padding: 8px 14px;
         background: #f8f8f8;
-        border: 1px solid #d0d0d0;
-        border-radius: 4px;
-        color: #333;
-        font-size: 11px;
+        border: 1px solid #d8d8d8;
+        border-radius: 3px;
+        color: #555;
+        font-size: 10px;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.12s ease;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.8px;
         font-family: inherit;
-        font-weight: 400;
+        font-weight: 500;
       }
 
-      .btn.action {
+      .btn.primary {
         background: #ff6b35;
         border-color: #e55a2b;
         color: #fff;
+        box-shadow: 0 1px 3px rgba(255, 107, 53, 0.2);
       }
 
-      .btn.action:hover {
+      .btn.primary:hover {
         background: #ff7849;
-        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        box-shadow: 0 2px 6px rgba(255, 107, 53, 0.3);
+        transform: translateY(-1px);
       }
 
-      .btn:hover {
+      .btn:hover:not(.primary) {
         background: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-color: #ccc;
+        color: #333;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .btn:active {
         transform: translateY(1px);
+        box-shadow: none;
       }
 
       .char-count {
@@ -219,7 +228,7 @@
       .editor-container {
         display: flex;
         gap: 0;
-        height: calc(100vh - 170px);
+        height: calc(100vh - 162px);
         flex: 1;
       }
 
@@ -747,13 +756,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 8px 24px;
-        background: #e8e8e8;
+        padding: 6px 20px;
+        background: linear-gradient(0deg, #e8e8e8 0%, #f0f0f0 100%);
         border-top: 1px solid #d0d0d0;
         font-size: 11px;
         color: #666;
         flex-shrink: 0;
-        height: 30px;
+        height: 28px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
       }
 
       .footer-left {
@@ -768,26 +778,26 @@
 
       .stats {
         display: flex;
-        gap: 16px;
+        gap: 14px;
         align-items: center;
       }
 
       .stat-item {
         font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
-        font-size: 10px;
-        color: #666;
+        font-size: 9px;
+        color: #777;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 400;
+        letter-spacing: 0.8px;
+        font-weight: 500;
       }
 
       .datetime {
         font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace;
-        font-size: 10px;
-        color: #666;
+        font-size: 9px;
+        color: #777;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 400;
+        letter-spacing: 0.8px;
+        font-weight: 500;
       }
 
       /* Mobile responsive */
@@ -795,7 +805,7 @@
         .editor-container {
           flex-direction: column;
           height: auto;
-          min-height: calc(100vh - 170px);
+          min-height: calc(100vh - 162px);
         }
 
         .stats {
@@ -868,13 +878,11 @@
 
       <div class="toolbar">
         <div class="toolbar-left">
-          <button class="btn action" id="import-btn">Import</button>
+          <button class="btn" id="import-btn">Import</button>
           <button class="btn" id="clear-btn">Clear</button>
         </div>
         <div class="toolbar-right">
-          <button class="btn action" id="save-btn">Save</button>
-          <button class="btn" id="diff-btn">Diff</button>
-          <button class="btn action" id="share-btn">Share</button>
+          <button class="btn" id="share-btn">Share</button>
         </div>
       </div>
 
@@ -918,7 +926,7 @@
             <textarea
               class="import-textarea"
               id="import-textarea"
-              placeholder="Paste your markdown content or encoded markdown here..."
+              placeholder="Paste your markdown content, share links, or encoded text here..."
             ></textarea>
             <div class="modal-actions">
               <button class="modal-btn" id="cancel-import">Cancel</button>
@@ -1178,8 +1186,6 @@ A clean, fast markdown editor with real-time preview and sharing.
       const datetimeEl = document.getElementById("datetime");
       const importBtn = document.getElementById("import-btn");
       const clearBtn = document.getElementById("clear-btn");
-      const saveBtn = document.getElementById("save-btn");
-      const diffBtn = document.getElementById("diff-btn");
       const shareBtn = document.getElementById("share-btn");
 
       // Modal elements
@@ -1265,7 +1271,15 @@ A clean, fast markdown editor with real-time preview and sharing.
         document.getElementById("file-tab").classList.toggle("active", tabName === "file");
       }
 
-      function tryDecodeContent(content) {
+      async function tryDecodeContent(content) {
+        // Handle full URLs - extract the hash part
+        if (content.includes("#MDLITE:")) {
+          const hashPart = content.split("#")[1];
+          if (hashPart && hashPart.startsWith("MDLITE:")) {
+            return await tryDecodeContent(hashPart);
+          }
+        }
+
         // Try to decode if it looks like encoded content
         if (content.startsWith("MDLITE:")) {
           try {
@@ -1275,8 +1289,11 @@ A clean, fast markdown editor with real-time preview and sharing.
               const data = restAll.slice("b64|".length);
               return b64dec(data);
             } else if (restAll.startsWith("gz-b64url|")) {
-              // For now, return original content - async decoding would need different handling
-              return content;
+              // Handle gzip decompression
+              const data = restAll.slice("gz-b64url|".length);
+              const bytes = bytesFromB64url(data);
+              const decompressed = await gunzipBytes(bytes);
+              return new TextDecoder().decode(decompressed);
             }
           } catch (e) {
             console.warn("Failed to decode content", e);
@@ -1315,37 +1332,37 @@ A clean, fast markdown editor with real-time preview and sharing.
 
           directUrl = location.origin + location.pathname + "#" + directPayload;
 
+          // Single unified sharing option - handles both URL and encoded content
+          let title, description, status, statusClass, className;
+
           if (directUrl.length <= 2000) {
-            options.push({
-              title: "Shareable Link",
-              status: "recommended",
-              statusClass: "recommended",
-              description: "Perfect size for all messengers and social platforms. Click to copy link.",
-              type: "url",
-              payload: directUrl,
-              className: "success",
-            });
+            title = "Share Link";
+            description = "Perfect size for all messengers. Recipient can paste the full URL into Import.";
+            status = "recommended";
+            statusClass = "recommended";
+            className = "success";
           } else if (directUrl.length <= 8000) {
-            options.push({
-              title: "Shareable Link",
-              status: "warning",
-              statusClass: "warning",
-              description: "May not work in some messengers (WhatsApp, SMS). Works in most other platforms.",
-              type: "url",
-              payload: directUrl,
-              className: "warning",
-            });
+            title = "Share Link";
+            description = "May not work in some messengers (WhatsApp, SMS). Recipient can paste into Import.";
+            status = "warning";
+            statusClass = "warning";
+            className = "warning";
+          } else {
+            title = "Share Content";
+            description = "Content too large for URL. Copy this text for sharing. Recipient pastes into Import.";
+            status = "recommended";
+            statusClass = "recommended";
+            className = "";
           }
 
-          // Option 2: Encoded text (always available)
           options.push({
-            title: "Encoded Text",
-            status: contentToShare.length > 3000 ? "recommended" : "",
-            statusClass: contentToShare.length > 3000 ? "recommended" : "",
-            description: "Copy encoded text to share via any messenger. Recipient pastes into Import → Paste Content.",
-            type: "encoded",
-            payload: directPayload,
-            className: "",
+            title,
+            status,
+            statusClass,
+            description,
+            type: "share",
+            payload: directUrl.length <= 8000 ? directUrl : directPayload,
+            className,
           });
 
           // Option 3: File download (always available) - more compact
@@ -1376,7 +1393,7 @@ A clean, fast markdown editor with real-time preview and sharing.
             </div>
             <p class="share-option-description">${option.description}</p>
             ${
-              option.type === "encoded"
+              option.type === "share" && option.payload.length > 200
                 ? `
               <div class="encoded-text-preview">${option.payload.substring(0, 100)}${
                     option.payload.length > 100 ? "..." : ""
@@ -1386,22 +1403,12 @@ A clean, fast markdown editor with real-time preview and sharing.
             }
             <div class="share-option-actions">
               ${
-                option.type === "url"
+                option.type === "share"
                   ? `
-                <button class="share-btn-small primary" onclick="copyToClipboard('${option.payload.replace(
+                <button class="share-btn-small primary" onclick="copyToClipboardAndClose('${option.payload.replace(
                   /'/g,
                   "\\'"
-                )}', 'Link copied!')">Copy Link</button>
-              `
-                  : ""
-              }
-              ${
-                option.type === "encoded"
-                  ? `
-                <button class="share-btn-small primary" onclick="copyToClipboard('${option.payload.replace(
-                  /'/g,
-                  "\\'"
-                )}', 'Encoded text copied!')">Copy Text</button>
+                )}')">Copy & Share</button>
               `
                   : ""
               }
@@ -1439,6 +1446,28 @@ A clean, fast markdown editor with real-time preview and sharing.
           document.execCommand("copy");
           document.body.removeChild(textArea);
           alert(successMessage);
+        }
+      }
+
+      async function copyToClipboardAndClose(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          // Show brief success feedback
+          const originalContent = event.target.textContent;
+          event.target.textContent = "Copied!";
+          event.target.style.background = "#28a745";
+          setTimeout(() => {
+            hideShareModal();
+          }, 800);
+        } catch (e) {
+          // Fallback for older browsers
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
+          hideShareModal();
         }
       }
 
@@ -1509,15 +1538,20 @@ A clean, fast markdown editor with real-time preview and sharing.
       });
 
       // Paste import functionality
-      importPasteBtn.addEventListener("click", () => {
+      importPasteBtn.addEventListener("click", async () => {
         const content = importTextarea.value.trim();
         if (!content) return;
 
-        const decodedContent = tryDecodeContent(content);
-        currentMd = decodedContent;
-        textarea.value = currentMd;
-        renderAll();
-        hideModal();
+        try {
+          const decodedContent = await tryDecodeContent(content);
+          currentMd = decodedContent;
+          textarea.value = currentMd;
+          renderAll();
+          hideModal();
+        } catch (e) {
+          console.error("Failed to decode content:", e);
+          alert("Failed to decode the pasted content. Please check the format and try again.");
+        }
       });
 
       // File drop zone functionality
@@ -1572,18 +1606,9 @@ A clean, fast markdown editor with real-time preview and sharing.
         hideModal();
       });
 
-      // New share functionality
+      // Share functionality
       shareBtn.addEventListener("click", () => {
         showShareModal();
-      });
-
-      // Diff functionality (simplified to current vs last snapshot)
-      diffBtn.addEventListener("click", () => {
-        // For now, show a simple diff indication
-        // This would need to be implemented based on your snapshot system
-        alert(
-          "Diff functionality: Compare current content with last saved snapshot.\nThis feature needs to be integrated with your snapshot/history system."
-        );
       });
 
       // Keyboard support
@@ -1622,19 +1647,9 @@ A clean, fast markdown editor with real-time preview and sharing.
         if (!h || !h.startsWith("MDLITE:")) return;
 
         try {
-          const [tag, rest] = h.split("|", 2);
-          const restAll = h.slice(tag.length + 1);
-          if (restAll.startsWith("gz-b64url|")) {
-            const data = restAll.slice("gz-b64url|".length);
-            const bytes = await gunzipBytes(bytesFromB64url(data));
-            const text = new TextDecoder().decode(bytes);
-            currentMd = text;
-            textarea.value = currentMd;
-            renderAll();
-            setLayout("preview");
-          } else if (restAll.startsWith("b64|")) {
-            const data = restAll.slice("b64|".length);
-            currentMd = b64dec(data);
+          const decodedContent = await tryDecodeContent(h);
+          if (decodedContent && decodedContent !== h) {
+            currentMd = decodedContent;
             textarea.value = currentMd;
             renderAll();
             setLayout("preview");
