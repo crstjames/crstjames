@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/cadillac-f1",
+      "destination": "https://cadillac-f1.vercel.app/"
+    },
+    {
+      "source": "/cadillac-f1/:path*",
+      "destination": "https://cadillac-f1.vercel.app/:path*"
+    }
+  ]
+}
