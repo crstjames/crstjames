@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/cadillac-f1",
-      "destination": "https://cadillac-f1.vercel.app/"
+      "destination": "https://cadillac-f1-nine.vercel.app/"
     },
     {
       "source": "/cadillac-f1/:path*",
-      "destination": "https://cadillac-f1.vercel.app/:path*"
+      "destination": "https://cadillac-f1-nine.vercel.app/:path*"
     }
   ]
 }
