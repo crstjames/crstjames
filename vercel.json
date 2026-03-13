@@ -1,7 +1,14 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/cadillac-f1",
+      "destination": "/cadillac-f1/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/cadillac-f1/",
       "destination": "https://cadillac-f1-nine.vercel.app/"
     },
     {
