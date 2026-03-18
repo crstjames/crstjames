@@ -13,7 +13,7 @@ const projects = [
     description: "PWA to track your rowing journey to 1,000,000 meters",
     thumbnail: "/portfolio/rowamillion.png",
     category: "HTML5, JavaScript, CSS, PWA",
-    year: "2025",
+    year: "2026",
     tags: ["HTML5", "JavaScript", "CSS", "PWA"],
     details: {
       overview:
@@ -30,7 +30,7 @@ const projects = [
     description: "Live F1 timing and telemetry dashboard at f1.stjames.dev",
     thumbnail: "/portfolio/f1stjames.png",
     category: "HTML5, JavaScript, CSS, PWA",
-    year: "2025",
+    year: "2026",
     tags: ["HTML5", "JavaScript", "CSS", "PWA"],
     details: {
       overview:
