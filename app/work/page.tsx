@@ -8,6 +8,40 @@ import ImageLightbox from "../components/ImageLightbox";
 // Project data - replace with your actual projects
 const projects = [
   {
+    id: "project-rowamillion",
+    title: "Rowamillion",
+    description: "Track your rowing journey to 1 million meters",
+    thumbnail: "/portfolio/rowamillion.png",
+    category: "HTML5, JavaScript, CSS, PWA",
+    year: "2025",
+    tags: ["HTML5", "JavaScript", "CSS", "PWA"],
+    details: {
+      overview:
+        "Rowamillion helps rowers track their journey to reaching 1,000,000 meters in a year. Features daily workout summaries, progress tracking toward the million-meter goal, historical splits, and social sharing so you can celebrate milestones with your community.",
+      images: ["/portfolio/rowamillion.png"],
+      challenges: "",
+      solution: "",
+      technologies: ["HTML5", "JavaScript", "CSS", "PWA"],
+    },
+  },
+  {
+    id: "project-f1",
+    title: "F1 Dashboard",
+    description: "Live F1 stats dashboard for fans",
+    thumbnail: "/portfolio/f1stjames.png",
+    category: "HTML5, JavaScript, CSS, PWA",
+    year: "2025",
+    tags: ["HTML5", "JavaScript", "CSS", "PWA"],
+    details: {
+      overview:
+        "A fan-built F1 dashboard updated every race weekend. Track your favorite team and drivers with best lap times, highest straight-line speeds, driver standings, and constructor rankings — all surfaced in a clean, data-rich interface built for Formula 1 enthusiasts.",
+      images: ["/portfolio/f1stjames.png"],
+      challenges: "",
+      solution: "",
+      technologies: ["HTML5", "JavaScript", "CSS", "PWA"],
+    },
+  },
+  {
     id: "project-lothirion",
     title: "Lothirion Consulting React Website",
     description:
