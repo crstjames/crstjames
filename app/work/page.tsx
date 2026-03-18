@@ -8,6 +8,38 @@ import ImageLightbox from "../components/ImageLightbox";
 // Project data - replace with your actual projects
 const projects = [
   {
+    id: "project-rowamillion",
+    title: "Rowamillion",
+    description: "rowamillion.com",
+    thumbnail: "/portfolio/rowamillion.png",
+    category: "Web",
+    year: "2025",
+    tags: ["Web", "Design", "Development"],
+    details: {
+      overview: "rowamillion.com",
+      images: ["/portfolio/rowamillion.png"],
+      challenges: "",
+      solution: "",
+      technologies: [],
+    },
+  },
+  {
+    id: "project-f1",
+    title: "F1 St. James",
+    description: "f1.stjames.dev",
+    thumbnail: "/portfolio/f1stjames.png",
+    category: "Web",
+    year: "2025",
+    tags: ["Web", "Design", "Development"],
+    details: {
+      overview: "f1.stjames.dev",
+      images: ["/portfolio/f1stjames.png"],
+      challenges: "",
+      solution: "",
+      technologies: [],
+    },
+  },
+  {
     id: "project-lothirion",
     title: "Lothirion Consulting React Website",
     description:
