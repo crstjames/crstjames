@@ -9,16 +9,16 @@ import ImageLightbox from "../components/ImageLightbox";
 const projects = [
   {
     id: "project-rowamillion",
-    title: "Rowamillion",
-    description: "Track your rowing journey to 1 million meters",
+    title: "Row A Million",
+    description: "PWA to track your rowing journey to 1,000,000 meters",
     thumbnail: "/portfolio/rowamillion.png",
     category: "HTML5, JavaScript, CSS, PWA",
     year: "2025",
     tags: ["HTML5", "JavaScript", "CSS", "PWA"],
     details: {
       overview:
-        "Rowamillion helps rowers track their journey to reaching 1,000,000 meters in a year. Features daily workout summaries, progress tracking toward the million-meter goal, historical splits, and social sharing so you can celebrate milestones with your community.",
-      images: ["/portfolio/rowamillion.png"],
+        "Row A Million is a progressive web app that helps rowers track their journey to 1,000,000 meters in a year. The dashboard features a circular progress ring showing your percentage to goal, daily pace tracking (ahead or behind target), total meters vs. goal, workout count, average 500m split, and average meters per session. The history view logs every workout with date, distance, pace, duration, and achievement tier (Platinum, Mithril, etc.). Includes rankings and profile views, plus social sharing to celebrate milestones.",
+      images: ["/portfolio/rowamillion.png", "/portfolio/rowamillion2.png"],
       challenges: "",
       solution: "",
       technologies: ["HTML5", "JavaScript", "CSS", "PWA"],
@@ -27,15 +27,15 @@ const projects = [
   {
     id: "project-f1",
     title: "F1 Dashboard",
-    description: "Live F1 stats dashboard for fans",
+    description: "Live F1 timing and telemetry dashboard at f1.stjames.dev",
     thumbnail: "/portfolio/f1stjames.png",
     category: "HTML5, JavaScript, CSS, PWA",
     year: "2025",
     tags: ["HTML5", "JavaScript", "CSS", "PWA"],
     details: {
       overview:
-        "A fan-built F1 dashboard updated every race weekend. Track your favorite team and drivers with best lap times, highest straight-line speeds, driver standings, and constructor rankings — all surfaced in a clean, data-rich interface built for Formula 1 enthusiasts.",
-      images: ["/portfolio/f1stjames.png"],
+        "A fan-built Formula 1 live timing and telemetry dashboard available at f1.stjames.dev. The mobile view shows per-driver cards with best lap, gap to leader, current lap, and live speed — updated in real time during sessions. Session tabs let you switch between Practice, Sprint Qualifying, Sprint, Qualifying, and Race. The desktop view adds a full left-panel team info sidebar (founding year, engine, principal, car specs, gearbox, power output) alongside a live circuit map showing car positions, and a right-panel championship standings table. Constructors' standings are also surfaced with points gap to the leader.",
+      images: ["/portfolio/f1stjames.png", "/portfolio/f1stjames2.png"],
       challenges: "",
       solution: "",
       technologies: ["HTML5", "JavaScript", "CSS", "PWA"],
