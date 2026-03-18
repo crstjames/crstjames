@@ -9,16 +9,16 @@ import ImageLightbox from "../components/ImageLightbox";
 const projects = [
   {
     id: "project-rowamillion",
-    title: "Rowamillion",
-    description: "Track your rowing journey to 1 million meters",
+    title: "Row A Million",
+    description: "PWA to track your rowing journey to 1,000,000 meters",
     thumbnail: "/portfolio/rowamillion.png",
     category: "HTML5, JavaScript, CSS, PWA",
     year: "2025",
     tags: ["HTML5", "JavaScript", "CSS", "PWA"],
     details: {
       overview:
-        "Rowamillion helps rowers track their journey to reaching 1,000,000 meters in a year. Features daily workout summaries, progress tracking toward the million-meter goal, historical splits, and social sharing so you can celebrate milestones with your community.",
-      images: ["/portfolio/rowamillion.png"],
+        "Row A Million is a progressive web app that helps rowers track their journey to 1,000,000 meters in a year. The dashboard features a circular progress ring showing your percentage to goal, daily pace tracking (ahead or behind target), total meters vs. goal, workout count, average 500m split, and average meters per session. The history view logs every workout with date, distance, pace, duration, and achievement tier (Platinum, Mithril, etc.). Includes rankings and profile views, plus social sharing to celebrate milestones.",
+      images: ["/portfolio/rowamillion.png", "/portfolio/rowamillion2.png"],
       challenges: "",
       solution: "",
       technologies: ["HTML5", "JavaScript", "CSS", "PWA"],
